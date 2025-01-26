@@ -71,12 +71,14 @@ const ServiceDetail = () => {
       <ReviewSection reviews={review} />
 
       {/* Review Form */}
-      {user?.role !== "Admin" && (
+      {user?.role !== "Admin" && user?.role !== "Employee" ? (
         <ReviewForm
           serviceId={service._id}
           userId={user?._id}
           onReviewAdded={addNewReview}
         />
+      ) : (
+        ""
       )}
     </div>
   );

@@ -1,43 +1,25 @@
-import axios from "axios";
-import React, { useContext } from "react";
-import toast from "react-hot-toast";
+import React from "react";
 import { Link } from "react-router-dom";
-import { UserContext } from "../../context/UserContext";
 
-const EmpNavbar = () => {
-  const { setIsAuthorized, isAuthorized } = useContext(UserContext);
-  const handleLogout = async () => {
-    try {
-      const { data } = await axios.get(
-        "http://localhost:4000/api/users/logout",
-        { withCredentials: true }
-      );
-      toast.success(data.message);
-      setIsAuthorized(false);
-      navigateTo("/");
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Logout failed.");
-    }
-  };
+const Sidebar = () => {
   return (
-    <header>
-      <h2 className="logo" style={{ color: "#973770" }}>
-        Beauty & Bliss
-      </h2>
-      <nav className="navigation">
-        <Link to={"/"} className="active">
-          Dashboard
-        </Link>
-        <Link to={"/categories"}>Services</Link>
-        <Link to={"/about"}>About</Link>
-        <Link to={"/profile"}>Profile</Link>
-
-        <button className="btn btn-log" onClick={isAuthorized && handleLogout}>
-          {isAuthorized ? "Logout" : "Login"}
-        </button>
-      </nav>
-    </header>
+    <nav className="sidebar">
+      <div className="sidebar-header">
+        <h2>Menu</h2>
+      </div>
+      <ul className="sidebar-menu">
+        <li>
+          <Link to="/">Dashboard</Link>
+        </li>
+        <li>
+          <Link to="/services">Services</Link>
+        </li>
+        <li>
+          <Link to="/profile">Profile</Link>
+        </li>
+      </ul>
+    </nav>
   );
 };
 
-export default EmpNavbar;
+export default Sidebar;

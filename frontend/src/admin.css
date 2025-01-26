@@ -50,7 +50,7 @@ body {
 
 .heading-container {
     display: flex;
-    width: 86%;
+    width: 98%;
     justify-content: space-between;
 }
 
@@ -72,7 +72,7 @@ body {
 
 .heading-container .input-wrapper svg {
     position: absolute;
-    top: 5px;
+    top: 10px;
     right: 5px;
     color: var(--dark-green);
     width: 22px;
@@ -534,4 +534,252 @@ tr:hover {
 .status.cancelled {
     background-color: #cc2020;
     color: #fff;
+}
+
+/* extra  */
+.service-list-container {
+    padding: 20px;
+    min-width: 1000px;
+    margin: auto;
+}
+
+.service-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.service-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 120px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.service-card:hover {
+    transform: scale(1.03);
+}
+
+.service-card-image {
+    width: 100px;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.service-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.service-card-content {
+    padding: 10px;
+    flex-grow: 1;
+}
+
+.card-details {
+    display: flex;
+    align-items: center;
+    column-gap: 17px;
+    margin-bottom: 5px;
+}
+
+.card-details h3 {
+    font-size: 16px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.card-details p {
+    font-size: 14px;
+    margin: 0;
+    color: #555;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+
+}
+
+.card-actions a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.card-actions a:hover {
+    text-decoration: underline;
+}
+
+.card-actions a:nth-child(2) {
+    color: #28a745;
+}
+
+.card-actions a:nth-child(3) {
+    color: red;
+}
+
+.service-card-content .avg-rating {
+    justify-self: flex-start;
+}
+
+/* category extra  */
+
+.category-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 20px
+}
+
+.category-list-container .heading-container {
+    max-width: 82%;
+    margin: 20px auto;
+}
+
+.category-card {
+    width: 100%;
+    max-width: 250px;
+    max-height: 350px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.category-card:hover {
+    transform: scale(1.04);
+}
+
+.category-card-image img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+}
+
+.category-card-content {
+    padding: 10px;
+}
+
+.category-card-content h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.category-card-content p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.card-actions {
+    display: flex;
+    /* justify-content: space-between; */
+    font-size: 14px;
+}
+
+.card-actions a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.card-actions a:hover {
+    text-decoration: underline;
+}
+
+.card-actions a[style="color: red;"]:hover {
+    color: darkred;
+}
+
+/* appointment extra  */
+/* Container for appointments list */
+.appointments-list {
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Full-width card layout for appointments */
+.appointments-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Styling individual appointment cards */
+.appointment-card {
+    background-color: whitesmoke;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s;
+}
+
+.appointment-card:hover {
+    transform: scale(1.03);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h3 {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0;
+    color: var(--dark-blue);
+}
+
+.card-body .card-item strong {
+    color: #343a40;
+    font-weight: 600;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.status.pending {
+    background-color: #f39c12;
+    color: white;
+}
+
+.status.completed {
+    background-color: #27ae60;
+    color: white;
+}
+
+.not-found {
+    text-align: center !important;
+    margin: 30px 0;
+    font-size: 20px;
+    color: #343a40;
 }

@@ -1,13 +1,14 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 import validator from "validator";
 
 const userSchema = mongoose.Schema({
   name: {
     type: String,
     required: [true, "Please provide your name"],
-    minLength: [3, "Name must contain atleast 3 characters"],
+    minLength: [3, "Name must contain at least 3 characters"],
     maxLength: [30, "Name cannot exceed 30 characters"],
   },
 
@@ -15,75 +16,61 @@ const userSchema = mongoose.Schema({
     type: String,
     required: [true, "Please provide your email"],
     unique: true,
-    validate: {
-      validator: function (value) {
-        return validator.isEmail(value);
-      },
-      message: (props) => `${props.value} is not a valid email!`,
-    },
+    validate: [validator.isEmail, "Invalid email address"],
   },
+
   phone: {
     type: String,
     required: [true, "Please provide your phone number"],
     match: [/^\d{10,15}$/, "Phone number should be 10 to 15 digits long"],
   },
+
   password: {
     type: String,
     required: [true, "Please provide your password"],
-    minLength: [6, "Password must contain atleast 6 characters"],
+    minLength: [6, "Password must contain at least 6 characters"],
     maxLength: [30, "Password cannot exceed 30 characters"],
     select: false,
   },
+
   role: {
     type: String,
-    required: [true, "Please provide your role"],
+    required: true,
     enum: ["User", "Employee", "Admin"],
   },
+
+  otp: String,
+  otpExpiry: Date,
+
   createdAt: {
     type: Date,
     default: Date.now(),
   },
 });
 
-//Hashing password ==> this --> refers to the current document being saved
-
+// Hash password before saving
 userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    return next();
-  }
-  try {
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(this.password, salt);
-    this.password = hash;
-    next();
-  } catch (error) {
-    next(error);
-  }
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
 });
 
-//Compare password
+// Compare password
 userSchema.methods.comparePassword = async function (password) {
-  try {
-    return await bcrypt.compare(password, this.password);
-  } catch (error) {
-    console.error(error);
-  }
+  return await bcrypt.compare(password, this.password);
 };
 
-//genereting JWT token for authentication
-// The this context is undefined in the generateToken method because of how arrow functions handle this. Arrow functions do not bind their own this but inherit it from the parent scope, which isn't the document instance in this case.
+// Generate JWT Token
 userSchema.methods.generateToken = function () {
-  try {
-    return jwt.sign(
-      {
-        id: this._id,
-      },
-      process.env.JWT_SECRET_KEY,
-      { expiresIn: process.env.JWT_EXPIRE }
-    );
-  } catch (error) {
-    console.error(error);
-  }
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
+    expiresIn: process.env.JWT_EXPIRE,
+  });
+};
+
+// Generate OTP
+userSchema.methods.generateOTP = function () {
+  this.otp = crypto.randomInt(100000, 999999).toString();
+  this.otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // OTP valid for 10 minutes
 };
 
 const User = mongoose.model("User", userSchema);

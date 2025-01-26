@@ -7,21 +7,20 @@ const AllAppointments = () => {
   const [appointments, setAppointments] = useState([]);
   const [filteredAppointments, setFilteredAppointments] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchAppointments = async () => {
       const { data } = await axios.get(
         "http://localhost:4000/api/appointment/all-appointments/"
       );
       setAppointments(data.allAppointments);
       setFilteredAppointments(data.allAppointments.reverse());
     };
-    fetchCategories();
+    fetchAppointments();
   }, []);
 
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
-    console.log(query);
-
     setSearchQuery(query);
     setFilteredAppointments(
       appointments.filter((appointment) =>
@@ -29,8 +28,9 @@ const AllAppointments = () => {
       )
     );
   };
+
   return (
-    <div className="table-list">
+    <div className="appointments-list">
       <div className="heading heading-container">
         <h2>All Appointment List</h2>
         <div className="input-wrapper">
@@ -43,70 +43,72 @@ const AllAppointments = () => {
           <MdSearch />
         </div>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Customer Name</th>
-            <th>Customer Email</th>
-            <th>Customer Phone</th>
-            <th>Employee Name</th>
-            <th>Service Name</th>
-            <th>Price</th>
-            <th>Duration</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredAppointments.length > 0 ? (
-            filteredAppointments.map((appointment) => {
-              const hours = Math.floor(appointment.serviceDuration / 60);
-              const minutes = appointment.serviceDuration % 60;
-              return (
-                <tr key={appointment.appointmentId}>
-                  <td width={"90px"}>{appointment.customerName}</td>
-                  <td>{appointment.customerEmail}</td>
-                  <td>{appointment.customerPhone}</td>
-                  <td>{appointment.employeeName}</td>
-                  <td>{appointment.serviceName}</td>
-                  <td style={{ width: "70px" }}>
-                    &#8377; {appointment.servicePrice}
-                  </td>
-                  <td>
+
+      <div className="appointments-cards">
+        {filteredAppointments.length > 0 ? (
+          filteredAppointments.map((appointment) => {
+            const hours = Math.floor(appointment.serviceDuration / 60);
+            const minutes = appointment.serviceDuration % 60;
+            return (
+              <div key={appointment.appointmentId} className="appointment-card">
+                <div className="card-header">
+                  <h3 style={{ textDecoration: "underline" }}>
+                    {appointment.customerName}
+                  </h3>
+                  <span
+                    className={`status ${appointment.status.toLowerCase()}`}
+                  >
+                    {appointment.status || "Pending"}
+                  </span>
+                </div>
+
+                <div className="card-body">
+                  <div className="card-item">
+                    <strong>{appointment.serviceName}</strong>
+                  </div>
+                  <hr style={{ margin: "7px 0 5px 0" }} />
+                  <div className="card-item">
+                    <strong>Price:</strong> &#8377; {appointment.servicePrice}
+                  </div>
+                  <div className="card-item">
+                    <strong>Duration:</strong>{" "}
                     {hours > 0 ? `${hours} Hour${hours > 1 ? "s" : ""}` : ""}{" "}
                     {minutes > 0
                       ? `${minutes} Minute${minutes > 1 ? "s" : ""}`
                       : ""}
-                  </td>
-                  <td width={"110px"}>{appointment.date}</td>
-                  <td>{appointment.time}</td>
-                  <td>
-                    <span
-                      className={`status ${appointment.status.toLowerCase()}`}
-                    >
-                      {appointment.status || "Pending"}
-                    </span>
-                  </td>
-                  <td>
-                    <Link to={`/admin/appointment-edit/${appointment._id}`}>
-                      Edit
-                    </Link>
-                    <Link to="" style={{ color: "red" }}>
-                      Delete
-                    </Link>
-                  </td>
-                </tr>
-              );
-            })
-          ) : (
-            <tr>
-              <td colSpan="10">No Appointments found</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+                  </div>
+                  <div className="card-item">
+                    <strong>Date:</strong> {appointment.date}
+                  </div>
+                  <div className="card-item">
+                    <strong>Time:</strong> {appointment.time}
+                  </div>
+                </div>
+
+                <div className="card-actions" style={{ marginTop: "10px" }}>
+                  <Link className="btn-edit">See More</Link>
+                  <Link
+                    to={`/admin/appointment-edit/${appointment._id}`}
+                    className="btn-edit"
+                  >
+                    Edit
+                  </Link>
+                  <Link
+                    to="#"
+                    className="btn-delete"
+                    style={{ color: "red" }}
+                    onClick={() => handleDelete(appointment._id)}
+                  >
+                    Delete
+                  </Link>
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <h1 className="not-found">No Appointments found</h1>
+        )}
+      </div>
     </div>
   );
 };

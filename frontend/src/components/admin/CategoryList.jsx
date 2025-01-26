@@ -8,6 +8,7 @@ const CategoryList = () => {
   const [categories, setCategories] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+
   useEffect(() => {
     const fetchCategories = async () => {
       const { data } = await axios.get(
@@ -41,6 +42,7 @@ const CategoryList = () => {
       }
     }
   };
+
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
@@ -50,8 +52,9 @@ const CategoryList = () => {
       )
     );
   };
+
   return (
-    <div className="table-list">
+    <div className="category-list-container">
       <div className="heading heading-container">
         <h2>Category List</h2>
         <div className="input-wrapper">
@@ -64,53 +67,36 @@ const CategoryList = () => {
           <MdSearch />
         </div>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Category Name</th>
-            <th>Description</th>
-            <th>Image</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredCategories.length > 0 ? (
-            filteredCategories.map((category) => {
-              return (
-                <tr key={category._id}>
-                  <td>{category.name}</td>
-                  <td style={{ textAlign: "left" }}>{category.description}</td>
-                  <td style={{ padding: "2px" }}>
-                    <img
-                      style={{ objectFit: "cover" }}
-                      src={`http://localhost:4000/${category.image}`}
-                      alt={category.image}
-                      height={"70px"}
-                      width={"100px"}
-                    />
-                  </td>
-                  <td>
-                    <Link to={`/admin/category-edit/${category._id}`}>
-                      Edit
-                    </Link>
-                    <Link
-                      to=""
-                      onClick={() => handleDelete(category._id)}
-                      style={{ color: "red" }}
-                    >
-                      Delete
-                    </Link>
-                  </td>
-                </tr>
-              );
-            })
-          ) : (
-            <tr>
-              <td colSpan="5">No Category found</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      <div className="category-cards-container">
+        {filteredCategories.length > 0 ? (
+          filteredCategories.map((category) => (
+            <div className="category-card" key={category._id}>
+              <div className="category-card-image">
+                <img
+                  src={`http://localhost:4000/${category.image}`}
+                  alt={category.name}
+                />
+              </div>
+              <div className="category-card-content">
+                <h3>{category.name}</h3>
+                {/* <p>{category.description}</p> */}
+                <div className="card-actions">
+                  <Link to={`/admin/category-edit/${category._id}`}>Edit</Link>
+                  <Link
+                    to=""
+                    onClick={() => handleDelete(category._id)}
+                    style={{ color: "red" }}
+                  >
+                    Delete
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <h1 className="not-found">No category found</h1>
+        )}
+      </div>
     </div>
   );
 };

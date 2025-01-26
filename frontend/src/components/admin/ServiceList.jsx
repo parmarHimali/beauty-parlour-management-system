@@ -1,7 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { MdSearch } from "react-icons/md";
+import {
+  MdOutlineStar,
+  MdOutlineStarBorder,
+  MdOutlineStarHalf,
+  MdSearch,
+} from "react-icons/md";
 import { Link } from "react-router-dom";
 
 const ServiceList = () => {
@@ -58,7 +63,7 @@ const ServiceList = () => {
   };
 
   return (
-    <div className="table-list">
+    <div className="service-list-container">
       <div className="heading heading-container">
         <h2>Services List</h2>
         <div className="input-wrapper">
@@ -71,55 +76,98 @@ const ServiceList = () => {
           <MdSearch />
         </div>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Service Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Duration</th>
-            <th style={{ width: "102px" }}>More Detail</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredServices.length > 0 ? (
-            filteredServices.map((service) => {
-              const hours = Math.floor(service.duration / 60);
-              const minutes = service.duration % 60;
-              return (
-                <tr key={service._id}>
-                  <td>{service.name}</td>
-                  <td>{service.description}</td>
-                  <td>&#8377;{service.price}</td>
-                  <td>
-                    {hours > 0 ? `${hours} Hour${hours > 1 ? "s" : ""}` : ""}{" "}
-                    {minutes > 0
-                      ? `${minutes} Minute${minutes > 1 ? "s" : ""}`
-                      : ""}
-                  </td>
-                  <td style={{ textAlign: "center" }}>
-                    <Link to={`/admin/see-more/${service._id}`}>see more</Link>
-                  </td>
-                  <td>
-                    <Link to={`/admin/service-edit/${service._id}`}>Edit</Link>
+      <div className="service-cards-container">
+        {filteredServices.length > 0 ? (
+          filteredServices.map((service) => {
+            const hours = Math.floor(service.duration / 60);
+            const minutes = service.duration % 60;
+            const customerRatings = service.customerRatings || 0;
+            const fullStars = Math.floor(customerRatings); // Number of full stars
+            //customerRatings % 1 gives the fractional part of customerRatings.
+            // If the fractional part is greater than or equal to 0.5, then hasHalfStar will be true
+            const hasHalfStar = customerRatings % 1 >= 0.5; // Check if a half star is needed
+            //5 - fullStars:Subtracts the number of full stars from the total 5 stars
+            //(hasHalfStar ? 1 : 0): If a half star is needed (hasHalfStar is true), it subtracts 1 else 0
+            const emptyStars = Math.max(
+              0,
+              5 - fullStars - (hasHalfStar ? 1 : 0)
+            );
+
+            return (
+              <div className="service-card" key={service._id}>
+                <div className="service-card-image">
+                  <img
+                    src={
+                      `http://localhost:4000/${service.image}` ||
+                      "/default-image.jpg"
+                    }
+                    alt={service.name}
+                  />
+                </div>
+                <div className="service-card-content">
+                  <div className="card-details">
+                    <h3>{service.name}</h3>
+                    <p>
+                      <b>Price: </b>
+                      {`₹${service.price}`}
+                    </p>
+                    <p>
+                      <b>Duration: </b>
+                      {hours > 0 ? `${hours} Hour${hours > 1 ? "s" : ""}` : ""}
+                      {minutes > 0
+                        ? ` ${minutes} Minute${minutes > 1 ? "s" : ""}`
+                        : ""}
+                    </p>
+                  </div>
+                  <div className="avg-rating">
+                    <b>Ratings:</b>
+                    <div>
+                      {Array(fullStars)
+                        .fill()
+                        .map((_, index) => (
+                          <MdOutlineStar key={`full-${index}`} color="gold" />
+                        ))}
+                      {/* Half star */}
+                      {hasHalfStar && <MdOutlineStarHalf color="gold" />}
+                      {/* Empty stars */}
+                      {Array(emptyStars)
+                        .fill()
+                        .map((_, index) => (
+                          <MdOutlineStarBorder
+                            key={`empty-${index}`}
+                            color="grey"
+                          />
+                        ))}
+                    </div>
+                  </div>
+                  <div className="card-actions">
+                    <Link
+                      to={`/admin/see-more/${service._id}`}
+                      className="action-link"
+                    >
+                      See More
+                    </Link>
+                    <Link
+                      to={`/admin/service-edit/${service._id}`}
+                      className="action-link"
+                    >
+                      Edit
+                    </Link>
                     <a
                       style={{ color: "red", cursor: "pointer" }}
                       onClick={() => handleDelete(service._id)}
                     >
                       Delete
                     </a>
-                  </td>
-                </tr>
-              );
-            })
-          ) : (
-            <tr>
-              <td colSpan="7">No Service found</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <h1 className="not-found">No Service found</h1>
+        )}
+      </div>
     </div>
   );
 };

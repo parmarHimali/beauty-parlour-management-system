@@ -4,7 +4,50 @@ import Review from "../models/ReviewModel.js";
 import Service from "../models/serviceModel.js";
 import User from "../models/userModel.js";
 import { sendToken } from "../utils/jwtToken.js";
+import { sendOTP } from "../utils/sendEmail.js";
 
+export const sendOtp = catchAsyncError(async (req, res, next) => {
+  const { email } = req.body;
+  if (!email) return next(new ErrorHandler("Email is required", 400));
+
+  let user = await User.findOne({ email });
+  if (!user) return next(new ErrorHandler("User not found", 404));
+
+  // Generate OTP and save
+  user.generateOTP();
+  await user.save();
+
+  // Send OTP
+  await sendOTP(user.email, user.otp);
+
+  res.status(200).json({
+    success: true,
+    message: "OTP sent successfully!",
+  });
+});
+
+// Step 2: Verify OTP and login
+export const verifyOtp = catchAsyncError(async (req, res, next) => {
+  const { email, otp } = req.body;
+  if (!email || !otp)
+    return next(new ErrorHandler("Please provide all details", 400));
+
+  const user = await User.findOne({ email });
+  if (!user) return next(new ErrorHandler("Invalid email or OTP", 400));
+
+  // Check OTP expiry
+  if (user.otp !== otp || new Date() > user.otpExpiry) {
+    return next(new ErrorHandler("Invalid or expired OTP", 400));
+  }
+
+  // Clear OTP
+  user.otp = null;
+  user.otpExpiry = null;
+  await user.save();
+
+  // Send JWT token
+  sendToken(user, 200, res, "OTP verified successfully!");
+});
 export const register = catchAsyncError(async (req, res, next) => {
   const { name, email, phone, role, password } = req.body;
   if (!name || !email || !role || !password || !phone) {

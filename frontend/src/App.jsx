@@ -34,6 +34,9 @@ import EmpProfile from "./components/employees/EmpProfile.jsx";
 // import DeleteService from "./components/admin/DeleteService.jsx";
 import About from "./components/home/About.jsx";
 import EmpDashboard from "./components/employees/EmpDashboard.jsx";
+import Profile from "./components/employees/Profile.jsx";
+import EmpHeader from "./components/employees/EmpHeader.jsx";
+import EmpServices from "./components/employees/EmpServices.jsx";
 
 const App = () => {
   const { isAuthorized, setIsAuthorized, setUser, user } =
@@ -132,12 +135,19 @@ const App = () => {
     if (user?.role === "Employee") {
       return (
         <>
-          <EmpNavbar />
-          <Routes>
-            <Route path="/" element={<EmpDashboard />} />
-            <Route path="/profile" element={<EmpProfile />} />
-          </Routes>
-          <Footer />
+          <div className="dashboard-container">
+            <EmpNavbar />
+            <div className="main-content">
+              <EmpHeader />
+              <Routes>
+                <Route path="/" element={<EmpDashboard />} />
+                <Route path="/services" element={<ServiceDetail />} />
+                <Route path="/service" element={<EmpServices />} />
+                <Route path="/profile" element={<Profile />} />
+              </Routes>
+            </div>
+          </div>
+          {/* <Footer /> */}
         </>
       );
     }
