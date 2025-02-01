@@ -29,7 +29,7 @@ const userSchema = mongoose.Schema({
     type: String,
     required: [true, "Please provide your password"],
     minLength: [6, "Password must contain at least 6 characters"],
-    maxLength: [30, "Password cannot exceed 30 characters"],
+    // maxLength: [30, "Password cannot exceed 30 characters"],
     select: false,
   },
 
@@ -39,12 +39,19 @@ const userSchema = mongoose.Schema({
     enum: ["User", "Employee", "Admin"],
   },
 
-  otp: String,
-  otpExpiry: Date,
-
   createdAt: {
     type: Date,
     default: Date.now(),
+  },
+  verificationCode: {
+    type: String,
+  },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  otpExpireAt: {
+    type: Date,
   },
 });
 

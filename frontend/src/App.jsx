@@ -41,6 +41,7 @@ import EmpServices from "./components/employees/EmpServices.jsx";
 import AppointmentDetails from "./components/admin/AppointmentDetails.jsx";
 import BookedDetails from "./components/users/BookedDetails.jsx";
 import EmpAppointmentDetails from "./components/employees/EmpAppointmentDetails.jsx";
+import EmailVerify from "./components/auth/EmailVerify.jsx";
 
 const App = () => {
   const { isAuthorized, setIsAuthorized, setUser, user } =
@@ -76,6 +77,7 @@ const App = () => {
             <Route path="/services/:cid" element={<Services />} />
             <Route path="/s-detail/:sid" element={<ServiceDetail />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/verifyEmail" element={<EmailVerify />} />
             <Route path="/about" element={<About />} />
           </Routes>
           <Footer />

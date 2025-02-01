@@ -100,8 +100,21 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [isRegistering, setIsRegistering] = useState(false); // toggle between login and register
   const { setIsAuthorized, setShowLogin } = useContext(UserContext);
-  const navigateTo = useNavigate();
+  const { isVerified } = useContext(UserContext);
 
+  const navigateTo = useNavigate();
+  const handlevarify = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/users/send-otp",
+        { email }
+      );
+    } catch (error) {
+      toast.error("Error resending OTP.");
+    }
+    setShowLogin(false);
+    navigateTo("/verifyEmail");
+  };
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -180,6 +193,12 @@ const Login = () => {
                 Register Now
               </span>
             </div>
+            <p>
+              Haven't verified yet? <span></span>
+              <a onClick={handlevarify} style={{ color: "black" }}>
+                Click here to verify your email.
+              </a>
+            </p>
           </form>
         )}
       </div>

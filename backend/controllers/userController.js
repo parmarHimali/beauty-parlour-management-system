@@ -4,21 +4,25 @@ import Review from "../models/ReviewModel.js";
 import Service from "../models/serviceModel.js";
 import User from "../models/userModel.js";
 import { sendToken } from "../utils/jwtToken.js";
-import { sendOTP } from "../utils/sendEmail.js";
+import { sendVerificationCode } from "../utils/Email.js";
 
 export const sendOtp = catchAsyncError(async (req, res, next) => {
   const { email } = req.body;
+
   if (!email) return next(new ErrorHandler("Email is required", 400));
 
   let user = await User.findOne({ email });
   if (!user) return next(new ErrorHandler("User not found", 404));
 
   // Generate OTP and save
-  user.generateOTP();
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  const otpExpiry = new Date(Date.now() + 5 * 60 * 1000); // 1 minutes expiry
+
+  user.verificationCode = otp;
+  user.otpExpireAt = otpExpiry;
   await user.save();
 
-  // Send OTP
-  await sendOTP(user.email, user.otp);
+  sendVerificationCode(email, otp);
 
   res.status(200).json({
     success: true,
@@ -28,21 +32,19 @@ export const sendOtp = catchAsyncError(async (req, res, next) => {
 
 // Step 2: Verify OTP and login
 export const verifyOtp = catchAsyncError(async (req, res, next) => {
-  const { email, otp } = req.body;
-  if (!email || !otp)
-    return next(new ErrorHandler("Please provide all details", 400));
-
-  const user = await User.findOne({ email });
+  const { code } = req.body;
+  const user = await User.findOne({ verificationCode: code });
   if (!user) return next(new ErrorHandler("Invalid email or OTP", 400));
 
-  // Check OTP expiry
-  if (user.otp !== otp || new Date() > user.otpExpiry) {
-    return next(new ErrorHandler("Invalid or expired OTP", 400));
+  if (user.otpExpireAt < new Date()) {
+    return res
+      .status(400)
+      .json({ message: "OTP has expired. Please request a new one." });
   }
 
-  // Clear OTP
-  user.otp = null;
-  user.otpExpiry = null;
+  user.isVerified = true;
+  user.verificationCode = undefined; // Remove verification code after successful verification
+
   await user.save();
 
   // Send JWT token
@@ -58,13 +60,22 @@ export const register = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("Email already exist"));
   }
 
+  const verificationCode = Math.floor(
+    100000 + Math.random() * 900000
+  ).toString();
+  const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
   const user = await User.create({
     name,
     email,
     role,
     phone,
     password,
+    verificationCode: verificationCode,
+    otpExpireAt: otpExpiry,
+    isVerified: false,
   });
+  await user.save();
+  sendVerificationCode(email, verificationCode);
 
   sendToken(user, 200, res, "User registered successfully!");
 });
@@ -79,6 +90,11 @@ export const login = catchAsyncError(async (req, res, next) => {
   const user = await User.findOne({ email }).select("+password");
   if (!user) {
     return next(new ErrorHandler("Invalid email or password", 400));
+  }
+  if (!user.isVerified) {
+    return res
+      .status(400)
+      .json({ message: "Please verify your email before logging in." });
   }
   const isCorrectPassword = await user.comparePassword(password);
   if (!isCorrectPassword) {
