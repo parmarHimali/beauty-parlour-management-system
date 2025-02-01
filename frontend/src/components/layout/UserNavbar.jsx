@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext.jsx";
 import Login from "../auth/Login";
+import { IoBagCheckOutline } from "react-icons/io5";
 
 const UserNavbar = () => {
   const { isAuthorized, setIsAuthorized, showLogin, setShowLogin } =
@@ -44,6 +45,9 @@ const UserNavbar = () => {
           {isAuthorized ? (
             <>
               <Link to={"/book-appointment"}>Book Appointment</Link>
+              <Link to={"/booked"} className="icon-checkout">
+                <IoBagCheckOutline />
+              </Link>
               <button className="btn btn-log" onClick={handleLogout}>
                 Logout
               </button>

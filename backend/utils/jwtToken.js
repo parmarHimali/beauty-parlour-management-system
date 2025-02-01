@@ -1,5 +1,4 @@
 export const sendToken = (user, statusCode, res, message) => {
-  console.log("Token being sent:", user.generateToken());
   const token = user.generateToken();
   const options = {
     expires: new Date(

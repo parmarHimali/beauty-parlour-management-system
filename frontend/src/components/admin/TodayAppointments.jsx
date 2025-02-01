@@ -86,9 +86,14 @@ const TodayAppointments = () => {
                 </div>
 
                 <div className="card-actions" style={{ marginTop: "10px" }}>
-                  <Link className="btn-edit">See More</Link>
                   <Link
-                    to={`/admin/appointment-edit/${appointment._id}`}
+                    className="btn-edit"
+                    to={`/admin/appointment/${appointment.appointmentId}`}
+                  >
+                    See More
+                  </Link>
+                  <Link
+                    to={`/admin/appointment-edit/${appointment.appointmentId}`}
                     className="btn-edit"
                   >
                     Edit

@@ -290,6 +290,7 @@ header.sticky {
     color: var(--pink1);
     padding: 5px 20px;
     width: max-content;
+    width: 100px !important;
     transition: 0.3s all;
     border: 2px solid transparent;
 }
@@ -1107,56 +1108,6 @@ a {
     margin-top: 2px;
 }
 
-/* Review Form */
-/* .review-form {
-    margin-top: 40px;
-    padding: 20px;
-    background-color: #fafafa;
-    border-radius: 8px;
-}
-
-.review-form input,
-.review-form textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-}
-
-.review-form button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 1.2rem;
-    cursor: pointer;
-}
-
-.review-form button:hover {
-    background-color: #0056b3;
-}
-
-@media (max-width: 768px) {
-    .service-header h1 {
-        font-size: 2rem;
-    }
-
-    .service-header p {
-        font-size: 1rem;
-    }
-
-    .gallery-image {
-        height: 200px;
-    }
-
-    .gallery-grid {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    }
-} */
-/* Overlay background when the form is visible */
 .review-form-container {
     position: relative;
 }
@@ -1185,19 +1136,6 @@ a {
     width: 300px;
 }
 
-/* button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-} */
-
 input[type="number"],
 textarea {
     width: 100%;
@@ -1210,20 +1148,6 @@ textarea {
 textarea {
     resize: none;
 }
-
-/* 
-.alert {
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-}
-
-.alert-danger {
-    background-color: #f8d7da;
-    color: #721c24;
-} */
 
 /* Thin scrollbar for Webkit browsers (Chrome, Safari) */
 ::-webkit-scrollbar {
@@ -1255,4 +1179,8 @@ textarea {
     /* Light grey background for the track with transparency */
     border-radius: 10px;
     /* Rounded corners for the track */
+}
+
+.icon-checkout svg {
+    font-size: 23px;
 }

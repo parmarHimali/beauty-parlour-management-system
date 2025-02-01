@@ -33,14 +33,11 @@ export const bookAppointment = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("All fields are required", 400));
   }
 
-  // Get the service details (duration in minutes)
   const service = await Service.findById(serviceId);
   if (!service) {
     return next(new ErrorHandler("Service not found", 404));
   }
-  const serviceDuration = service.duration; // Duration in minutes
-
-  // Ensure that the time format is correct (HH:MM)
+  const serviceDuration = service.duration;
   const timeParts = time.split(":");
   if (timeParts.length !== 2) {
     return next(new ErrorHandler("Invalid start time format", 400));
@@ -58,23 +55,17 @@ export const bookAppointment = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("Invalid start time format", 400));
   }
 
-  // Convert start time (e.g., "17:00") to minutes
   const startTimeInMinutes = timeToMinutes(time);
 
-  // Calculate the blocked times based on service duration (in minutes)
   const blockedTimes = [];
   for (let i = 0; i < serviceDuration; i += 60) {
-    // Block 1 hour at a time
     blockedTimes.push(minutesToTime(startTimeInMinutes + i));
   }
-
-  // Fetch the customer (user) details using userId
-  const user = await User.findById(userId); // Assuming the user is stored in the User model
+  const user = await User.findById(userId);
   if (!user) {
     return next(new ErrorHandler("Customer not found", 404));
   }
 
-  // Check if the times are already booked for the employee on the selected date
   const employee = await Employee.findById(employeeId);
   if (!employee) {
     return next(new ErrorHandler("Employee not found", 404));
@@ -91,9 +82,8 @@ export const bookAppointment = catchAsyncError(async (req, res, next) => {
     }
   }
 
-  // Create the new appointment with userId and other details
   const newAppointment = new Appointment({
-    userId, // Store userId instead of customerName
+    userId,
     serviceId,
     employeeId,
     date,
@@ -103,8 +93,8 @@ export const bookAppointment = catchAsyncError(async (req, res, next) => {
   });
 
   await newAppointment.save();
+  console.log(newAppointment);
 
-  // Update the employee's booked times for that day
   if (!bookedForDate) {
     employee.bookedTimes.push({ date, times: blockedTimes });
   } else {
@@ -206,13 +196,8 @@ export const getAppointments = catchAsyncError(async (req, res, next) => {
       date,
       time,
       status,
+      applyDate,
     } = appointment;
-
-    // Safely retrieve the employee's name from the userId inside employeeId
-    const employeeName =
-      employeeId && employeeId.userId
-        ? employeeId.userId.name
-        : "Unknown Employee";
 
     return {
       appointmentId: _id,
@@ -222,10 +207,14 @@ export const getAppointments = catchAsyncError(async (req, res, next) => {
       serviceName: serviceId ? serviceId.name : "Unknown Service",
       serviceDuration: serviceId ? serviceId.duration : "N/A",
       servicePrice: serviceId ? serviceId.price : "N/A",
-      employeeName,
+      employeeName: employeeId ? employeeId.userId.name : "Unknown Employee",
+      employeeEmail: employeeId ? employeeId.userId.email : "N/A",
+      employeePhone: employeeId ? employeeId.userId.phone : "N/A",
       date,
       time,
+      applyDate,
       status,
+      userId,
     };
   });
 
@@ -269,12 +258,6 @@ export const getTodayAppointments = catchAsyncError(async (req, res, next) => {
       status,
     } = appointment;
 
-    // Safely retrieve the employee's name from the userId inside employeeId
-    const employeeName =
-      employeeId && employeeId.userId
-        ? employeeId.userId.name
-        : "Unknown Employee";
-
     return {
       appointmentId: _id,
       customerName: userId ? userId.name : customerName, // Use the customer's name or fallback to customerName
@@ -283,9 +266,12 @@ export const getTodayAppointments = catchAsyncError(async (req, res, next) => {
       serviceName: serviceId ? serviceId.name : "Unknown Service",
       serviceDuration: serviceId ? serviceId.duration : "N/A",
       servicePrice: serviceId ? serviceId.price : "N/A",
-      employeeName,
+      employeeName: employeeId ? employeeId.userId.name : "Unknown Employee",
+      employeeEmail: employeeId ? employeeId.userId.email : "N/A",
+      employeePhone: employeeId ? employeeId.userId.phone : "N/A",
       date,
       time,
+      userId,
       status,
     };
   });

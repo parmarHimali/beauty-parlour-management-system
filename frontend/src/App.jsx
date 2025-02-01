@@ -4,6 +4,8 @@ import { Toaster } from "react-hot-toast";
 import axios from "axios";
 
 import { UserContext } from "./context/userContext.jsx";
+import "./admin.css";
+import "./index.css";
 
 import Home from "./components/home/Home";
 import Categories from "./components/users/services/Categories";
@@ -31,12 +33,14 @@ import AllAppointments from "./components/admin/AllAppointments.jsx";
 import TodayAppointments from "./components/admin/TodayAppointments.jsx";
 import EmpNavbar from "./components/employees/EmpNavbar.jsx";
 import EmpProfile from "./components/employees/EmpProfile.jsx";
-// import DeleteService from "./components/admin/DeleteService.jsx";
 import About from "./components/home/About.jsx";
 import EmpDashboard from "./components/employees/EmpDashboard.jsx";
 import Profile from "./components/employees/Profile.jsx";
 import EmpHeader from "./components/employees/EmpHeader.jsx";
 import EmpServices from "./components/employees/EmpServices.jsx";
+import AppointmentDetails from "./components/admin/AppointmentDetails.jsx";
+import BookedDetails from "./components/users/BookedDetails.jsx";
+import EmpAppointmentDetails from "./components/employees/EmpAppointmentDetails.jsx";
 
 const App = () => {
   const { isAuthorized, setIsAuthorized, setUser, user } =
@@ -88,6 +92,7 @@ const App = () => {
             <Route path="/categories" element={<Categories />} />
             <Route path="/review" element={<Review />} />
             <Route path="/book-appointment" element={<BookAppointment />} />
+            <Route path="/booked" element={<BookedDetails />} />
             <Route path="/services/:cid" element={<Services />} />
             <Route path="/about" element={<About />} />
             <Route path="/s-detail/:sid" element={<ServiceDetail />} />
@@ -117,6 +122,10 @@ const App = () => {
                 element={<RegisterEmployee />}
               />
               <Route
+                path="/admin/appointment/:aid"
+                element={<AppointmentDetails />}
+              />
+              <Route
                 path="/admin/service-edit/:sid"
                 element={<EditService />}
               />
@@ -144,6 +153,10 @@ const App = () => {
                 <Route path="/services" element={<ServiceDetail />} />
                 <Route path="/service" element={<EmpServices />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route
+                  path="/emp/appointment/:aid"
+                  element={<EmpAppointmentDetails />}
+                />
               </Routes>
             </div>
           </div>

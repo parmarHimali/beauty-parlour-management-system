@@ -1,5 +1,6 @@
 import express from "express";
 const router = express.Router();
+import { uploadImage } from "./../middlewares/uploadImage.js";
 import {
   addEmployee,
   deleteEmployee,

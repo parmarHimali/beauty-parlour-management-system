@@ -28,6 +28,35 @@ const AllAppointments = () => {
       )
     );
   };
+  console.log(appointments);
+  const formatTime = (time) => {
+    let [hours, minutes] = time.split(":").map(Number);
+    let ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12; // Convert 0 to 12
+    return `${hours}:${minutes.toString().padStart(2, "0")} ${ampm}`;
+  };
+
+  const calculateEndTime = (startTime, duration) => {
+    let [startHours, startMinutes] = startTime.split(":").map(Number);
+
+    // Convert duration to hours and minutes
+    let durationHours = Math.floor(duration / 60);
+    let durationMinutes = duration % 60;
+
+    // Calculate end time
+    let endHours = startHours + durationHours;
+    let endMinutes = startMinutes + durationMinutes;
+
+    if (endMinutes >= 60) {
+      endHours += Math.floor(endMinutes / 60);
+      endMinutes %= 60;
+    }
+
+    let ampm = endHours >= 12 ? "PM" : "AM";
+    endHours = endHours % 12 || 12; // Convert 0 to 12
+
+    return `${endHours}:${endMinutes.toString().padStart(2, "0")} ${ampm}`;
+  };
 
   return (
     <div className="appointments-list">
@@ -80,15 +109,27 @@ const AllAppointments = () => {
                   <div className="card-item">
                     <strong>Date:</strong> {appointment.date}
                   </div>
-                  <div className="card-item">
+                  {/* <div className="card-item">
                     <strong>Time:</strong> {appointment.time}
+                  </div> */}
+                  <div className="card-item">
+                    <strong>Time:</strong> {formatTime(appointment.time)} -{" "}
+                    {calculateEndTime(
+                      appointment.time,
+                      appointment.serviceDuration
+                    )}
                   </div>
                 </div>
 
                 <div className="card-actions" style={{ marginTop: "10px" }}>
-                  <Link className="btn-edit">See More</Link>
                   <Link
-                    to={`/admin/appointment-edit/${appointment._id}`}
+                    className="btn-edit"
+                    to={`/admin/appointment/${appointment.appointmentId}`}
+                  >
+                    See More
+                  </Link>
+                  <Link
+                    to={`/admin/appointment-edit/${appointment.appointmentId}`}
                     className="btn-edit"
                   >
                     Edit
@@ -97,7 +138,7 @@ const AllAppointments = () => {
                     to="#"
                     className="btn-delete"
                     style={{ color: "red" }}
-                    onClick={() => handleDelete(appointment._id)}
+                    onClick={() => handleDelete(appointment.appointmentId)}
                   >
                     Delete
                   </Link>

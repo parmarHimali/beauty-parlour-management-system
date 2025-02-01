@@ -2,65 +2,6 @@ import { catchAsyncError } from "../middlewares/catchAsyncError.js";
 import ErrorHandler from "../middlewares/error.js";
 import Employee from "../models/employeeModel.js";
 import User from "../models/userModel.js";
-// export const addEmployee = catchAsyncError(async (req, res, next) => {
-//   const {
-//     name,
-//     email,
-//     phone,
-//     password,
-//     speciality,
-//     experience,
-//     position,
-//     salary,
-//     // availableTimes,
-//   } = req.body;
-
-//   // Validate required fields
-//   if (
-//     !name ||
-//     !email ||
-//     !password ||
-//     !phone ||
-//     !Array.isArray(speciality) ||
-//     !experience ||
-//     !position ||
-//     !salary
-//   ) {
-//     return next(new ErrorHandler("Please provide all required fields", 400));
-//   }
-
-//   // Check if the email already exists
-//   const emailExist = await User.findOne({ email });
-//   if (emailExist) {
-//     return next(new ErrorHandler("Email already exists", 400));
-//   }
-
-//   // Create a new user with the role of Employee
-//   const user = await User.create({
-//     name,
-//     email,
-//     phone,
-//     password,
-//     role: "Employee",
-//     // Fixed role as Employee
-//   });
-
-//   // Create a new employee profile linked to the user
-//   const employee = await Employee.create({
-//     userId: user._id,
-//     speciality,
-//     experience,
-//     position,
-//     salary,
-//   });
-
-//   res.status(201).json({
-//     success: true,
-//     message: "Employee added successfully",
-//     user,
-//     employee,
-//   });
-// });
 export const addEmployee = catchAsyncError(async (req, res, next) => {
   const {
     name,
@@ -71,10 +12,7 @@ export const addEmployee = catchAsyncError(async (req, res, next) => {
     experience,
     position,
     salary,
-    age,
-    gender,
-    address,
-    joiningDate,
+    // availableTimes,
   } = req.body;
 
   // Validate required fields
@@ -86,11 +24,7 @@ export const addEmployee = catchAsyncError(async (req, res, next) => {
     !Array.isArray(speciality) ||
     !experience ||
     !position ||
-    !salary ||
-    !age ||
-    !gender ||
-    !address ||
-    !joiningDate
+    !salary
   ) {
     return next(new ErrorHandler("Please provide all required fields", 400));
   }
@@ -107,7 +41,8 @@ export const addEmployee = catchAsyncError(async (req, res, next) => {
     email,
     phone,
     password,
-    role: "Employee", // Fixed role as Employee
+    role: "Employee",
+    // Fixed role as Employee
   });
 
   // Create a new employee profile linked to the user
@@ -117,10 +52,6 @@ export const addEmployee = catchAsyncError(async (req, res, next) => {
     experience,
     position,
     salary,
-    age,
-    gender,
-    address,
-    joiningDate,
   });
 
   res.status(201).json({

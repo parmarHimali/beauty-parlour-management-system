@@ -249,11 +249,6 @@ li label:hover {
     cursor: pointer;
 }
 
-/* .card a{
-    margin: 0;
-    padding: 0;
-} */
-
 .card h3 {
     font-size: 2rem;
     color: var(--dark-green);
@@ -517,8 +512,8 @@ tr:hover {
 
 /* Colors for different statuses */
 .status.pending {
-    background-color: #ffe57b;
-    color: #000;
+    background: #ffcc00;
+    color: #663d00;
 }
 
 .status.confirmed {
@@ -739,9 +734,6 @@ tr:hover {
     transition: transform 0.3s;
 }
 
-.appointment-card:hover {
-    transform: scale(1.03);
-}
 
 .card-header {
     display: flex;
@@ -782,4 +774,136 @@ tr:hover {
     margin: 30px 0;
     font-size: 20px;
     color: #343a40;
+}
+
+/* appointmetn details  */
+.appointment-card-details {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    font-family: "Inter", sans-serif;
+    overflow: hidden;
+}
+
+/* Title */
+.card-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Flexbox layout for sections */
+.appointment-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 23px;
+    padding: 10px 50px;
+}
+
+/* Card Sections */
+.card-section {
+    flex: 1;
+    min-width: 400px;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.26);
+}
+
+/* Different Backgrounds for Sections */
+.user-details {
+    background: linear-gradient(135deg, #f9f9f9, #e3f2fd);
+}
+
+.employee-details {
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+}
+
+.service-details {
+    background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+}
+
+.timing-details {
+    background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+}
+
+/* Heading Style */
+.card-section h3 {
+    margin-bottom: 10px;
+    color: #444;
+    font-size: 18px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 5px;
+}
+
+/* Text styling */
+.card-section p {
+    font-size: 16px;
+    margin: 5px 0;
+    color: #222;
+}
+
+/* Status Styling */
+.status {
+    padding: 5px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.status.pending {
+    background: #ffcc00;
+    color: #663d00;
+}
+
+
+.status.confirmed {
+    background-color: #93bef0;
+}
+
+.status.cancelled {
+    background: #cc2020;
+    color: white;
+}
+
+/* Invoice Button */
+.appointment-card-details button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--green), var(--dark-green));
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    margin: 20px auto 0;
+    width: fit-content;
+
+}
+
+.appointment-card-details button:hover {
+    background: linear-gradient(135deg, var(--green), var(--grey));
+    transform: scale(1.05);
+}
+
+.appointment-card-details button svg {
+    font-size: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .appointment-container {
+        flex-direction: column;
+        gap: 10px;
+    }
 }

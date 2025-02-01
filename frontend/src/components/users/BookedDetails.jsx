@@ -1,68 +1,39 @@
-import React, { useContext } from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../context/userContext"; // Make sure you have this context
 import { MdSearch } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { UserContext } from "../../context/UserContext";
-import "../../employee.css";
-import { toast } from "react-hot-toast";
-const EmpDashboard = () => {
+
+const BookedDetails = () => {
   const [appointments, setAppointments] = useState([]);
   const [filteredAppointments, setFilteredAppointments] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [status, setStatus] = useState("");
   const { user } = useContext(UserContext);
-  console.log(appointments);
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchAppointments = async () => {
       const { data } = await axios.get(
-        `http://localhost:4000/api/appointment/emp-app/${user._id}`
+        "http://localhost:4000/api/appointment/all-appointments/"
       );
-
-      setAppointments(data.appointments);
-      setFilteredAppointments(data.appointments.reverse());
+      const myApp = data.allAppointments.filter(
+        (appointment) => appointment.userId._id === user._id
+      );
+      setAppointments(myApp);
+      setFilteredAppointments(myApp);
     };
-    fetchCategories();
-  }, []);
+    fetchAppointments();
+  }, [user]);
 
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
-    console.log(query);
-
     setSearchQuery(query);
     setFilteredAppointments(
       appointments.filter((appointment) =>
-        appointment.userId.name.toLowerCase().includes(query)
+        appointment.serviceName.toLowerCase().includes(query)
       )
     );
   };
-  console.log(status);
-  const handleStatusChange = async (e, appointmentId) => {
-    const newStatus = e.target.value;
 
-    // Update the status in the frontend state
-    setFilteredAppointments((prevAppointments) =>
-      prevAppointments.map((appointment) =>
-        appointment._id === appointmentId
-          ? { ...appointment, status: newStatus }
-          : appointment
-      )
-    );
-
-    try {
-      // Send the status update to the backend
-      const { data } = await axios.put(
-        `http://localhost:4000/api/appointment/update-status/${appointmentId}`,
-        {
-          status: newStatus,
-        }
-      );
-      toast.success(data.message);
-    } catch (error) {
-      console.error("Error updating status:", error);
-    }
-  };
   const formatTime = (time) => {
     let [hours, minutes] = time.split(":").map(Number);
     let ampm = hours >= 12 ? "PM" : "AM";
@@ -91,15 +62,14 @@ const EmpDashboard = () => {
 
     return `${endHours}:${endMinutes.toString().padStart(2, "0")} ${ampm}`;
   };
-
   return (
-    <div className="appointments-list">
+    <div className="appointments-list" style={{ height: "90vh" }}>
       <div className="heading heading-container">
-        <h2>All Appointment List</h2>
+        <h2>You booked Appointments</h2>
         <div className="input-wrapper">
           <input
             type="text"
-            placeholder="Search appointment"
+            placeholder="Search appointment by service"
             value={searchQuery}
             onChange={handleSearch}
           />
@@ -110,35 +80,22 @@ const EmpDashboard = () => {
       <div className="appointments-cards">
         {filteredAppointments.length > 0 ? (
           filteredAppointments.map((appointment) => {
-            const hours = Math.floor(appointment.serviceId.duration / 60);
-            const minutes = appointment.serviceId.duration % 60;
+            const hours = Math.floor(appointment.serviceDuration / 60);
+            const minutes = appointment.serviceDuration % 60;
             return (
-              <div key={appointment._id} className="appointment-card">
-                <div className="card-header">
-                  <h3 style={{ textDecoration: "underline" }}>
-                    {appointment.userId.name}
-                  </h3>
-                  <select
-                    className={`status ${appointment.status.toLowerCase()}`}
-                    value={appointment.status}
-                    style={{ width: "max-content" }}
-                    onChange={(e) => handleStatusChange(e, appointment._id)}
-                  >
-                    <option value="Pending">Pending</option>
-                    <option value="Confirmed">Confirmed</option>
-                    <option value="Completed">Completed</option>
-                    <option value="Cancelled">Cancelled</option>
-                  </select>
-                </div>
-
+              <div key={appointment.appointmentId} className="appointment-card">
                 <div className="card-body">
-                  <div className="card-item">
-                    <strong>{appointment.serviceId.name}</strong>
+                  <div className="card-item card-header">
+                    <strong>{appointment.serviceName}</strong>
+                    <span
+                      className={`status ${appointment.status.toLowerCase()}`}
+                    >
+                      {appointment.status || "Pending"}
+                    </span>
                   </div>
                   <hr style={{ margin: "7px 0 5px 0" }} />
                   <div className="card-item">
-                    <strong>Price:</strong> &#8377;{" "}
-                    {appointment.serviceId.price}
+                    <strong>Price:</strong> &#8377; {appointment.servicePrice}
                   </div>
                   <div className="card-item">
                     <strong>Duration:</strong>{" "}
@@ -150,12 +107,14 @@ const EmpDashboard = () => {
                   <div className="card-item">
                     <strong>Date:</strong> {appointment.date}
                   </div>
-
+                  {/* <div className="card-item">
+                    <strong>Time:</strong> {appointment.time}
+                  </div> */}
                   <div className="card-item">
                     <strong>Time:</strong> {formatTime(appointment.time)} -{" "}
                     {calculateEndTime(
                       appointment.time,
-                      appointment.serviceId.duration
+                      appointment.serviceDuration
                     )}
                   </div>
                 </div>
@@ -163,7 +122,7 @@ const EmpDashboard = () => {
                 <div className="card-actions" style={{ marginTop: "10px" }}>
                   <Link
                     className="btn-edit"
-                    to={`/emp/appointment/${appointment._id}`}
+                    to={`/admin/appointment/${appointment.appointmentId}`}
                   >
                     See More
                   </Link>
@@ -179,4 +138,4 @@ const EmpDashboard = () => {
   );
 };
 
-export default EmpDashboard;
+export default BookedDetails;

@@ -16,8 +16,6 @@ const Home = () => {
   //     navigateTo("/login");
   //   }
   // }, [isAuthorized]);
-  console.log(isAuthorized);
-  console.log("home");
 
   return (
     <>
