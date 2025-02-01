@@ -6,6 +6,7 @@ export const AppWrapper = ({ children }) => {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [user, setUser] = useState({});
   const [showLogin, setShowLogin] = useState(false);
+  const [isVerified, setIsverified] = useState(false);
 
   return (
     <UserContext.Provider
@@ -16,6 +17,8 @@ export const AppWrapper = ({ children }) => {
         setUser,
         showLogin,
         setShowLogin,
+        isVerified,
+        setIsverified,
       }}
     >
       {children}
