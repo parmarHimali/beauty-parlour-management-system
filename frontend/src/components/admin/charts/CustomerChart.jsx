@@ -93,7 +93,7 @@ const CustomerChart = () => {
   };
 
   return (
-    <div style={{ width: "70%", margin: "0 auto" }}>
+    <div style={{ width: "70%", margin: "0 auto 40px" }}>
       <h3 className="heading">Customer Registration Statistics</h3>
       {chartData ? (
         <Bar data={chartData} options={options} />

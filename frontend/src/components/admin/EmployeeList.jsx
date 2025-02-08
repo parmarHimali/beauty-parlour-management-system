@@ -113,7 +113,7 @@ const EmployeeList = () => {
             })
           ) : (
             <tr>
-              <td colSpan="7">No Employee found</td>
+              <td colSpan="9">No Employee found</td>
             </tr>
           )}
         </tbody>
