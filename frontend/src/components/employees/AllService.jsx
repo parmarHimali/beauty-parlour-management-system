@@ -1,50 +1,33 @@
-import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { UserContext } from "./../../context/UserContext";
 import {
   MdOutlineStar,
   MdOutlineStarBorder,
   MdOutlineStarHalf,
 } from "react-icons/md";
-import { toast } from "react-hot-toast";
-import { UserContext } from "../../context/userContext";
 
-const EmpServices = () => {
+const AllService = () => {
   const [services, setServices] = useState([]);
   const [filteredServices, setFilteredServices] = useState([]);
   const [search, setSearch] = useState("");
-  const navigateTo = useNavigate();
-  const { isAuthorized, setShowLogin, user } = useContext(UserContext);
-
-  console.log(user);
-
+  const { user } = useContext(UserContext);
   useEffect(() => {
-    const fetchService = async () => {
+    const fetchServices = async () => {
       try {
         const { data } = await axios.get(
           `http://localhost:4000/api/employee/speciality/${user._id}`
         );
-        console.log(data);
-
-        setServices(data.services);
-        setFilteredServices(data.services);
+        console.log(data.employee.speciality);
+        setServices(data.employee.speciality);
+        setFilteredServices(data.employee.speciality);
       } catch (error) {
         console.log(error);
       }
     };
-    fetchService();
+    fetchServices();
   }, []);
-
-  const handleSearch = (e) => {
-    const query = e.target.value.toLowerCase();
-    setSearch(query);
-    setFilteredServices(
-      services.filter((service) => {
-        return service.name.toLowerCase().includes(query);
-      })
-    );
-  };
-
   const rating = (rating) => {
     const customerRatings = rating || 0;
     const fullStars = Math.floor(customerRatings); // Number of full stars
@@ -68,6 +51,15 @@ const EmpServices = () => {
       </div>
     );
   };
+  const handleSearch = (e) => {
+    const query = e.target.value.toLowerCase();
+    setSearch(query);
+    setFilteredServices(
+      services.filter((service) => {
+        return service.name.toLowerCase().includes(query);
+      })
+    );
+  };
   return (
     <>
       <div className="service-title">
@@ -86,7 +78,11 @@ const EmpServices = () => {
           const hours = Math.floor(service.duration / 60);
           const minutes = service.duration % 60;
           return (
-            <div className="sub-service" key={service._id}>
+            <div
+              className="sub-service"
+              key={service._id}
+              style={{ width: "80%" }}
+            >
               <div className="service-image">
                 <img
                   src={`http://localhost:4000/${service.image}`}
@@ -109,15 +105,12 @@ const EmpServices = () => {
                 <div style={{ textAlign: "left" }}>
                   <b>rates:</b> {rating(service.customerRatings || 0)}
                 </div>
-                <Link to={`/s-detail/${service._id}`} style={{ color: "grey" }}>
+                <Link
+                  to={`/emp/services/${service._id}`}
+                  style={{ color: "grey" }}
+                >
                   See more details
                 </Link>
-                {/* <button
-                  className="btns btn-book"
-                  onClick={handleBookAppointment}
-                >
-                  Book Now
-                </button> */}
               </div>
             </div>
           );
@@ -125,11 +118,6 @@ const EmpServices = () => {
         {services.length === 0 && (
           <div className="no-service">
             <h1 className="no-msg">No Services are available now!</h1>
-            <p>We will provide it soon...</p>
-            <br />
-            <Link to={"/categories"} className="btns btn-back">
-              Back to Categories
-            </Link>
           </div>
         )}
         {services.length > 0 && filteredServices.length === 0 && (
@@ -140,4 +128,4 @@ const EmpServices = () => {
   );
 };
 
-export default EmpServices;
+export default AllService;

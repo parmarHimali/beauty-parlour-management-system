@@ -53,6 +53,7 @@ const Services = () => {
       })
     );
   };
+  console.log(category);
 
   const handleBookAppointment = () => {
     if (isAuthorized) {
@@ -86,6 +87,7 @@ const Services = () => {
       </div>
     );
   };
+
   return (
     <>
       <div className="service-title">

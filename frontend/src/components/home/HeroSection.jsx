@@ -1,6 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "./../../context/UserContext";
+import { toast } from "react-hot-toast";
 
 const HeroSection = () => {
+  const navigateTo = useNavigate();
+  const { user, setShowLogin } = useContext(UserContext);
+  const handleApp = () => {
+    if (user?.role == "User") {
+      navigateTo("/book-appointment");
+    } else {
+      toast.error("Please login first to make appointment");
+      setShowLogin(true);
+    }
+  };
   return (
     <section className="hero">
       <img
@@ -17,9 +30,9 @@ const HeroSection = () => {
           make you look and feel radiant. Your journey to confidence starts
           here.
         </p>
-        <a href="/book-appointment">
-          <button className="btn btn-hero">Make Appointment</button>
-        </a>
+        <button className="btn btn-hero" onClick={handleApp}>
+          Make Appointment
+        </button>
       </div>
     </section>
   );

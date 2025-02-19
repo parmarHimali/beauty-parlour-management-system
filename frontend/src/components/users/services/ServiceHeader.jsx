@@ -7,13 +7,22 @@ import {
 import { UserContext } from "../../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { FaCartPlus } from "react-icons/fa";
+import { CartContext } from "../../../context/CartContext";
+import CartForm from "../CartForm";
+import { IoAddCircle } from "react-icons/io5";
 
 const ServiceHeader = ({ service }) => {
-  const navigateTo = useNavigate();
-  const { setShowLogin, isAuthorized } = useContext(UserContext);
+  const { setShowLogin, isAuthorized, user } = useContext(UserContext);
+  const { cart, setCart, showCart, setShowCart } = useContext(CartContext);
+  console.log(showCart);
+
   const handleBookAppointment = () => {
     if (isAuthorized) {
-      navigateTo("/book-appointment");
+      // navigateTo("/book-appointment");
+      // setCart([...cart, service._id]);
+      setShowCart(true);
+      // navigateTo(`/cart/${service._id}`);
     } else {
       toast.error("please login to book appointment!");
       setShowLogin(true);
@@ -59,9 +68,21 @@ const ServiceHeader = ({ service }) => {
             ))}
         </div>
       </div>
-      <button className="btns btn-book" onClick={handleBookAppointment}>
-        Book Now
-      </button>
+      {user?.role == "User" && (
+        <button className="btns btn-book" onClick={handleBookAppointment}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            {/* <span>Add to cart</span> <FaCartPlus /> */}
+            <span>Book Appointment</span> <IoAddCircle />
+          </div>
+        </button>
+      )}
+      {showCart && (
+        <CartForm
+          showCart={showCart}
+          setShowCart={setShowCart}
+          setCart={setCart}
+        />
+      )}
     </div>
   );
 };

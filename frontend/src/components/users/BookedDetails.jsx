@@ -122,7 +122,7 @@ const BookedDetails = () => {
                 <div className="card-actions" style={{ marginTop: "10px" }}>
                   <Link
                     className="btn-edit"
-                    to={`/admin/appointment/${appointment.appointmentId}`}
+                    to={`/appointment/${appointment.appointmentId}`}
                   >
                     See More
                   </Link>

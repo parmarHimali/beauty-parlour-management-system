@@ -11,19 +11,20 @@ const Dashboard = () => {
         Dashboard
       </h1>
       <CustomerChart />
+      <MonthlyAppointmentsChart />
       <div
         style={{
           display: "flex",
           gap: "20px",
           justifyContent: "center",
+          alignItems: "center",
           maxwidth: "60%",
           padding: "10px 50px 30px",
         }}
       >
         <AppointmentChart />
-        <MonthlyAppointmentsChart />
+        <CurrMonthAppChart />
       </div>
-      <CurrMonthAppChart />
     </>
   );
 };

@@ -6,12 +6,14 @@ import ReviewSection from "./ReviewSection";
 import ImageGallery from "./ImageGallery";
 import ServiceHeader from "./ServiceHeader";
 import { UserContext } from "./../../../context/UserContext";
+import CartWrapper from "../../../context/CartContext";
 
 const ServiceDetail = () => {
   const { sid } = useParams();
   const [service, setService] = useState({});
   const [review, setReview] = useState([]);
   const { user } = useContext(UserContext);
+  console.log(service);
 
   useEffect(() => {
     const fetchService = async () => {
@@ -27,7 +29,7 @@ const ServiceDetail = () => {
     };
 
     fetchService();
-  }, [sid]);
+  }, [sid, service]);
 
   // Function to add a new review to the state
   const addNewReview = (newReview) => {
@@ -49,38 +51,40 @@ const ServiceDetail = () => {
   };
 
   return (
-    <div className="service-detail">
-      {/* Service Header */}
-      <ServiceHeader service={service} />
+    <CartWrapper>
+      <div className="service-detail">
+        {/* Service Header */}
+        <ServiceHeader service={service} />
 
-      {/* Image Gallery */}
-      <ImageGallery service={service} />
+        {/* Image Gallery */}
+        <ImageGallery service={service} />
 
-      {/* Highlights Section */}
-      <div className="service-highlights">
-        <h2>Highlights</h2>
-        <ul>
-          {service.serviceHighlights &&
-            service.serviceHighlights.map((highlight, index) => (
-              <li key={index}>{highlight}</li>
-            ))}
-        </ul>
+        {/* Highlights Section */}
+        <div className="service-highlights">
+          <h2>Highlights</h2>
+          <ul>
+            {service.serviceHighlights &&
+              service.serviceHighlights.map((highlight, index) => (
+                <li key={index}>{highlight}</li>
+              ))}
+          </ul>
+        </div>
+
+        {/* Reviews Section */}
+        <ReviewSection reviews={review} />
+
+        {/* Review Form */}
+        {user?.role !== "Admin" && user?.role !== "Employee" ? (
+          <ReviewForm
+            serviceId={service._id}
+            userId={user?._id}
+            onReviewAdded={addNewReview}
+          />
+        ) : (
+          ""
+        )}
       </div>
-
-      {/* Reviews Section */}
-      <ReviewSection reviews={review} />
-
-      {/* Review Form */}
-      {user?.role !== "Admin" && user?.role !== "Employee" ? (
-        <ReviewForm
-          serviceId={service._id}
-          userId={user?._id}
-          onReviewAdded={addNewReview}
-        />
-      ) : (
-        ""
-      )}
-    </div>
+    </CartWrapper>
   );
 };
 

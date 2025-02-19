@@ -56,7 +56,7 @@ const AppointmentChart = () => {
 
   return (
     <div style={{ width: "30%" }}>
-      <h2 className="heading">Appointment</h2>
+      <h2 className="heading">Appointment Status</h2>
       {chartData ? (
         <Pie data={chartData} options={{ responsive: true }} />
       ) : (

@@ -2,6 +2,7 @@ import { catchAsyncError } from "../middlewares/catchAsyncError.js";
 import ErrorHandler from "../middlewares/error.js";
 import Employee from "../models/employeeModel.js";
 import User from "../models/userModel.js";
+import mongoose from "mongoose";
 export const addEmployee = catchAsyncError(async (req, res, next) => {
   const {
     name,
@@ -62,22 +63,51 @@ export const addEmployee = catchAsyncError(async (req, res, next) => {
   });
 });
 
+// export const employeeByService = catchAsyncError(async (req, res, next) => {
+//   const { sid } = req.params;
+//   console.log("service id  ", sid);
+//   const employees = await Employee.find({
+//     speciality: { $in: [sid] },
+//   })
+//     .populate("speciality")
+//     .populate("userId", "name");
+
+//   console.log(employees);
+
+//   if (employees.length === 0) {
+//     return res
+//       .status(404)
+//       .json({ message: "No employees found for this service" });
+//   }
+//   const employeeList = employees.map((employee) => employee.userId);
+
+//   res.status(200).json({
+//     success: true,
+//     employees,
+//   });
+// });
+
 export const employeeByService = catchAsyncError(async (req, res, next) => {
   const { sid } = req.params;
-  console.log("service id  ", sid);
+  if (!mongoose.Types.ObjectId.isValid(sid)) {
+    return res.status(400).json({ message: "Invalid service ID" });
+  }
+
+  console.log("Service ID:", sid);
+
   const employees = await Employee.find({
-    speciality: { $in: [sid] },
+    speciality: { $in: [new mongoose.Types.ObjectId(sid)] },
   })
-    .populate("speciality", "name")
+    .populate("speciality")
     .populate("userId", "name");
-  employees;
+
+  console.log(employees);
 
   if (employees.length === 0) {
     return res
       .status(404)
       .json({ message: "No employees found for this service" });
   }
-  const employeeList = employees.map((employee) => employee.userId);
 
   res.status(200).json({
     success: true,
@@ -122,9 +152,12 @@ export const deleteEmployee = catchAsyncError(async (req, res, next) => {
 
 export const getEmployeeSpeciality = catchAsyncError(async (req, res, next) => {
   console.log(req.user);
-  const userId = req.user._id;
-
-  const employee = await Employee.findOne({ userId }).populate("speciality");
+  // const userId = req.user._id;
+  const { uid } = req.params;
+  const employee = await Employee.findOne({ userId: uid }).populate(
+    "speciality"
+  );
+  console.log(employee);
 
   if (!employee) {
     return next(new ErrorHandler("Employee not found!", 404));

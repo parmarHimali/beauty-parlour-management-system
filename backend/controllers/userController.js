@@ -140,30 +140,25 @@ export const getCustomers = catchAsyncError(async (req, res, next) => {
 export const deleteCustomer = catchAsyncError(async (req, res, next) => {
   const { custId } = req.params;
 
-  // Step 1: Find and delete the customer
   const customer = await User.findByIdAndDelete(custId);
   if (!customer) {
     return next(new ErrorHandler(`Customer with ID ${custId} not found!`, 404));
   }
 
-  // Step 2: Find and delete all reviews associated with the customer
   const deletedReviews = await Review.find({ userId: custId });
   const deletedReviewIds = deletedReviews.map((review) => review._id);
   await Review.deleteMany({ userId: custId });
 
-  // Step 3: Update the service documents that still reference the deleted reviews
   if (deletedReviewIds.length > 0) {
     const services = await Service.find({
       customerReviews: { $in: deletedReviewIds },
     });
 
     for (const service of services) {
-      // Remove the deleted reviews from the service's customerReviews array
       service.customerReviews = service.customerReviews.filter(
         (reviewId) => !deletedReviewIds.includes(reviewId)
       );
 
-      // Recalculate the average rating based on the remaining reviews
       const reviews = await Review.find({ serviceId: service._id });
       const totalRatings = reviews.reduce(
         (sum, review) => sum + review.rating,
@@ -172,47 +167,17 @@ export const deleteCustomer = catchAsyncError(async (req, res, next) => {
       const averageRating =
         reviews.length > 0 ? totalRatings / reviews.length : 0;
 
-      // Update the service's customerRatings field with the new average rating
       service.customerRatings = averageRating;
 
-      // Save the updated service document
       await service.save();
     }
   }
 
-  // Step 4: Respond with success message
   res.status(200).json({
     success: true,
     message: "Customer and their reviews deleted successfully",
   });
 });
-
-// export const getCustomerStatistics = catchAsyncError(async (req, res, next) => {
-//   const customerStats = await User.aggregate([
-//     {
-//       $match: { role: "User" }, // Only consider customers
-//     },
-//     {
-//       $group: {
-//         _id: { $month: "$createdAt" }, // Group by month
-//         count: { $sum: 1 }, // Count customers
-//       },
-//     },
-//     {
-//       $sort: { _id: 1 }, // Sort by month
-//     },
-//   ]);
-
-//   const stats = Array.from({ length: 12 }, (_, index) => {
-//     const monthStat = customerStats.find((stat) => stat._id === index + 1);
-//     return monthStat ? monthStat.count : 0;
-//   });
-
-//   res.status(200).json({
-//     success: true,
-//     stats,
-//   });
-// });
 
 export const getCustomerStatistics = catchAsyncError(async (req, res, next) => {
   const today = new Date();

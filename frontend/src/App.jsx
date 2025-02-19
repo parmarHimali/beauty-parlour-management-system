@@ -32,16 +32,16 @@ import RegisterEmployee from "./components/admin/RegisterEmployee.jsx";
 import AllAppointments from "./components/admin/AllAppointments.jsx";
 import TodayAppointments from "./components/admin/TodayAppointments.jsx";
 import EmpNavbar from "./components/employees/EmpNavbar.jsx";
-import EmpProfile from "./components/employees/EmpProfile.jsx";
 import About from "./components/home/About.jsx";
 import EmpDashboard from "./components/employees/EmpDashboard.jsx";
 import Profile from "./components/employees/Profile.jsx";
 import EmpHeader from "./components/employees/EmpHeader.jsx";
-import EmpServices from "./components/employees/EmpServices.jsx";
 import AppointmentDetails from "./components/admin/AppointmentDetails.jsx";
 import BookedDetails from "./components/users/BookedDetails.jsx";
 import EmpAppointmentDetails from "./components/employees/EmpAppointmentDetails.jsx";
 import EmailVerify from "./components/auth/EmailVerify.jsx";
+import AllService from "./components/employees/AllService.jsx";
+import EmpServiceDetail from "./components/employees/EmpServiceDetail.jsx";
 
 const App = () => {
   const { isAuthorized, setIsAuthorized, setUser, user } =
@@ -97,7 +97,9 @@ const App = () => {
             <Route path="/booked" element={<BookedDetails />} />
             <Route path="/services/:cid" element={<Services />} />
             <Route path="/about" element={<About />} />
+            {/* <Route path="/cart/:sid" element={<CartForm />} /> */}
             <Route path="/s-detail/:sid" element={<ServiceDetail />} />
+            <Route path="/appointment/:aid" element={<AppointmentDetails />} />
           </Routes>
           <Footer />
         </>
@@ -152,9 +154,12 @@ const App = () => {
               <EmpHeader />
               <Routes>
                 <Route path="/" element={<EmpDashboard />} />
-                <Route path="/services" element={<ServiceDetail />} />
-                <Route path="/service" element={<EmpServices />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/emp/all-services" element={<AllService />} />
+                <Route
+                  path="emp/services/:sid"
+                  element={<EmpServiceDetail />}
+                />
                 <Route
                   path="/emp/appointment/:aid"
                   element={<EmpAppointmentDetails />}

@@ -23,7 +23,7 @@ const BookAppointment = () => {
       setCategories(data.categories);
     };
     fetchCategories();
-  }, [categories]);
+  }, []);
 
   const fetchServicesByCategory = async (categoryId) => {
     const { data } = await axios.get(
@@ -105,15 +105,10 @@ const BookAppointment = () => {
         }
       );
       toast.success("Appointment booked successfully!");
-      setCategories([]);
-      setServices([]);
-      setEmployees([]);
       setSelectedCategory("");
       setSelectedService("");
       setSelectedDate("");
-      setAvailableTimes([]);
       setSelectedEmployee("");
-      setBookedTimes([]);
     } catch (error) {
       console.error(error);
       toast.error("Failed to book the appointment.");
@@ -134,7 +129,7 @@ const BookAppointment = () => {
                 type="text"
                 placeholder="Enter your Name"
                 value={user.name}
-                readOnly
+                // readOnly
                 required
               />
             </div>
@@ -146,7 +141,7 @@ const BookAppointment = () => {
                 type="number"
                 placeholder="Enter your Phone number"
                 value={user.phone}
-                readOnly
+                // readOnly
                 required
               />
             </div>

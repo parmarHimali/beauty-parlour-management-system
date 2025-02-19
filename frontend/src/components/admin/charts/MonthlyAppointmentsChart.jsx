@@ -89,7 +89,7 @@ const MonthlyAppointmentsChart = () => {
   }, []);
 
   return (
-    <div style={{ flexBasis: "55%" }}>
+    <div style={{ minWidth: "70%", margin: "10px auto 50px" }}>
       <h2 className="heading">Booked Appointments (Last 12 Months)</h2>
       {chartData ? (
         <Line data={chartData} options={{ responsive: true }} />

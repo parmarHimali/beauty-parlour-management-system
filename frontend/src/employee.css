@@ -1,0 +1,22 @@
+.add-gallery:hover {
+  transform: scale(1);
+  cursor: default;
+}
+.add-gallery {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.add-gallery svg {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: #333;
+  transition: all 0.3s ease;
+}
+.add-gallery svg:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}

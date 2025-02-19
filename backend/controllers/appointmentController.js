@@ -110,13 +110,11 @@ export const bookAppointment = catchAsyncError(async (req, res, next) => {
 export const availableTimes = async (req, res) => {
   const { eid, date } = req.params;
 
-  // Fetch employee data
   const employee = await Employee.findById(eid);
   if (!employee) {
     return res.status(404).json({ message: "Employee not found" });
   }
 
-  // Define the working hours in 24-hour format (e.g., from 10:00 to 20:00)
   const allTimes = [
     "10:00",
     "11:00",
@@ -131,16 +129,13 @@ export const availableTimes = async (req, res) => {
     "20:00",
   ];
 
-  // Get booked times for the given date
   const bookedTimesEntry = employee.bookedTimes.find(
     (entry) => entry.date === date
   );
   const bookedTimes = bookedTimesEntry ? bookedTimesEntry.times : [];
 
-  // Filter out booked times from the allTimes list
   const availableTimes = allTimes.filter((time) => !bookedTimes.includes(time));
 
-  // Send the available times in the response
   res.status(200).json({
     success: true,
     availableTimes,
@@ -347,4 +342,73 @@ export const statusChange = catchAsyncError(async (req, res, next) => {
   }
 
   res.status(200).json({ message: "Status updated successfully", appointment });
+});
+
+// charts
+export const appointmentStats = catchAsyncError(async (req, res, next) => {
+  try {
+    const stats = await Appointment.aggregate([
+      { $group: { _id: "$status", count: { $sum: 1 } } },
+    ]);
+
+    res.json(stats);
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error!" });
+  }
+});
+
+export const monthlyChart = catchAsyncError(async (req, res, next) => {
+  try {
+    const today = new Date();
+    const lastYear = new Date();
+    lastYear.setFullYear(today.getFullYear() - 1);
+
+    const monthlyData = await Appointment.aggregate([
+      {
+        $match: {
+          applyDate: { $gte: lastYear, $lte: today }, // Get last 12 months
+        },
+      },
+      {
+        $group: {
+          _id: {
+            month: { $month: "$applyDate" },
+            year: { $year: "$applyDate" },
+          },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { "_id.year": 1, "_id.month": 1 } }, // Sort: oldest to latest
+    ]);
+
+    res.json(monthlyData);
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error!" });
+  }
+});
+
+export const currMonthChart = catchAsyncError(async (req, res, next) => {
+  try {
+    const currentMonth = new Date().getMonth() + 1; // Get current month (1-12)
+    const currentYear = new Date().getFullYear();
+
+    const appointments = await Appointment.aggregate([
+      {
+        $match: {
+          date: { $regex: `^${currentYear}-0?${currentMonth}-` }, // Match YYYY-MM format
+        },
+      },
+      {
+        $group: {
+          _id: "$date", // Group by date
+          count: { $sum: 1 }, // Count appointments
+        },
+      },
+      { $sort: { _id: 1 } }, // Sort by date
+    ]);
+
+    res.status(200).json(appointments);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching data", error });
+  }
 });

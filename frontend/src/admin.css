@@ -907,3 +907,7 @@ tr:hover {
         gap: 10px;
     }
 }
+
+.app-detail-btn{
+    width: 100%;
+}

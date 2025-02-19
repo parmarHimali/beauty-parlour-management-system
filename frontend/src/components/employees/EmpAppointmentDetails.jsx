@@ -83,21 +83,6 @@ const EmpAppointmentDetails = () => {
           </p>
         </div>
 
-        {/* Employee Details */}
-        {/* <div className="card-section employee-details">
-          <h3>Employee</h3>
-          <p>
-            Employee Name: <br />
-            <strong>{appointment.employeeName}</strong>
-          </p>
-          <p>
-            Phone: <strong>{appointment.employeePhone}</strong>
-          </p>
-          <p>
-            Email: <br /> <strong>{appointment.employeeEmail}</strong>
-          </p>
-        </div> */}
-
         {/* Service Details */}
         <div className="card-section service-details">
           <h3>Service</h3>
@@ -138,11 +123,6 @@ const EmpAppointmentDetails = () => {
             Applied: <strong>{formatDate(appointment.applyDate)}</strong>
           </p>
         </div>
-      </div>
-      <div className="app-detail-btn">
-        <button>
-          <FaFileInvoice /> Generate Invoice
-        </button>
       </div>
     </div>
   );
