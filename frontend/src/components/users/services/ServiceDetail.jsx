@@ -7,17 +7,20 @@ import ImageGallery from "./ImageGallery";
 import ServiceHeader from "./ServiceHeader";
 import { UserContext } from "./../../../context/UserContext";
 import CartWrapper from "../../../context/CartContext";
+import Loading from "../../Loading";
 
 const ServiceDetail = () => {
   const { sid } = useParams();
   const [service, setService] = useState({});
   const [review, setReview] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { user } = useContext(UserContext);
   console.log(service);
 
   useEffect(() => {
     const fetchService = async () => {
       try {
+        setLoading(true);
         const { data } = await axios.get(
           `http://localhost:4000/api/services/s-detail/${sid}`
         );
@@ -25,11 +28,13 @@ const ServiceDetail = () => {
         setReview(data.service.customerReviews || []);
       } catch (error) {
         console.error("Error fetching service details:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchService();
-  }, [sid, service]);
+  }, [sid]);
 
   // Function to add a new review to the state
   const addNewReview = (newReview) => {
@@ -49,6 +54,9 @@ const ServiceDetail = () => {
       return updatedReviews; // Reviews will now show in the correct order
     });
   };
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <CartWrapper>

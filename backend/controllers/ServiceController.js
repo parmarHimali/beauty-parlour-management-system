@@ -94,6 +94,8 @@ export const fetchService = async (req, res, next) => {
 
 export const addToGallery = catchAsyncError(async (req, res, next) => {
   const { sid } = req.params;
+  console.log("add photo to gallery", sid);
+
   if (!req.file) {
     return next(new ErrorHandler("There is No file selected to upload"), 404);
   }
@@ -101,9 +103,21 @@ export const addToGallery = catchAsyncError(async (req, res, next) => {
   if (!service) {
     return next(new ErrorHandler("Service not found!"), 404);
   }
-  console.log(sid);
+  if (!req.user) {
+    return next(new ErrorHandler("Unauthorized access!", 401));
+  }
+  console.log(req.file);
 
-  service.employeeImages.push(`uploads/${req.file.filename}`);
+  const employeeName = req.user.name;
+  console.log(sid);
+  console.log(service);
+
+  // service.employeeImages.push(`uploads/${req.file.filename}`);
+  service.employeeImages.push({
+    imageUrl: `uploads/${req.file.filename}`,
+    employeeName,
+  });
+
   await service.save();
   const uploadedImages = service.employeeImages;
 

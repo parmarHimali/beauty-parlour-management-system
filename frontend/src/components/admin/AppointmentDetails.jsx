@@ -4,27 +4,37 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import html2pdf from "html2pdf.js";
 import { UserContext } from "./../../context/UserContext";
+import Loading from "./../Loading";
 const AppointmentDetails = () => {
   const [appointment, setAppointment] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { aid } = useParams();
   const { user } = useContext(UserContext);
   const invoiceRef = useRef(null);
   useEffect(() => {
     const fetchAppointment = async () => {
-      const { data } = await axios.get(
-        "http://localhost:4000/api/appointment/all-appointments/"
-      );
-      const foundAppointment = data.allAppointments.find(
-        (appointment) => appointment.appointmentId === aid
-      );
-      setAppointment(foundAppointment);
+      try {
+        setLoading(true);
+        const { data } = await axios.get(
+          "http://localhost:4000/api/appointment/all-appointments/"
+        );
+        const foundAppointment = data.allAppointments.find(
+          (appointment) => appointment.appointmentId === aid
+        );
+        setAppointment(foundAppointment);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchAppointment();
   }, [aid]);
 
   if (!appointment) {
-    return <h2 className="loading-text">Loading appointment details...</h2>;
+    // return <h2 className="loading-text">Loading appointment details...</h2>;
+    return <Loading />;
   }
 
   // Helper function to format time
@@ -148,7 +158,7 @@ const AppointmentDetails = () => {
           <p>
             Appointment Time: <br />
             <strong>
-              {formatTime(appointment.time)} -{" "}
+              {formatTime(appointment.time)} -
               {calculateEndTime(appointment.time, appointment.serviceDuration)}
             </strong>
           </p>
@@ -177,79 +187,77 @@ const AppointmentDetails = () => {
             </p>
           </div>
           <table className="invoice-table">
-            <tr>
-              <th colSpan={2}>Customer Details</th>
-            </tr>
-            <tr>
-              <td>Name:</td>
-              <td>{appointment.customerName}</td>
-            </tr>
-            <tr>
-              <td>Phone:</td>
-              <td>{appointment.customerPhone}</td>
-            </tr>
-            <tr>
-              <td>Email:</td>
-              <td>{appointment.customerEmail}</td>
-            </tr>
-            <br />
+            <tbody>
+              <tr>
+                <th colSpan={2}>Customer Details</th>
+              </tr>
+              <tr>
+                <td>Name:</td>
+                <td>{appointment.customerName}</td>
+              </tr>
+              <tr>
+                <td>Phone:</td>
+                <td>{appointment.customerPhone}</td>
+              </tr>
+              <tr style={{ marginBottom: "20px" }}>
+                <td>Email:</td>
+                <td>{appointment.customerEmail}</td>
+              </tr>
 
-            <tr>
-              <th colSpan={2}>Employee Assigned</th>
-            </tr>
-            <tr>
-              <td>Name:</td> <td>{appointment.employeeName}</td>
-            </tr>
-            <tr>
-              <td>Phone:</td> <td>{appointment.employeePhone}</td>
-            </tr>
-            <tr>
-              <td>Email:</td> <td>{appointment.employeeEmail}</td>
-            </tr>
-            <br />
+              <tr>
+                <th colSpan={2}>Employee Assigned</th>
+              </tr>
+              <tr>
+                <td>Name:</td> <td>{appointment.employeeName}</td>
+              </tr>
+              <tr>
+                <td>Phone:</td> <td>{appointment.employeePhone}</td>
+              </tr>
+              <tr style={{ marginBottom: "20px" }}>
+                <td>Email:</td> <td>{appointment.employeeEmail}</td>
+              </tr>
 
-            <tr>
-              <th colSpan={2}>Service Details</th>
-            </tr>
-            <tr>
-              <td> Service:</td> <td>{appointment.serviceName}</td>
-            </tr>
-            <tr>
-              <td>Duration:</td>{" "}
-              <td>
-                {hours > 0 ? `${hours} Hour${hours > 1 ? "s" : ""}` : ""}{" "}
-                {minutes > 0
-                  ? `${minutes} Minute${minutes > 1 ? "s" : ""}`
-                  : ""}
-              </td>
-            </tr>
-            <tr>
-              <td>Price:</td> <td>₹{appointment.servicePrice}</td>
-            </tr>
+              <tr>
+                <th colSpan={2}>Service Details</th>
+              </tr>
+              <tr>
+                <td> Service:</td> <td>{appointment.serviceName}</td>
+              </tr>
+              <tr>
+                <td>Duration:</td>
+                <td>
+                  {hours > 0 ? `${hours} Hour${hours > 1 ? "s" : ""}` : ""}
+                  {minutes > 0
+                    ? `${minutes} Minute${minutes > 1 ? "s" : ""}`
+                    : ""}
+                </td>
+              </tr>
+              <tr style={{ marginBottom: "20px" }}>
+                <td>Price:</td> <td>₹{appointment.servicePrice}</td>
+              </tr>
 
-            <br />
-            <tr>
-              <th colSpan={2}>Timing</th>
-            </tr>
-            <tr>
-              <td>Appointment Date:</td>
-              <td>{appointment.date}</td>
-            </tr>
-            <tr>
-              <td>Appointment Time:</td>
-              <td>
-                {" "}
-                {formatTime(appointment.time)} -{" "}
-                {calculateEndTime(
-                  appointment.time,
-                  appointment.serviceDuration
-                )}
-              </td>
-            </tr>
-            <tr>
-              <td> Applied: </td>
-              <td>{formatDate(appointment.applyDate)} </td>
-            </tr>
+              <tr>
+                <th colSpan={2}>Timing</th>
+              </tr>
+              <tr>
+                <td>Appointment Date:</td>
+                <td>{appointment.date}</td>
+              </tr>
+              <tr>
+                <td>Appointment Time:</td>
+                <td>
+                  {formatTime(appointment.time)} -
+                  {calculateEndTime(
+                    appointment.time,
+                    appointment.serviceDuration
+                  )}
+                </td>
+              </tr>
+              <tr>
+                <td> Applied: </td>
+                <td>{formatDate(appointment.applyDate)} </td>
+              </tr>
+            </tbody>
           </table>
 
           <div className="invoice-footer">

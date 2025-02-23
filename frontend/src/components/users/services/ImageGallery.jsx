@@ -37,12 +37,17 @@ const ImageGallery = ({ service, setService }) => {
       const { data } = await axios.post(
         `http://localhost:4000/api/services/upload-gallery/${service._id}`,
         formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
+        }
       );
+      console.log(data);
+
       console.log("Upload successful:", data);
       setService((prev) => ({
         ...prev,
-        employeeImages: data.message.uploadedImages,
+        employeeImages: data.uploadedImages,
       }));
       toast.success("Image uploaded successfully!");
     } catch (error) {
@@ -84,15 +89,17 @@ const ImageGallery = ({ service, setService }) => {
           />
         )}
         {[...galleryImages].reverse().map((image, index) => (
-          <img
-            key={index}
-            src={`http://localhost:4000/${image}`}
-            alt={`Gallery Image ${index + 1}`}
-            className="gallery-image"
-            onClick={() =>
-              window.open(`http://localhost:4000/${image}`, "_blank")
-            }
-          />
+          <div key={image._id} className="gallery-emp">
+            <img
+              src={`http://localhost:4000/${image.imageUrl}`}
+              alt={`Gallery Image ${index + 1}`}
+              className="gallery-image"
+              onClick={() =>
+                window.open(`http://localhost:4000/${image.imageUrl}`, "_blank")
+              }
+            />
+            <span className="emp-badge">{image.employeeName}</span>
+          </div>
         ))}
       </div>
     </div>

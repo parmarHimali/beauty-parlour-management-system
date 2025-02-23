@@ -1,6 +1,5 @@
 # Node.js modules
 node_modules/
-uploads/
 
 # Environment files
 .env

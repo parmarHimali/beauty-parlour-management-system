@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import axios from "axios";
 
@@ -42,14 +42,17 @@ import EmpAppointmentDetails from "./components/employees/EmpAppointmentDetails.
 import EmailVerify from "./components/auth/EmailVerify.jsx";
 import AllService from "./components/employees/AllService.jsx";
 import EmpServiceDetail from "./components/employees/EmpServiceDetail.jsx";
+import Loading from "./components/Loading.jsx";
 
 const App = () => {
   const { isAuthorized, setIsAuthorized, setUser, user } =
     useContext(UserContext);
+  const [loading, setLoading] = useState(false);
   // console.log(user);
 
   useEffect(() => {
     const fetchUser = async () => {
+      setLoading(true);
       try {
         const { data } = await axios.get(
           "http://localhost:4000/api/users/getUser",
@@ -60,11 +63,17 @@ const App = () => {
       } catch (error) {
         setUser(null);
         setIsAuthorized(false);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchUser();
   }, [isAuthorized]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   const renderRoutes = () => {
     if (!isAuthorized) {
@@ -153,7 +162,7 @@ const App = () => {
             <div className="main-content">
               <EmpHeader />
               <Routes>
-                <Route path="/" element={<EmpDashboard />} />
+                <Route path="/emp" element={<EmpDashboard />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/emp/all-services" element={<AllService />} />
                 <Route
@@ -167,7 +176,6 @@ const App = () => {
               </Routes>
             </div>
           </div>
-          {/* <Footer /> */}
         </>
       );
     }

@@ -27,11 +27,10 @@ const BookedDetails = () => {
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
-    setFilteredAppointments(
-      appointments.filter((appointment) =>
-        appointment.serviceName.toLowerCase().includes(query)
-      )
+    const updated = appointments.filter((appointment) =>
+      appointment.serviceName.toLowerCase().includes(query)
     );
+    setFilteredAppointments(updated);
   };
 
   const formatTime = (time) => {
@@ -63,7 +62,7 @@ const BookedDetails = () => {
     return `${endHours}:${endMinutes.toString().padStart(2, "0")} ${ampm}`;
   };
   return (
-    <div className="appointments-list" style={{ height: "90vh" }}>
+    <div className="appointments-list">
       <div className="heading heading-container">
         <h2>You booked Appointments</h2>
         <div className="input-wrapper">
@@ -73,13 +72,13 @@ const BookedDetails = () => {
             value={searchQuery}
             onChange={handleSearch}
           />
-          <MdSearch />
+          <MdSearch style={{ top: "6px" }} />
         </div>
       </div>
 
       <div className="appointments-cards">
         {filteredAppointments.length > 0 ? (
-          filteredAppointments.map((appointment) => {
+          filteredAppointments.reverse().map((appointment) => {
             const hours = Math.floor(appointment.serviceDuration / 60);
             const minutes = appointment.serviceDuration % 60;
             return (

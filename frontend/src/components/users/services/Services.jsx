@@ -8,11 +8,13 @@ import {
 } from "react-icons/md";
 import { UserContext } from "../../../context/userContext";
 import { toast } from "react-hot-toast";
+import Loading from "../../Loading";
 
 const Services = () => {
   const [services, setServices] = useState([]);
   const [category, setCategory] = useState({});
   const [filteredServices, setFilteredServices] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const { cid } = useParams();
   const navigateTo = useNavigate();
@@ -20,6 +22,7 @@ const Services = () => {
 
   useEffect(() => {
     const fetchCategoryDetail = async () => {
+      setLoading(true);
       try {
         const { data } = await axios.get(
           `http://localhost:4000/api/category/${cid}`
@@ -27,11 +30,14 @@ const Services = () => {
         setCategory(data.category[0]);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchCategoryDetail();
     const fetchService = async () => {
       try {
+        setLoading(true);
         const { data } = await axios.get(
           `http://localhost:4000/api/services/${cid}`
         );
@@ -39,6 +45,8 @@ const Services = () => {
         setFilteredServices(data.services);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchService();
@@ -87,6 +95,9 @@ const Services = () => {
       </div>
     );
   };
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <>

@@ -5,9 +5,7 @@ import {
   MdOutlineStarHalf,
 } from "react-icons/md";
 import { UserContext } from "../../../context/UserContext";
-import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { FaCartPlus } from "react-icons/fa";
 import { CartContext } from "../../../context/CartContext";
 import CartForm from "../CartForm";
 import { IoAddCircle } from "react-icons/io5";
@@ -15,7 +13,6 @@ import { IoAddCircle } from "react-icons/io5";
 const ServiceHeader = ({ service }) => {
   const { setShowLogin, isAuthorized, user } = useContext(UserContext);
   const { cart, setCart, showCart, setShowCart } = useContext(CartContext);
-  console.log(showCart);
 
   const handleBookAppointment = () => {
     if (isAuthorized) {
@@ -81,6 +78,7 @@ const ServiceHeader = ({ service }) => {
           showCart={showCart}
           setShowCart={setShowCart}
           setCart={setCart}
+          cart={cart}
         />
       )}
     </div>

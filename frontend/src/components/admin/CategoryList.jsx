@@ -3,19 +3,28 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { MdSearch } from "react-icons/md";
 import { Link } from "react-router-dom";
+import Loading from "../Loading";
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const { data } = await axios.get(
-        "http://localhost:4000/api/category/all-categories"
-      );
-      setCategories(data.categories);
-      setFilteredCategories(data.categories.reverse());
+      try {
+        setLoading(true);
+        const { data } = await axios.get(
+          "http://localhost:4000/api/category/all-categories"
+        );
+        setCategories(data.categories);
+        setFilteredCategories(data.categories.reverse());
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchCategories();
   }, []);
@@ -26,6 +35,7 @@ const CategoryList = () => {
     );
     if (isDlt) {
       try {
+        setLoading(true);
         const { data } = await axios.delete(
           `http://localhost:4000/api/category/delete/${cid}`
         );
@@ -39,9 +49,14 @@ const CategoryList = () => {
         setFilteredCategories(updatedCategories);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     }
   };
+  if (loading) {
+    return <Loading />;
+  }
 
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();

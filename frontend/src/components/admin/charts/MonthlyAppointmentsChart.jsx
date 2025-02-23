@@ -23,12 +23,13 @@ ChartJS.register(
   Legend
 );
 
-const MonthlyAppointmentsChart = () => {
+const MonthlyAppointmentsChart = ({ setLoading }) => {
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(
           "http://localhost:4000/api/appointment/monthly-chart"
         ); // Adjust URL
@@ -82,6 +83,8 @@ const MonthlyAppointmentsChart = () => {
         });
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 

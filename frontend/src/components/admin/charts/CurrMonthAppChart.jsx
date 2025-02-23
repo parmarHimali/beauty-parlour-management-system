@@ -21,17 +21,17 @@ ChartJS.register(
   Legend
 );
 
-const CurrMonthAppChart = () => {
+const CurrMonthAppChart = ({ setLoading }) => {
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
+    setLoading(true);
     const fetchData = async () => {
       try {
         const response = await axios.get(
           "http://localhost:4000/api/appointment/currMonth-chart"
         );
         const data = response.data;
-        console.log(data);
 
         // Extract labels (dates) and values (appointments count)
         const labels = data.map((item) => item._id); // Dates
@@ -51,6 +51,8 @@ const CurrMonthAppChart = () => {
         });
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 

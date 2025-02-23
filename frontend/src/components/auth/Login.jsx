@@ -125,6 +125,12 @@ const Login = () => {
       if (data.user.role == "Admin") {
         navigateTo("/admin/dashboard");
       }
+      if (data.user.role == "Employee") {
+        navigateTo("/emp");
+      }
+      if (data.user.role == "User") {
+        navigateTo("/");
+      }
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed");
       setIsAuthorized(false);

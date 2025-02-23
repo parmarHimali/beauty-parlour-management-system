@@ -33,10 +33,17 @@ const serviceSchema = new mongoose.Schema({
     type: String, // Main display image
     required: true,
   },
-  employeeImages: {
-    type: [String], // Array for images uploaded by employees
-    default: [],
-  },
+  // employeeImages: {
+  //   type: [String], // Array for images uploaded by employees
+  //   default: [],
+  // },
+  employeeImages: [
+    {
+      imageUrl: { type: String, required: true }, // Image path
+      employeeName: { type: String, required: true }, // Name of uploader
+    },
+  ],
+
   serviceHighlights: {
     type: [String], // Array to store multiple highlights as bullet points
     required: true,

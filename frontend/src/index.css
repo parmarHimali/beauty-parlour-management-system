@@ -1222,3 +1222,16 @@ table.invoice-table tr:nth-child(odd) {
   text-align: right;
   margin: 0 0 20px 0;
 }
+
+.gallery-emp {
+  position: relative;
+}
+.gallery-emp .emp-badge {
+  position: absolute;
+  background-color: #474747;
+  color: white;
+  right: 5px;
+  padding: 0px 4px;
+  border-radius: 4px;
+  bottom: 10px;
+}

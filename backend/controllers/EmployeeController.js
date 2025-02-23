@@ -93,7 +93,7 @@ export const employeeByService = catchAsyncError(async (req, res, next) => {
     return res.status(400).json({ message: "Invalid service ID" });
   }
 
-  console.log("Service ID:", sid);
+  // console.log("Service ID:", sid);
 
   const employees = await Employee.find({
     speciality: { $in: [new mongoose.Types.ObjectId(sid)] },
@@ -101,7 +101,7 @@ export const employeeByService = catchAsyncError(async (req, res, next) => {
     .populate("speciality")
     .populate("userId", "name");
 
-  console.log(employees);
+  // console.log(employees);
 
   if (employees.length === 0) {
     return res
@@ -151,13 +151,13 @@ export const deleteEmployee = catchAsyncError(async (req, res, next) => {
 });
 
 export const getEmployeeSpeciality = catchAsyncError(async (req, res, next) => {
-  console.log(req.user);
+  // console.log(req.user);
   // const userId = req.user._id;
   const { uid } = req.params;
   const employee = await Employee.findOne({ userId: uid }).populate(
     "speciality"
   );
-  console.log(employee);
+  // console.log(employee);
 
   if (!employee) {
     return next(new ErrorHandler("Employee not found!", 404));
@@ -167,4 +167,42 @@ export const getEmployeeSpeciality = catchAsyncError(async (req, res, next) => {
     success: true,
     employee,
   });
+});
+
+export const profile = catchAsyncError(async (req, res, next) => {
+  try {
+    const employee = await Employee.findOne({ userId: req.user._id })
+      .populate("userId", "name email phone") // Populating user details
+      .populate("speciality", "name price"); // Populating services
+
+    if (!employee) {
+      return res.status(404).json({ message: "Employee profile not found" });
+    }
+
+    res.status(200).json(employee);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+export const photoChange = catchAsyncError(async (req, res, next) => {
+  // console.log("skajdnjn");
+
+  try {
+    // console.log("File received:", req.file); // Debugging
+    if (!req.file) {
+      return res.status(400).json({ error: "No image uploaded!" });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.id,
+      { photo: `/uploads/${req.file.filename}` },
+      { new: true }
+    ).select("photo");
+
+    res.json({ message: "Profile photo updated!", photo: updatedUser.photo });
+  } catch (error) {
+    console.error("Server error:", error); // Debugging
+    res.status(500).json({ error: "Failed to update profile photo" });
+  }
 });

@@ -27,8 +27,8 @@ export const bookAppointment = catchAsyncError(async (req, res, next) => {
     !serviceId ||
     !employeeId ||
     !date ||
-    !time ||
-    !categoryId
+    !time
+    // !categoryId
   ) {
     return next(new ErrorHandler("All fields are required", 400));
   }
@@ -88,7 +88,7 @@ export const bookAppointment = catchAsyncError(async (req, res, next) => {
     employeeId,
     date,
     time,
-    categoryId,
+    // categoryId,
     phone,
   });
 

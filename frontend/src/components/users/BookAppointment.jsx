@@ -14,7 +14,8 @@ const BookAppointment = () => {
   const [availableTimes, setAvailableTimes] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState("");
   const [bookedTimes, setBookedTimes] = useState([]);
-
+  const [name, setName] = useState(user.name);
+  const [phone, setPhone] = useState(user.phone);
   useEffect(() => {
     const fetchCategories = async () => {
       const { data } = await axios.get(
@@ -128,8 +129,8 @@ const BookAppointment = () => {
               <input
                 type="text"
                 placeholder="Enter your Name"
-                value={user.name}
-                // readOnly
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 required
               />
             </div>
@@ -140,8 +141,8 @@ const BookAppointment = () => {
               <input
                 type="number"
                 placeholder="Enter your Phone number"
-                value={user.phone}
-                // readOnly
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 required
               />
             </div>

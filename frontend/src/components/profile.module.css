@@ -1,156 +1,114 @@
-/* Profile Container */
 .profile-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 40px;
-    background-color: #f5f5f5;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    width: 60vw;
-    margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 70vw;
+  margin: auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
 }
 
-/* Profile Image Container */
+.profile-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+/* Profile Image Section */
 .profile-img-wrapper {
-    position: relative;
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid #ddd;
-    margin-bottom: 10px;
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 10%;
+  overflow: hidden;
+  border: 3px solid grey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Profile Image */
 .profile-img-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-/* Plus Icon (Instagram-style) */
-.profile-img-wrapper .add-icon {
-    position: absolute;
-    bottom: 15px;
-    right: 10px;
-    background-color: #007bff;
-    color: white;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 18px;
-    cursor: pointer;
-    border: 2px solid white;
+.add-icon {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 0px;
+  right: 0px;
+  background: #333;
+  color: white;
+  font-size: 18px;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
-/* Sections (Personal & Work) */
+/* Horizontal Card Layout */
+.mainProfile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  margin-top: 20px;
+  background: #fafafa;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
 .personal,
 .work {
-    width: 100%;
-    padding: 15px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-top: 15px;
+  width: 45%;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .personal h1,
 .work h1 {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 10px;
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #444;
+  border-bottom: 2px solid;
+  padding-bottom: 5px;
 }
 
-/* Labels */
-/* label {
-    font-weight: bold;
-    display: block;
-    margin-top: 10px;
-    color: #555;
-} */
-
-/* Input Fields */
-input,
-select,
-textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
+.p-detail {
+  font-size: 16px;
+  color: #454444;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-/* Buttons */
-.edit-btn,
-.save-btn,
-.cancel-btn {
-    margin: 10px 5px;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: 0.3s;
+.p-detail span:first-child {
+  font-weight: bold;
+  color: #333;
 }
 
-.edit-btn {
-    background-color: #007bff;
-    color: white;
-}
+/* Responsive Design */
+@media (max-width: 768px) {
+  .mainProfile {
+    flex-direction: column;
+    align-items: center;
+  }
 
-.save-btn {
-    background-color: #28a745;
-    color: white;
-}
-
-.cancel-btn {
-    background-color: #dc3545;
-    color: white;
-}
-
-/* Hover Effects */
-.edit-btn:hover {
-    background-color: #0056b3;
-}
-
-.save-btn:hover {
-    background-color: #218838;
-}
-
-.cancel-btn:hover {
-    background-color: #c82333;
-}
-
-/* Button Container */
-.btn-group {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    margin-top: 15px;
-}
-
-.p-detail p {
-    margin: 10px 0;
-}
-
-.p-detail p span:first-child {
-    font-weight: 500;
-    color: #555;
-}
-
-.p-detail p span:last-child {
-    font-weight: 500;
-    color: #333;
-}
-
-.mainProfile {
-    display: flex;
-    width: 100%;
-    gap: 20px;
+  .personal,
+  .work {
+    width: 90%;
+    margin-bottom: 15px;
+  }
 }

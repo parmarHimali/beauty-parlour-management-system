@@ -4,7 +4,7 @@ const appointmentSchema = new mongoose.Schema({
   categoryId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
-    required: true,
+    required: false,
   },
   userId: {
     // New field to store reference to the customer (User)

@@ -25,7 +25,7 @@ const EmpServiceDetail = () => {
     };
 
     fetchService();
-  }, [sid, service]);
+  }, [sid]);
   return (
     <>
       <div className="service-detail">

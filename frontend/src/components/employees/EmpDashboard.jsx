@@ -10,9 +10,7 @@ const EmpDashboard = () => {
   const [appointments, setAppointments] = useState([]);
   const [filteredAppointments, setFilteredAppointments] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [status, setStatus] = useState("");
   const { user } = useContext(UserContext);
-  console.log(appointments);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -37,7 +35,6 @@ const EmpDashboard = () => {
       )
     );
   };
-  console.log(status);
   const handleStatusChange = async (e, appointmentId) => {
     const newStatus = e.target.value;
 
@@ -116,7 +113,7 @@ const EmpDashboard = () => {
               <div key={appointment._id} className="appointment-card">
                 <div className="card-header">
                   <h3 style={{ textDecoration: "underline" }}>
-                    {appointment.userId.name}
+                    {appointment?.userId?.name}
                   </h3>
                   <select
                     className={`status ${appointment.status.toLowerCase()}`}

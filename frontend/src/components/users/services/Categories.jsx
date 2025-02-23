@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import Loading from "./../../Loading";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchCategories = async () => {
+      setLoading(true);
       try {
         const { data } = await axios.get(
           "http://localhost:4000/api/category/all-categories"
@@ -15,10 +18,15 @@ const Categories = () => {
         setCategories(data.categories);
       } catch (error) {
         toast.error(error.response.data.message);
+      } finally {
+        setLoading(false);
       }
     };
     fetchCategories();
   }, []);
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <>
       <div className="main-title">

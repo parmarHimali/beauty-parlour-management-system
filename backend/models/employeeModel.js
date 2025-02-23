@@ -9,6 +9,7 @@ const employeeSchema = new mongoose.Schema({
   photo: {
     type: String,
     required: false,
+    default: "/images/user.jpg",
   },
   speciality: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Service" }], // Array of service IDs
@@ -36,20 +37,3 @@ const employeeSchema = new mongoose.Schema({
 
 const Employee = mongoose.model("Employee", employeeSchema);
 export default Employee;
-// age: {
-//   type: Number,
-//   required: true,
-// },
-// gender: {
-//   type: String,
-//   enum: ["Male", "Female", "Other"],
-//   required: true,
-// },
-// address: {
-//   type: String,
-//   required: true,
-// },
-// joiningDate: {
-//   type: Date,
-//   required: true,
-// },

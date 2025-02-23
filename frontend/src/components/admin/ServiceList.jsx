@@ -8,14 +8,17 @@ import {
   MdSearch,
 } from "react-icons/md";
 import { Link } from "react-router-dom";
+import Loading from "../Loading";
 
 const ServiceList = () => {
   const [services, setServices] = useState([]);
   const [searchQuery, setSearchQuery] = useState(""); // State to store search query
   const [filteredServices, setFilteredServices] = useState([]); // State to store filtered services
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchService = async () => {
+      setLoading(true);
       try {
         const { data } = await axios.get(
           "http://localhost:4000/api/services/all-service"
@@ -24,6 +27,8 @@ const ServiceList = () => {
         setFilteredServices(data.services.reverse());
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchService();
@@ -43,6 +48,7 @@ const ServiceList = () => {
     );
     if (isDlt) {
       try {
+        setLoading(true);
         const { data } = await axios.delete(
           `http://localhost:4000/api/services/dlt-service/${sid}`
         );
@@ -58,9 +64,14 @@ const ServiceList = () => {
         toast.error(
           error.response?.data?.message || "Failed to delete service"
         );
+      } finally {
+        setLoading(false);
       }
     }
   };
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="service-list-container">
