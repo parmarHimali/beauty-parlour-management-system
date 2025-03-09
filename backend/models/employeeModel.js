@@ -6,7 +6,7 @@ const employeeSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  photo: {
+  image: {
     type: String,
     required: false,
     default: "/images/user.jpg",
@@ -29,8 +29,15 @@ const employeeSchema = new mongoose.Schema({
   },
   bookedTimes: [
     {
-      date: String,
-      times: [String],
+      date: { type: String, required: true },
+      times: [
+        {
+          time: { type: String, required: true },
+          serviceId: { type: mongoose.Schema.Types.ObjectId, ref: "Service" },
+          userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+          phone: { type: String, required: true },
+        },
+      ],
     },
   ],
 });

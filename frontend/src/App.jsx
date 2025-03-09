@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import axios from "axios";
-
 import { UserContext } from "./context/userContext.jsx";
 import "./admin.css";
 import "./index.css";
@@ -43,6 +42,9 @@ import EmailVerify from "./components/auth/EmailVerify.jsx";
 import AllService from "./components/employees/AllService.jsx";
 import EmpServiceDetail from "./components/employees/EmpServiceDetail.jsx";
 import Loading from "./components/Loading.jsx";
+import SalesReport from "./components/admin/reports/SalesReport.jsx";
+import EmpHome from "./components/employees/EmpHome.jsx";
+import AllEmpAppointments from "./components/employees/AllEmpAppointments.jsx";
 
 const App = () => {
   const { isAuthorized, setIsAuthorized, setUser, user } =
@@ -106,7 +108,6 @@ const App = () => {
             <Route path="/booked" element={<BookedDetails />} />
             <Route path="/services/:cid" element={<Services />} />
             <Route path="/about" element={<About />} />
-            {/* <Route path="/cart/:sid" element={<CartForm />} /> */}
             <Route path="/s-detail/:sid" element={<ServiceDetail />} />
             <Route path="/appointment/:aid" element={<AppointmentDetails />} />
           </Routes>
@@ -134,6 +135,7 @@ const App = () => {
                 path="/admin/add-employee"
                 element={<RegisterEmployee />}
               />
+              <Route path="/sales-report" element={<SalesReport />} />
               <Route
                 path="/admin/appointment/:aid"
                 element={<AppointmentDetails />}
@@ -148,6 +150,7 @@ const App = () => {
               />
               <Route path="/admin/add-service" element={<AddService />} />
               <Route path="/admin/add-category" element={<AddCategory />} />
+              <Route path="/admin/add-app" element={<BookAppointment />} />
               <Route path="/admin/see-more/:sid" element={<ServiceDetail />} />
             </Routes>
           </div>
@@ -165,6 +168,8 @@ const App = () => {
                 <Route path="/emp" element={<EmpDashboard />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/emp/all-services" element={<AllService />} />
+                <Route path="/emp/charts" element={<EmpHome />} />
+                <Route path="/emp/all" element={<AllEmpAppointments />} />
                 <Route
                   path="emp/services/:sid"
                   element={<EmpServiceDetail />}

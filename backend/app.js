@@ -7,6 +7,7 @@ import categoryRouter from "./routes/categoryRouter.js";
 import serviceRouter from "./routes/ServiceRouter.js";
 import reviewRouter from "./routes/ReviewRouter.js";
 import employeeRouter from "./routes/employeeRouter.js";
+import reportRouter from "./routes/reportRouter.js";
 import appointmentsRouter from "./routes/appointmentRouter.js";
 import { dbConnection } from "./database/dbConnection.js";
 import { errorMiddleware } from "./middlewares/error.js";
@@ -41,6 +42,7 @@ app.use("/api/services", serviceRouter);
 app.use("/api/reviews", reviewRouter);
 app.use("/api/employee", employeeRouter);
 app.use("/api/appointment", appointmentsRouter);
+app.use("/api/reports", reportRouter);
 
 dbConnection();
 app.use(errorMiddleware);

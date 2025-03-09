@@ -19,7 +19,7 @@ const CustomerList = () => {
         const { data } = await axios.get(
           "http://localhost:4000/api/users/getCustomers"
         );
-        setCustomers(data.customers.reverse());
+        setCustomers(data.customers);
         setFilteredCustomers(data.customers.reverse());
       } catch (error) {
         console.log(error);

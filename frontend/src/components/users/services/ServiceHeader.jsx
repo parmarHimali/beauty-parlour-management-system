@@ -7,8 +7,8 @@ import {
 import { UserContext } from "../../../context/UserContext";
 import toast from "react-hot-toast";
 import { CartContext } from "../../../context/CartContext";
-import CartForm from "../CartForm";
 import { IoAddCircle } from "react-icons/io5";
+import BookForm from "../BookForm";
 
 const ServiceHeader = ({ service }) => {
   const { setShowLogin, isAuthorized, user } = useContext(UserContext);
@@ -74,7 +74,7 @@ const ServiceHeader = ({ service }) => {
         </button>
       )}
       {showCart && (
-        <CartForm
+        <BookForm
           showCart={showCart}
           setShowCart={setShowCart}
           setCart={setCart}

@@ -4,6 +4,7 @@ import Review from "../models/ReviewModel.js";
 import fs from "fs";
 import Service from "../models/serviceModel.js";
 import Employee from "../models/employeeModel.js";
+import Appointment from "../models/appointmentModel.js";
 
 // Add a new service
 export const addService = catchAsyncError(async (req, res, next) => {
@@ -60,7 +61,7 @@ export const fetchServices = catchAsyncError(async (req, res, next) => {
   const services = await Service.find({ categoryId: cid });
 
   if (!services || services.length === 0) {
-    return next(new ErrorHandler("No service found for this category", 404));
+    return next(new ErrorHandler("No service found for this category", 400));
   }
 
   res.status(200).json({
@@ -218,5 +219,27 @@ export const updateService = catchAsyncError(async (req, res, next) => {
     success: true,
     message: "Service updated successfully!",
     service,
+  });
+});
+
+export const getMostRequestedServices = catchAsyncError(async (req, res) => {
+  const appointments = await Appointment.find();
+
+  const serviceCount = {};
+  appointments.forEach(({ serviceId }) => {
+    serviceCount[serviceId] = (serviceCount[serviceId] || 0) + 1;
+  });
+
+  const serviceNames = await Service.find({
+    _id: { $in: Object.keys(serviceCount) },
+  });
+
+  const formattedData = serviceNames.map((service) => ({
+    name: service.name,
+    count: serviceCount[service._id] || 0,
+  }));
+  res.status(200).json({
+    success: true,
+    formattedData,
   });
 });

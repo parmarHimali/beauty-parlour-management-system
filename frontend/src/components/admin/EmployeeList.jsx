@@ -19,7 +19,7 @@ const EmployeeList = () => {
         const { data } = await axios.get(
           "http://localhost:4000/api/employee/all"
         );
-        setEmployees(data.employees.reverse());
+        setEmployees(data.employees);
         setFilteredEmployees(data.employees.reverse());
       } catch (error) {
         console.log(error);

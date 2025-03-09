@@ -1,3 +1,22 @@
+:root {
+  --pink1: #ffe4d6;
+  --pink2: #f5d6eb;
+  --pink3: #d988b9;
+  --pink4: #b0578d;
+  --pink-dark: #973770;
+  --pink-dark2: #7b2258;
+  --pink-darkest: #621041;
+  --light-blue: #aee1e1;
+  --grey: #333;
+  --pink: #fdd3d7;
+  --input-bg: rgba(9, 9, 9, 0.169);
+  --green: #287171;
+  --grey-shadow: 1px 4px 4px gray;
+  --black-shadow: 2px 2px 5px rgba(26, 24, 24, 0.342);
+  --ff-inter: "Inter", system-ui;
+  --ff-cursive: "Dancing Script", cursive;
+  --nav-shadow: 0px 1px 9px 0px var(--grey);
+}
 .add-gallery:hover {
   transform: scale(1);
   cursor: default;
@@ -19,4 +38,56 @@
 .add-gallery svg:hover {
   transform: scale(1.1);
   cursor: pointer;
+}
+
+/* preview image upload  */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 400px;
+}
+.popup-content h3 {
+  color: var(--green);
+}
+.preview-image {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  margin-bottom: 15px;
+}
+
+.upload-btn {
+  background: var(--green);
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.cancel-btn {
+  background: #555;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+}
+.upload-btn:hover {
+  background-color: #1b5b5b;
+}
+.cancel-btn:hover {
+  background-color: #3d3d3d;
 }

@@ -21,13 +21,12 @@ ChartJS.register(
   Legend
 );
 
-const CustomerChart = ({ setLoading }) => {
+const CustomerChart = () => {
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        setLoading(true);
         const { data } = await axios.get(
           "http://localhost:4000/api/users/customer-stats",
           {
@@ -54,8 +53,6 @@ const CustomerChart = ({ setLoading }) => {
           "Error fetching customer statistics:",
           error.response?.data || error.message
         );
-      } finally {
-        setLoading(false);
       }
     };
 

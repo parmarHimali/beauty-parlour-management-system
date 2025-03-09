@@ -33,39 +33,9 @@ const AppointmentDetails = () => {
   }, [aid]);
 
   if (!appointment) {
-    // return <h2 className="loading-text">Loading appointment details...</h2>;
     return <Loading />;
   }
 
-  // Helper function to format time
-  const formatTime = (time) => {
-    let [hours, minutes] = time.split(":").map(Number);
-    let ampm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12 || 12;
-    return `${hours}:${minutes.toString().padStart(2, "0")} ${ampm}`;
-  };
-
-  // Helper function to calculate end time
-  const calculateEndTime = (startTime, duration) => {
-    let [startHours, startMinutes] = startTime.split(":").map(Number);
-    let durationHours = Math.floor(duration / 60);
-    let durationMinutes = duration % 60;
-
-    let endHours = startHours + durationHours;
-    let endMinutes = startMinutes + durationMinutes;
-
-    if (endMinutes >= 60) {
-      endHours += Math.floor(endMinutes / 60);
-      endMinutes %= 60;
-    }
-
-    let ampm = endHours >= 12 ? "PM" : "AM";
-    endHours = endHours % 12 || 12;
-
-    return `${endHours}:${endMinutes.toString().padStart(2, "0")} ${ampm}`;
-  };
-
-  // Format Apply Date
   const formatDate = (isoString) => {
     const date = new Date(isoString);
     return date.toLocaleString();
@@ -157,10 +127,7 @@ const AppointmentDetails = () => {
           </p>
           <p>
             Appointment Time: <br />
-            <strong>
-              {formatTime(appointment.time)} -
-              {calculateEndTime(appointment.time, appointment.serviceDuration)}
-            </strong>
+            <strong>{appointment.time}</strong>
           </p>
           <p>
             Applied: <br />
@@ -245,13 +212,7 @@ const AppointmentDetails = () => {
               </tr>
               <tr>
                 <td>Appointment Time:</td>
-                <td>
-                  {formatTime(appointment.time)} -
-                  {calculateEndTime(
-                    appointment.time,
-                    appointment.serviceDuration
-                  )}
-                </td>
+                <td>{appointment.time}</td>
               </tr>
               <tr>
                 <td> Applied: </td>

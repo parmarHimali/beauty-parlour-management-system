@@ -1,57 +1,67 @@
-import React, { useContext, useEffect, useState } from "react";
-import styles from "../profile.module.css"; // Import the CSS module
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import styles from "../profile.module.css";
 import { IoMdAdd } from "react-icons/io";
-const Profile = () => {
-  // State for profile details
-  const [profile, setProfile] = useState(null);
+import toast from "react-hot-toast";
 
+const Profile = () => {
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [preview, setPreview] = useState(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const { data } = await axios.get(
           "http://localhost:4000/api/employee/profile",
-          { withCredentials: true }
+          {
+            withCredentials: true,
+          }
         );
-        console.log(data);
         setProfile(data);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching profile:", error);
       }
     };
     fetchProfile();
   }, []);
 
-  const handleImageChange = async (e) => {
+  const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const formData = new FormData();
-      formData.append("photo", file);
-      console.log([...formData]);
+      setSelectedImage(file);
+      setPreview(URL.createObjectURL(file));
+    }
+  };
 
-      try {
-        const { data } = await axios.patch(
-          "http://localhost:4000/api/employee/changePhoto",
-          formData,
-          {
-            headers: { "Content-Type": "multipart/form-data" },
-          }
-        );
+  const handleUpload = async () => {
+    if (!selectedImage || !profile?._id) return;
 
-        // 🔥 Ensure frontend displays updated image correctly
-        setProfile((prev) => ({
-          ...prev,
-          photo: `http://localhost:4000${data.photo}`,
-        }));
-      } catch (error) {
-        console.error(
-          "Error updating profile photo:",
-          error.response?.data?.error || error.message
-        );
-      }
+    const formData = new FormData();
+    formData.append("image", selectedImage);
+
+    setLoading(true);
+    try {
+      const { data } = await axios.patch(
+        `http://localhost:4000/api/employee/changePhoto/${profile._id}`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      setProfile((prev) => ({
+        ...prev,
+        image: data.employee.image,
+      }));
+
+      toast.success(data.message);
+      setPreview(null);
+      setSelectedImage(null);
+    } catch (error) {
+      console.error("Error updating profile image:", error);
+      toast.error(error.response?.data?.error || error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -60,10 +70,8 @@ const Profile = () => {
       {profile && (
         <>
           <h2>Your Profile</h2>
-
-          {/* Profile Image Section */}
           <div className={styles["profile-img-wrapper"]}>
-            <img src={`http://localhost:4000${profile.photo}`} alt="Profile" />
+            <img src={`http://localhost:4000${profile.image}`} alt="Profile" />
             <label className={styles["add-icon"]}>
               <IoMdAdd />
               <input
@@ -75,11 +83,9 @@ const Profile = () => {
             </label>
           </div>
 
-          {/* Personal Details */}
           <div className={styles.mainProfile}>
             <div className={styles.personal}>
               <h1>Personal Details</h1>
-
               <div className={styles["p-detail"]}>
                 <p>
                   <span>Name:</span> <span>{profile.userId.name}</span>
@@ -93,21 +99,18 @@ const Profile = () => {
               </div>
             </div>
 
-            {/* Work Details */}
             <div className={styles.work}>
               <h1>Work Details</h1>
-
               <div className={styles["p-detail"]}>
                 <p>
                   <span>Salary:</span> <span>₹{profile.salary}</span>
                 </p>
                 <div>
-                  <span>Speciality:</span>{" "}
+                  <span>Speciality:</span>
                   <div>
-                    {profile.speciality &&
-                      profile.speciality.map((spec) => (
-                        <p key={spec._id}>{spec.name}</p>
-                      ))}
+                    {profile.speciality?.map((spec) => (
+                      <p key={spec._id}>{spec.name}</p>
+                    ))}
                   </div>
                 </div>
                 <p>
@@ -117,13 +120,33 @@ const Profile = () => {
                 <p>
                   <span>Position:</span> <span>{profile.position}</span>
                 </p>
-                <p>
-                  {/* <span>Joining Date:</span> <span>{profile.joiningDate}</span> */}
-                </p>
               </div>
             </div>
           </div>
         </>
+      )}
+
+      {preview && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h3>Change profile</h3>
+            <img
+              src={preview}
+              alt="your selected profile"
+              className="preview-image"
+            />
+            <button
+              onClick={handleUpload}
+              disabled={loading}
+              className="upload-btn"
+            >
+              {loading ? "Uploading..." : "Change Profile"}
+            </button>
+            <button onClick={() => setPreview(null)} className="cancel-btn">
+              Cancel
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

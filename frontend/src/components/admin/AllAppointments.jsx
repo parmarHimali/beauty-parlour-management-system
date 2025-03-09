@@ -45,28 +45,30 @@ const AllAppointments = () => {
     setFilteredAppointments(updated);
   };
 
-  const formatTime = (time) => {
-    let [hours, minutes] = time.split(":").map(Number);
-    let ampm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12 || 12;
-    return `${hours}:${minutes.toString().padStart(2, "0")} ${ampm}`;
-  };
-
-  const calculateEndTime = (startTime, duration) => {
-    let [startHours, startMinutes] = startTime.split(":").map(Number);
-    let durationHours = Math.floor(duration / 60);
-    let durationMinutes = duration % 60;
-    let endHours = startHours + durationHours;
-    let endMinutes = startMinutes + durationMinutes;
-    if (endMinutes >= 60) {
-      endHours += Math.floor(endMinutes / 60);
-      endMinutes %= 60;
+  const handleDelete = async (aid) => {
+    const isDlt = confirm("Are you sure to delete appointment?");
+    if (isDlt) {
+      try {
+        const { data } = await axios.delete(
+          `http://localhost:4000/api/appointment/delete/${aid}`
+        );
+        toast.success(data.message);
+        setAppointments((prevAppointments) =>
+          prevAppointments.filter(
+            (appointment) => appointment.appointmentId !== aid
+          )
+        );
+        setFilteredAppointments((prevFiltered) =>
+          prevFiltered.filter(
+            (appointment) => appointment.appointmentId !== aid
+          )
+        );
+      } catch (error) {
+        console.log(error);
+        toast.error(error?.response?.data?.message);
+      }
     }
-    let ampm = endHours >= 12 ? "PM" : "AM";
-    endHours = endHours % 12 || 12;
-    return `${endHours}:${endMinutes.toString().padStart(2, "0")} ${ampm}`;
   };
-
   const columns = [
     {
       name: "Customer",
@@ -96,17 +98,14 @@ const AllAppointments = () => {
           row.serviceDuration % 60 == 0 ? "" : `${row.serviceDuration % 60} m`
         }`,
       sortable: true,
-      maxWidth: "20px",
+      // maxWidth: "20px",
       wrap: true,
+      width: "100px",
     },
     { name: "Date", selector: (row) => row.date, sortable: true },
     {
       name: "Time",
-      selector: (row) =>
-        `${formatTime(row.time)} - ${calculateEndTime(
-          row.time,
-          row.serviceDuration
-        )}`,
+      selector: (row) => row.time,
       sortable: true,
       width: "150px",
     },
@@ -123,15 +122,24 @@ const AllAppointments = () => {
     {
       name: "Action",
       cell: (row) => (
-        <Link
-          style={{ color: "var(--dark-green)" }}
-          to={`/admin/appointment/${row.appointmentId}`}
-        >
-          View Details
-        </Link>
+        <div style={{ display: "flex", gap: "10px" }}>
+          <Link
+            style={{ color: "var(--dark-green)" }}
+            to={`/admin/appointment/${row.appointmentId}`}
+          >
+            View
+          </Link>
+          <Link
+            style={{ color: "red" }}
+            onClick={() => handleDelete(row.appointmentId)}
+          >
+            Delete
+          </Link>
+        </div>
       ),
     },
   ];
+  console.log(appointments);
 
   return (
     <div className="appointments-list">
@@ -211,6 +219,30 @@ const customStyles = {
       justifyContent: "center",
       borderBottom: "1px solid var(--green)",
       borderRight: "1px solid var(--green)",
+    },
+  },
+  pagination: {
+    pageButtonsStyle: {
+      color: "var(--dark-green)",
+      fill: "var(--dark-green)",
+      backgroundColor: "transparent",
+      "&:hover": {
+        color: "var(--green)",
+        fill: "var(--green)",
+        backgroundColor: "transparent",
+      },
+      "&:focus": {
+        color: "var(--green)",
+        fill: "var(--green)",
+        backgroundColor: "transparent",
+      },
+      "&:disabled": {
+        color: "var(--gray)",
+        fill: "var(--gray)",
+        backgroundColor: "transparent",
+        cursor: "not-allowed",
+        opacity: 0.6,
+      },
     },
   },
 };

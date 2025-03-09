@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import axios from "axios";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  BarElement,
+  LineElement,
+  PointElement,
   Title,
   Tooltip,
   Legend,
@@ -15,17 +16,18 @@ import {
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  BarElement,
+  LineElement,
+  PointElement,
   Title,
   Tooltip,
   Legend
 );
 
-const CurrMonthAppChart = ({ setLoading }) => {
+const CurrMonthAppChart = () => {
   const [chartData, setChartData] = useState(null);
+  const [chartOptions, setChartOptions] = useState({});
 
   useEffect(() => {
-    setLoading(true);
     const fetchData = async () => {
       try {
         const response = await axios.get(
@@ -33,26 +35,58 @@ const CurrMonthAppChart = ({ setLoading }) => {
         );
         const data = response.data;
 
-        // Extract labels (dates) and values (appointments count)
-        const labels = data.map((item) => item._id); // Dates
-        const values = data.map((item) => item.count); // Bookings count
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth();
+        const lastDay = new Date(year, month + 1, 0).getDate();
+
+        const allDates = Array.from({ length: lastDay }, (_, i) => {
+          const day = i + 1;
+          return `${year}-${String(month + 1).padStart(2, "0")}-${String(
+            day
+          ).padStart(2, "0")}`;
+        });
+
+        const appointmentMap = data.reduce((acc, item) => {
+          acc[item._id] = item.count;
+          return acc;
+        }, {});
+
+        const values = allDates.map((date) => appointmentMap[date] || 0);
+        const maxCount = Math.max(...values);
+        const extraSpace = maxCount <= 3 ? 4 : Math.ceil(maxCount * 0.2);
+        const suggestedMax = Math.max(maxCount + extraSpace, 5);
 
         setChartData({
-          labels,
+          labels: allDates,
           datasets: [
             {
               label: "Appointments Per Day",
               data: values,
-              backgroundColor: "rgba(46, 144, 144, 0.785)", // Sky blue color
-              borderColor: "rgba(46, 144, 144, 0.537)",
-              borderWidth: 1,
+              borderColor: "rgba(46, 144, 144, 0.9)",
+              backgroundColor: "rgba(46, 144, 144, 0.3)",
+              borderWidth: 2,
+              pointBackgroundColor: "rgba(46, 144, 144, 1)",
+              pointRadius: 4,
+              tension: 0.3,
             },
           ],
         });
+
+        setChartOptions({
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                stepSize: 1,
+                suggestedMax: suggestedMax,
+              },
+            },
+          },
+        });
       } catch (error) {
         console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -60,10 +94,10 @@ const CurrMonthAppChart = ({ setLoading }) => {
   }, []);
 
   return (
-    <div style={{ width: "40%", margin: "0 auto" }}>
+    <div style={{ width: "60%", margin: "0 auto" }}>
       <h2 className="heading">Appointments This Month</h2>
       {chartData ? (
-        <Bar data={chartData} options={{ responsive: true }} />
+        <Line data={chartData} options={chartOptions} />
       ) : (
         <p>Loading...</p>
       )}

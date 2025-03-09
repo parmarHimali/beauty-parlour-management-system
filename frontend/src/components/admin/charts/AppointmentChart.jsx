@@ -14,12 +14,11 @@ const statusColors = {
   Cancelled: "#DC3545", // Red
 };
 
-const AppointmentChart = ({ setLoading }) => {
+const AppointmentChart = () => {
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       try {
         const response = await axios.get(
           "http://localhost:4000/api/appointment/appointment-stats"
@@ -49,8 +48,6 @@ const AppointmentChart = ({ setLoading }) => {
         });
       } catch (error) {
         console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
       }
     };
 

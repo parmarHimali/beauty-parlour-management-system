@@ -3,20 +3,18 @@ import CustomerChart from "./charts/CustomerChart";
 import AppointmentChart from "./charts/AppointmentChart";
 import MonthlyAppointmentsChart from "./charts/MonthlyAppointmentsChart";
 import CurrMonthAppChart from "./charts/CurrMonthAppChart";
-import Loading from "../Loading";
+
+import EmpAppChart from "./charts/EmpAppChart";
+import ServiceChart from "./charts/ServiceChart";
 
 const Dashboard = () => {
-  const [loading, setLoading] = useState(false);
-  if (loading) {
-    return <Loading />;
-  }
   return (
     <>
       <h1 className="heading" style={{ textAlign: "center", fontSize: "34px" }}>
         Dashboard
       </h1>
-      <CustomerChart setLoading={setLoading} loading={loading} />
-      <MonthlyAppointmentsChart setLoading={setLoading} loading={loading} />
+      <CustomerChart />
+      <MonthlyAppointmentsChart />
       <div
         style={{
           display: "flex",
@@ -27,9 +25,11 @@ const Dashboard = () => {
           padding: "10px 50px 30px",
         }}
       >
-        <AppointmentChart setLoading={setLoading} loading={loading} />
-        <CurrMonthAppChart setLoading={setLoading} loading={loading} />
+        <AppointmentChart />
+        <CurrMonthAppChart />
       </div>
+      <EmpAppChart />
+      <ServiceChart />
     </>
   );
 };

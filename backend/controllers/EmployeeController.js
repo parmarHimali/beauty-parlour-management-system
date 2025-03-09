@@ -3,6 +3,9 @@ import ErrorHandler from "../middlewares/error.js";
 import Employee from "../models/employeeModel.js";
 import User from "../models/userModel.js";
 import mongoose from "mongoose";
+import fs from "fs";
+import path from "path";
+import Appointment from "../models/appointmentModel.js";
 export const addEmployee = catchAsyncError(async (req, res, next) => {
   const {
     name,
@@ -43,6 +46,7 @@ export const addEmployee = catchAsyncError(async (req, res, next) => {
     phone,
     password,
     role: "Employee",
+    isVerified: true,
     // Fixed role as Employee
   });
 
@@ -62,30 +66,6 @@ export const addEmployee = catchAsyncError(async (req, res, next) => {
     employee,
   });
 });
-
-// export const employeeByService = catchAsyncError(async (req, res, next) => {
-//   const { sid } = req.params;
-//   console.log("service id  ", sid);
-//   const employees = await Employee.find({
-//     speciality: { $in: [sid] },
-//   })
-//     .populate("speciality")
-//     .populate("userId", "name");
-
-//   console.log(employees);
-
-//   if (employees.length === 0) {
-//     return res
-//       .status(404)
-//       .json({ message: "No employees found for this service" });
-//   }
-//   const employeeList = employees.map((employee) => employee.userId);
-
-//   res.status(200).json({
-//     success: true,
-//     employees,
-//   });
-// });
 
 export const employeeByService = catchAsyncError(async (req, res, next) => {
   const { sid } = req.params;
@@ -151,13 +131,10 @@ export const deleteEmployee = catchAsyncError(async (req, res, next) => {
 });
 
 export const getEmployeeSpeciality = catchAsyncError(async (req, res, next) => {
-  // console.log(req.user);
-  // const userId = req.user._id;
   const { uid } = req.params;
   const employee = await Employee.findOne({ userId: uid }).populate(
     "speciality"
   );
-  // console.log(employee);
 
   if (!employee) {
     return next(new ErrorHandler("Employee not found!", 404));
@@ -185,24 +162,139 @@ export const profile = catchAsyncError(async (req, res, next) => {
   }
 });
 
-export const photoChange = catchAsyncError(async (req, res, next) => {
-  // console.log("skajdnjn");
-
+export const updateEmployeeImage = async (req, res) => {
   try {
-    // console.log("File received:", req.file); // Debugging
+    const { id } = req.params;
+    const employee = await Employee.findById(id);
+    if (!employee) {
+      return res.status(404).json({ message: "Employee not found!" });
+    }
     if (!req.file) {
-      return res.status(400).json({ error: "No image uploaded!" });
+      return res.status(400).json({ message: "No image file provided!" });
+    }
+    const employeesFolder = path.join("uploads", "employees");
+    if (!fs.existsSync(employeesFolder)) {
+      fs.mkdirSync(employeesFolder, { recursive: true });
     }
 
-    const updatedUser = await User.findByIdAndUpdate(
-      req.user.id,
-      { photo: `/uploads/${req.file.filename}` },
-      { new: true }
-    ).select("photo");
+    // Define new file path in /uploads/employees
+    const newFilePath = path.join(employeesFolder, req.file.filename);
+    // Move to /uploads/employees
+    fs.renameSync(req.file.path, newFilePath);
 
-    res.json({ message: "Profile photo updated!", photo: updatedUser.photo });
+    // Delete old image if it exists
+    if (employee.image && typeof employee.image === "string") {
+      const oldImagePath = path.join(
+        "uploads/employees",
+        path.basename(employee.image)
+      );
+      if (fs.existsSync(oldImagePath)) {
+        fs.unlinkSync(oldImagePath);
+      }
+    }
+    // Update employee image path in database
+    employee.image = `/uploads/employees/${req.file.filename}`;
+    await employee.save();
+
+    res
+      .status(200)
+      .json({ message: "Profile updated successfully!", employee });
   } catch (error) {
-    console.error("Server error:", error); // Debugging
-    res.status(500).json({ error: "Failed to update profile photo" });
+    res.status(500).json({
+      message: "Internal Server Error",
+      error,
+    });
+  }
+};
+
+export const empChart = catchAsyncError(async (req, res) => {
+  try {
+    const { userId } = req.params;
+    console.log("Received userId:", userId);
+
+    // Find the employee from the given userId
+    const employee = await Employee.findOne({ userId: userId });
+    console.log("Found Employee:", employee);
+
+    if (!employee) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+
+    // Fetch all appointments for this employee & populate the service name
+    const appointments = await Appointment.find({
+      employeeId: employee._id,
+    }).populate("serviceId", "name"); // Populate serviceId and return only the 'name' field
+
+    // Initialize statistics
+    const appointmentsByDate = {};
+    const servicesCount = {};
+    const statusCount = {
+      Pending: 0,
+      Confirmed: 0,
+      Completed: 0,
+      Cancelled: 0,
+    };
+
+    // Process appointments
+    appointments.forEach(({ date, serviceId, status }) => {
+      // Count by date
+      appointmentsByDate[date] = (appointmentsByDate[date] || 0) + 1;
+
+      // Count services by name instead of ID
+      const serviceName = serviceId?.name || "Unknown Service";
+      servicesCount[serviceName] = (servicesCount[serviceName] || 0) + 1;
+
+      // Count status
+      statusCount[status] += 1;
+    });
+
+    res.json({
+      appointmentsByDate,
+      servicesCount,
+      statusCount,
+    });
+  } catch (error) {
+    console.error("Error fetching chart data:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
+export const calender = catchAsyncError(async (req, res, next) => {
+  try {
+    const { uid } = req.params;
+
+    const employee = await Employee.findOne({ userId: uid });
+    if (!employee) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Employee not found" });
+    }
+
+    const appointments = await Appointment.find({
+      employeeId: employee._id,
+    }).populate("serviceId userId");
+
+    const events = appointments.map((appt) => ({
+      id: appt._id,
+      title: `${appt.customerName || appt.userId.username} - ${
+        appt.serviceId.name
+      }`,
+      start: `${appt.date}T${appt.time}`, // Format: YYYY-MM-DDTHH:mm
+      extendedProps: {
+        phone: appt.phone,
+        status: appt.status,
+        service: appt.serviceId.name,
+        customer: appt.customerName || appt.userId.username,
+      },
+    }));
+    res.status(200).json({
+      success: true,
+      events,
+    });
+  } catch (error) {
+    console.error("Error fetching calendar:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Error fetching appointments" });
   }
 });

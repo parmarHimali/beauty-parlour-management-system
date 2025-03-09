@@ -732,64 +732,32 @@ a {
 }
 
 /* appointment */
-
-.appointment {
+.app-container {
   display: flex;
-  align-items: center;
-  max-width: 60vw;
-  min-height: 80vh;
-  margin: auto;
-  gap: 55px;
-}
-
-.appointment .container {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  padding: 25px 35px;
-  border-radius: 6px;
-  max-width: 28vw;
-  height: max-content;
-  box-shadow: 0px 4px 7px 0px var(--grey);
-  border: 1px solid var(--green);
-  background: linear-gradient(45deg, var(--pink), var(--light-blue));
-  margin: 50px 0 100px 0;
-  max-width: 36vw;
-}
-
-.appointment .container form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.appointment .container form .form-control .input-wrapper input,
-.appointment .container form .form-control .input-wrapper select {
-  /* border: none;
-    border-bottom: 2px solid #000;
-    background-color: transparent;
-    outline: none;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 5px;
-    font-size: 16px; */
-  padding: 8px;
-}
-
-.two-control {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.two-control div {
-  flex-basis: 50%;
-}
-
-.appointment {
+  max-width: 100vw;
   justify-content: center;
+  height: 700px;
+  align-items: flex-start;
+}
+.app-container form {
+  width: 500px;
+  box-shadow: 2px 2px 2px 1px #7f7f7fce !important;
+  gap: 14px;
+  margin: 10px;
+  margin-top: 30px;
+  background-color: var(--pink2);
+}
+.app-container .form-section {
+  justify-content: flex-start !important;
+}
+.app-container .form-section .user-form {
+  background-color: whitesmoke !important;
+  border: 1px solid grey;
 }
 
+.app-container form .title {
+  font-size: 24px;
+}
 /* services of category  */
 
 .search {
@@ -1234,4 +1202,25 @@ table.invoice-table tr:nth-child(odd) {
   padding: 0px 4px;
   border-radius: 4px;
   bottom: 10px;
+}
+.error {
+  color: rgb(227, 0, 0);
+  font-size: 14px;
+}
+input,
+textarea {
+  margin: 3px 0 !important;
+}
+
+.emp-chart-container {
+  padding: 20px;
+  min-width: 60vw;
+  margin: auto;
+}
+
+.emp-pie-chart {
+  display: flex;
+  margin: 40px 0;
+  justify-content: center;
+  gap: 50px;
 }

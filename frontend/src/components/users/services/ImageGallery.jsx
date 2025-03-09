@@ -10,28 +10,32 @@ const ImageGallery = ({ service, setService }) => {
   const [galleryImages, setGalleryImages] = useState(
     service.employeeImages || []
   );
+  const [previewImage, setPreviewImage] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
   useEffect(() => {
     setGalleryImages(service.employeeImages || []);
   }, [service]);
 
-  // Handle file selection
-  const handleFileChange = async (event) => {
+  const handleFileChange = (event) => {
     if (!event.target.files.length) return;
     const file = event.target.files[0];
-    await handleAddToGallery(file);
+    setSelectedFile(file);
+    setPreviewImage(URL.createObjectURL(file));
+    setIsPopupOpen(true);
   };
 
-  // Upload image to backend and update UI
-  const handleAddToGallery = async (file) => {
-    if (!file) {
-      toast.error("Please select a file.");
+  const handleUploadImage = async () => {
+    if (!selectedFile) {
+      toast.error("No file selected.");
       return;
     }
 
     const formData = new FormData();
     formData.append("type", "employee");
     formData.append("serviceId", service._id);
-    formData.append("image", file);
+    formData.append("image", selectedFile);
 
     try {
       const { data } = await axios.post(
@@ -42,9 +46,7 @@ const ImageGallery = ({ service, setService }) => {
           withCredentials: true,
         }
       );
-      console.log(data);
 
-      console.log("Upload successful:", data);
       setService((prev) => ({
         ...prev,
         employeeImages: data.uploadedImages,
@@ -53,10 +55,13 @@ const ImageGallery = ({ service, setService }) => {
     } catch (error) {
       console.error("Error uploading image:", error);
       toast.error("Failed to upload image.");
+    } finally {
+      setIsPopupOpen(false);
+      setSelectedFile(null);
+      setPreviewImage(null);
     }
   };
 
-  // Trigger file input
   const handlePlus = () => {
     inputRef.current.click();
   };
@@ -78,7 +83,7 @@ const ImageGallery = ({ service, setService }) => {
             <span>Add Photo</span>
           </div>
         )}
-        {galleryImages.length == 0 && (
+        {galleryImages.length === 0 && (
           <img
             src={`http://localhost:4000/${service.image}`}
             alt={service.name}
@@ -102,6 +107,29 @@ const ImageGallery = ({ service, setService }) => {
           </div>
         ))}
       </div>
+
+      {/* Image Preview Popup */}
+      {isPopupOpen && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h3>Preview Image</h3>
+            <img
+              src={previewImage}
+              alt="Selected Preview"
+              className="preview-image"
+            />
+            <button className="upload-btn" onClick={handleUploadImage}>
+              Upload Image
+            </button>
+            <button
+              className="cancel-btn"
+              onClick={() => setIsPopupOpen(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

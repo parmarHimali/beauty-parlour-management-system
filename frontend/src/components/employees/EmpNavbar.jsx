@@ -12,6 +12,12 @@ const Sidebar = () => {
           <Link to="/emp">Dashboard</Link>
         </li>
         <li>
+          <Link to="/emp/charts">Statistics</Link>
+        </li>
+        <li>
+          <Link to="/emp/all">All Appointments</Link>
+        </li>
+        <li>
           <Link to="/emp/all-services">Services</Link>
         </li>
         <li>

@@ -50,7 +50,7 @@ const Sidebar = () => {
           </label>
           <ul className="submenu">
             <li>
-              <Link>Add Appointment</Link>
+              <Link to="/admin/add-app">Add Appointment</Link>
             </li>
             <li>
               <Link to="/admin/all-app">All Appointment</Link>
@@ -59,6 +59,9 @@ const Sidebar = () => {
               <Link to="/admin/today-app">Today Appointment</Link>
             </li>
           </ul>
+        </li>
+        <li>
+          <Link to="/sales-report">Reports</Link>
         </li>
         <li>
           <Link to="/admin/add-employee">Add Employee</Link>
