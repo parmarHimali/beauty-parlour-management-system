@@ -10,10 +10,14 @@ const categorySchema = new mongoose.Schema({
   description: {
     type: String,
     trim: true,
-    maxlength: 200,
+    maxlength: 500,
   },
   image: {
     type: String, // Cloudinary image URL
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
   },
 });
 

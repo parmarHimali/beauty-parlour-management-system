@@ -243,3 +243,29 @@ export const getMostRequestedServices = catchAsyncError(async (req, res) => {
     formattedData,
   });
 });
+export const getRecentServices = catchAsyncError(async (req, res, next) => {
+  const services = await Service.find({
+    "employeeImages.0": { $exists: true },
+  });
+
+  let employeeImages = services.flatMap((service) =>
+    service.employeeImages.map((img) => ({
+      imageUrl: img.imageUrl,
+      employeeName: img.employeeName,
+      serviceName: service.name,
+      createdAt: img.createdAt || new Date(), // ✅ Ensure fallback if missing
+      _id: img._id,
+    }))
+  );
+
+  employeeImages.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  employeeImages = employeeImages.slice(0, 8);
+
+  console.log("Fetched Images:", employeeImages); // ✅ Debugging step
+
+  res.status(200).json({
+    success: true,
+    images: employeeImages,
+  });
+});

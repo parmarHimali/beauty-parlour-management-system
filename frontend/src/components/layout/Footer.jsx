@@ -17,16 +17,17 @@ const Footer = () => {
         <div className="footer">
           <h3>We Are Open</h3>
           <ul>
-            <li>Monday - Friday: 9:00 AM - 8:00 PM</li>
-            <li>Saturday - 10:00 AM - 7:00 PM</li>
-            <li>Sunday - Closed</li>
+            <li>
+              Monday - Sunday: <br />
+              10:00 AM - 8:00 PM
+            </li>
           </ul>
         </div>
         <div className="footer">
           <h3>Contact Us</h3>
           <ul>
             <li>Phone: +1 (123) 456-7890</li>
-            <li>Email: info@beautybliss.com</li>
+            <li>Email: beautybliss.verify@gmail.com</li>
           </ul>
         </div>
         <div className="footer">

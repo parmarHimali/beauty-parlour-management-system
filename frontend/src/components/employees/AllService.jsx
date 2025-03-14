@@ -62,7 +62,10 @@ const AllService = () => {
   };
   return (
     <>
-      <div className="service-title">
+      <div
+        className="d-flex"
+        style={{ width: "100%", justifyContent: "center", margin: "20px 0" }}
+      >
         {services.length > 0 && (
           <input
             type="text"

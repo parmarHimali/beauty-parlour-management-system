@@ -23,9 +23,10 @@ const Home = () => {
       <hr />
       <RecentWork />
       <hr />
+      <Review />
+      <hr />
       <ServiceSection />
       <hr />
-      <Review />
     </>
   );
 };

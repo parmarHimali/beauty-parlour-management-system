@@ -64,44 +64,45 @@ const EmployeeCharts = () => {
   const suggestedMax =
     maxValue <= 5 ? maxValue + 3 : maxValue + Math.ceil(maxValue * 0.2);
   const suggestedMin = 0;
+  console.log(chartData);
 
   return (
-    <div>
+    <div className="dashboard">
       {/* Line Chart - Appointments Over Time */}
-      <div style={{ width: "80%", margin: "auto" }}>
-        <h4>Appointments Over Time</h4>
-        <Line
-          data={{
-            labels: Object.keys(chartData.appointmentsByDate),
-            datasets: [
-              {
-                label: "Number of Appointments",
-                data: appointmentCounts,
-                borderColor: "#007bff",
-                backgroundColor: "rgba(0, 123, 255, 0.2)",
-                tension: 0.4,
-              },
-            ],
-          }}
-          options={{
-            responsive: true,
-            scales: {
-              y: {
-                ticks: {
-                  stepSize: 1, // Ensure only whole numbers
-                  callback: (value) => (Number.isInteger(value) ? value : null),
-                },
-                suggestedMin,
-                suggestedMax,
-              },
-            },
-          }}
-        />
-      </div>
 
-      {/* Pie Chart - Most Requested Services */}
-      <div className="emp-pie-chart">
-        <div style={{ width: "30%" }}>
+      <h4>Appointments Over Time</h4>
+      <Line
+        className="chart-100"
+        data={{
+          labels: Object.keys(chartData.appointmentsByDate),
+          datasets: [
+            {
+              label: "Number of Appointments",
+              data: appointmentCounts,
+              borderColor: "#287171",
+              backgroundColor: "#378989de",
+              tension: 0.4,
+            },
+          ],
+        }}
+        options={{
+          responsive: true,
+          scales: {
+            y: {
+              ticks: {
+                stepSize: 1, // Ensure only whole numbers
+                callback: (value) => (Number.isInteger(value) ? value : null),
+              },
+              suggestedMin,
+              suggestedMax,
+            },
+          },
+        }}
+      />
+
+      <div className="d-flex gap-2" style={{ height: "50vh" }}>
+        {/* Pie Chart - Most Requested Services */}
+        <div className="chart-half" style={{ paddingBottom: "50px" }}>
           <h4 className="heading">Most Requested Services</h4>
           <Pie
             data={{
@@ -117,15 +118,20 @@ const EmployeeCharts = () => {
         </div>
 
         {/* Pie Chart - Appointment Status Breakdown */}
-        <div style={{ width: "30%" }}>
+        <div className="chart-half" style={{ paddingBottom: "50px" }}>
           <h4 className="heading">Appointment Status Breakdown</h4>
           <Pie
             data={{
-              labels: ["Pending", "Confirmed", "Completed", "Cancelled"],
+              labels: ["Pending", "Confirmed", "Completed", "Cancelled"], // Keep labels in the intended order
               datasets: [
                 {
-                  data: Object.values(chartData.statusCount),
-                  backgroundColor: ["#ffc107", "#28a745", "#17a2b8", "#dc3545"],
+                  data: [
+                    chartData.statusCount.Pending,
+                    chartData.statusCount.Confirmed,
+                    chartData.statusCount.Completed,
+                    chartData.statusCount.Cancelled,
+                  ],
+                  backgroundColor: ["#ffc107", "#17a2b8", "#28a745", "#dc3545"],
                 },
               ],
             }}

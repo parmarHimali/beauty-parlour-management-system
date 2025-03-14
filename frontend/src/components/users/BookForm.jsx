@@ -87,6 +87,7 @@ const BookForm = ({ showCart, setShowCart }) => {
                   serviceId: sid,
                   userId: user._id,
                   phone: user.phone,
+                  customerName: user.name,
                 }
               );
               toast.success(response.data.message);

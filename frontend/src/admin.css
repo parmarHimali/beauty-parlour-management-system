@@ -16,6 +16,10 @@
   --bg: #e9ecef;
   --topbar: 60px;
   --main-height: calc(100vh - 60px);
+  --pending: #ffc107;
+  --confirmed: #93bef0;
+  --cancelled: #cc2020;
+  --completed: #27ae60;
 }
 
 * {
@@ -45,6 +49,7 @@ body {
   font-size: 1.2rem;
   color: var(--dark-green);
   margin: 13px 10px;
+  margin-bottom: 15px !important;
 }
 
 .heading-container {
@@ -71,7 +76,7 @@ body {
 
 .heading-container .input-wrapper svg {
   position: absolute;
-  top: 5px;
+  top: 8px;
   right: 5px;
   color: var(--dark-green);
   width: 22px;
@@ -514,22 +519,22 @@ tr:hover {
 
 /* Colors for different statuses */
 .status.pending {
-  background: #ffcc00;
+  background: var(--pending);
   color: #663d00;
 }
 
 .status.confirmed {
-  background-color: #93bef0;
+  background-color: var(--confirmed);
   /* color: #fff; */
 }
 
 .status.completed {
-  background-color: #089c0d;
+  background-color: var(--completed);
   color: #fff;
 }
 
 .status.cancelled {
-  background-color: #cc2020;
+  background-color: var(--cancelled);
   color: #fff;
 }
 
@@ -719,7 +724,7 @@ tr:hover {
 /* Full-width card layout for appointments */
 .appointments-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: 1fr 1fr;
   gap: 20px;
   margin-top: 20px;
 }
@@ -760,12 +765,12 @@ tr:hover {
 }
 
 .status.pending {
-  background-color: #f39c12;
+  background-color: var(--pending);
   color: white;
 }
 
 .status.completed {
-  background-color: #27ae60;
+  background-color: var(--completed);
   color: white;
 }
 
@@ -858,16 +863,16 @@ tr:hover {
 }
 
 .status.pending {
-  background: #ffcc00;
+  background: var(--pending);
   color: #663d00;
 }
 
 .status.confirmed {
-  background-color: #93bef0;
+  background-color: var(--confirmed);
 }
 
 .status.cancelled {
-  background: #cc2020;
+  background: var(--cancelled);
   color: white;
 }
 
@@ -953,20 +958,20 @@ tr:hover {
 }
 .fc-event .fc-event-main .Confirmed {
   border-radius: 4px;
-  background-color: #007bff;
+  background-color: var(--confirmed);
 }
 .fc-event .fc-event-main .Cancelled {
   color: wheat;
   border-radius: 4px;
-  background-color: #cc2020;
+  background-color: var(--cancelled);
 }
 .fc .fc-event-main .Completed {
   border-radius: 4px;
-  background-color: #089c0d;
+  background-color: var(--completed);
 }
 .fc-event .fc-event-main .Pending {
   border-radius: 4px;
-  background-color: #ffcc00;
+  background-color: var(--pending);
   color: #663d00;
 }
 .fc-v-event:hover {
@@ -994,4 +999,105 @@ tr:hover {
   background-color: var(--form-color) !important;
   cursor: pointer;
   width: max-content !important;
+}
+
+.fc-event .Confirmed,
+.fc-event .Cancelled,
+.fc-event .Completed,
+.fc-event .Pending {
+  padding: 5px 7px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.fc-event .Confirmed {
+  background-color: var(--confirmed);
+  color: #222;
+}
+.fc-event .Cancelled {
+  background-color: var(--cancelled);
+  color: white;
+}
+.fc-event .Pending {
+  background-color: var(--pending);
+  color: #663d00;
+}
+
+.fc-event .Completed {
+  background-color: var(--completed);
+  color: white;
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  padding: 0 50px;
+  gap: 20px;
+  margin: 20px 0;
+  max-width: var(--main-width);
+}
+
+.dashboard .chart-half,
+.dashboard .chart-30,
+.dashboard .chart-70,
+.dashboard .chart-100 {
+  background-color: rgb(237, 237, 237);
+  box-shadow: var(--grey-shadow);
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard .chart-half {
+  width: 50%;
+}
+.dashboard .chart-30 {
+  width: 30%;
+}
+.dashboard .chart-70 {
+  width: 70%;
+}
+.dashboard .chart-100 {
+  max-width: 100%;
+  max-height: 70vh;
+}
+.d-flex {
+  display: flex;
+}
+.gap-2 {
+  gap: 15px;
+}
+
+.counter {
+  width: 80%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  margin: 20px auto;
+  gap: 20px;
+  margin-bottom: 50px;
+}
+
+.cardCounter {
+  width: 20%;
+  height: 20%;
+  border-radius: 10px;
+  background-color: rgba(245, 245, 245, 0.475);
+  /* color: white; */
+  box-shadow: 2px 2px 3px #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.cardCounter .icon {
+  font-size: 2.2rem;
+}
+
+.cardCounter .count {
+  color: var(--green);
+}
+.cardCounter .text {
+  color: rgb(57, 57, 57, 0.8);
 }

@@ -58,17 +58,16 @@ const EmpAppChart = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-around",
-        flexWrap: "wrap",
-      }}
-    >
-      <div style={{ width: "45%", textAlign: "center" }}>
-        <h2 className="heading  ">Appointments Per Employee</h2>
-        {barChartData ? <Bar data={barChartData} /> : <p>Loading...</p>}
-      </div>
+    <div className="chart-100">
+      <h2 className="heading">Appointments Per Employee</h2>
+      {barChartData ? (
+        <Bar
+          data={barChartData}
+          style={{ paddingBottom: "20px", height: "70vh" }}
+        />
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
 };

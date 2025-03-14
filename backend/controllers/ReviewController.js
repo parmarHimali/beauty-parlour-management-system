@@ -1,5 +1,6 @@
 import Review from "../models/ReviewModel.js";
 import Service from "../models/serviceModel.js";
+import { catchAsyncError } from "./../middlewares/catchAsyncError.js";
 
 export const addReview = async (req, res) => {
   const { serviceId, userId, rating, reviewContent } = req.body;
@@ -35,3 +36,16 @@ export const addReview = async (req, res) => {
     averageRating,
   });
 };
+
+export const getTopReviews = catchAsyncError(async (req, res, next) => {
+  const topReviews = await Review.find()
+    .populate("userId", "name")
+    .populate("serviceId", "name")
+    .sort({ rating: -1, reviewDate: -1 })
+    .limit(5);
+
+  res.status(200).json({
+    success: true,
+    reviews: topReviews,
+  });
+});

@@ -72,8 +72,8 @@ const MonthlyAppointmentsChart = () => {
             {
               label: "Booked Appointments",
               data: counts,
-              borderColor: "#3498db",
-              backgroundColor: "rgba(52, 152, 219, 0.5)",
+              borderColor: "#287171",
+              backgroundColor: "#389191b0",
               borderWidth: 2,
               fill: true,
               tension: 0.4, // Smooth curve
@@ -89,7 +89,8 @@ const MonthlyAppointmentsChart = () => {
   }, []);
 
   return (
-    <div style={{ minWidth: "70%", margin: "10px auto 50px" }}>
+    // <div style={{ minWidth: "70%", margin: "10px 130px 50px" }}>
+    <div className="chart-half">
       <h2 className="heading">Booked Appointments (Last 12 Months)</h2>
       {chartData ? (
         <Line data={chartData} options={{ responsive: true }} />

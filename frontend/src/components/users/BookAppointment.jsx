@@ -4,15 +4,20 @@ import toast from "react-hot-toast";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { UserContext } from "../../context/userContext";
+import { useNavigate } from "react-router-dom";
 
 const BookAppointment = () => {
-  const { user } = useContext(UserContext);
+  const { user, isAuthorized, setShowLogin } = useContext(UserContext);
   const [categories, setCategories] = useState([]);
   const [services, setServices] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [availableTimes, setAvailableTimes] = useState([]);
-
+  const navigateTo = useNavigate();
   useEffect(() => {
+    if (!isAuthorized) {
+      setShowLogin(true);
+      navigateTo("/");
+    }
     const fetchCategories = async () => {
       try {
         const { data } = await axios.get(

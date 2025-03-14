@@ -5,7 +5,10 @@ import Service from "../models/serviceModel.js";
 import User from "../models/userModel.js";
 import { sendToken } from "../utils/jwtToken.js";
 import { sendVerificationCode } from "../utils/Email.js";
-
+import crypto from "crypto";
+import nodemailer from "nodemailer";
+import bcrypt from "bcrypt";
+import Appointment from "../models/appointmentModel.js";
 export const sendOtp = catchAsyncError(async (req, res, next) => {
   const { email } = req.body;
 
@@ -50,6 +53,7 @@ export const verifyOtp = catchAsyncError(async (req, res, next) => {
   // Send JWT token
   sendToken(user, 200, res, "OTP verified successfully!");
 });
+const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
 export const register = catchAsyncError(async (req, res, next) => {
   const { name, email, phone, role, password } = req.body;
   if (!name || !email || !role || !password || !phone) {
@@ -60,9 +64,6 @@ export const register = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("Email already exist"));
   }
 
-  const verificationCode = Math.floor(
-    100000 + Math.random() * 900000
-  ).toString();
   const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
   const user = await User.create({
     name,
@@ -91,15 +92,25 @@ export const login = catchAsyncError(async (req, res, next) => {
   if (!user) {
     return next(new ErrorHandler("Invalid email or password", 400));
   }
-  if (!user.isVerified) {
-    return res
-      .status(400)
-      .json({ message: "Please verify your email before logging in." });
-  }
   const isCorrectPassword = await user.comparePassword(password);
   if (!isCorrectPassword) {
     return next(new ErrorHandler("Invalid email or password", 400));
   }
+  if (!user.isVerified) {
+    const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
+    await User.findByIdAndUpdate(user._id, {
+      verificationCode,
+      otpExpireAt: otpExpiry,
+    });
+
+    sendVerificationCode(email, verificationCode);
+    return res.status(400).json({
+      message:
+        "Please verify your email before logging in. OTP is sent to your email!",
+      isVerified: false,
+    });
+  }
+
   sendToken(user, 200, res, "User login successfully!");
 });
 
@@ -118,10 +129,17 @@ export const logout = catchAsyncError(async (req, res, next) => {
 
 export const getUser = catchAsyncError(async (req, res, next) => {
   const user = req.user;
-  res.status(200).json({
-    success: true,
-    user,
-  });
+  if (user.isVerified) {
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } else {
+    res.status(400).json({
+      success: false,
+      message: "User is not verified",
+    });
+  }
 });
 
 export const getCustomers = catchAsyncError(async (req, res, next) => {
@@ -225,5 +243,126 @@ export const getCustomerStatistics = catchAsyncError(async (req, res, next) => {
     success: true,
     labels,
     stats,
+  });
+});
+
+export const forgotPassword = async (req, res) => {
+  console.log("forgot password");
+
+  try {
+    let { email } = req.body;
+    console.log(req.body);
+
+    if (!email) {
+      return res.status(401).json({ message: "email not found" });
+    }
+
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.status(401).json({ message: "user not exist!!!" });
+    }
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = Date.now() + 3600000; //1h expiry
+    await user.save();
+
+    const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false, // true for port 465, false for other ports
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+    await transporter.sendMail({
+      from: '"BeautyBliss" <beautybliss.verify@gmail.com>',
+      to: email,
+      subject: "Password Reset Request",
+      html: `<p>You requested a password reset. Click the link below:</p>
+                   <a href="${resetUrl}">${resetUrl}</a>
+                   <p>This link is valid for 1 hour.</p>`,
+    });
+
+    res.status(200).json({ message: "reset link sent to your email" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server Error", error });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { newPassword, confirmNewPassword } = req.body;
+    const isequal = newPassword === confirmNewPassword;
+    if (!isequal) {
+      return res
+        .status(400)
+        .json({ message: "password and confirm password are not same!" });
+    }
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: "invalid or expired token" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(newPassword, salt);
+
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+
+    await user.save();
+    res.status(200).json({ message: "password reset successfully " });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "server error", error });
+  }
+};
+
+export const allCountList = catchAsyncError(async (req, res, next) => {
+  const totalAppointments = await Appointment.countDocuments();
+  const totalCustomers = await User.countDocuments({ role: "User" });
+  const totalEmployees = await User.countDocuments({ role: "Employee" });
+  const totalServices = await Service.countDocuments();
+  const revenueResult = await Appointment.aggregate([
+    {
+      $match: { status: "Completed" }, // Only consider completed appointments
+    },
+    {
+      $lookup: {
+        from: "services", // Name of the Service collection
+        localField: "serviceId",
+        foreignField: "_id",
+        as: "serviceDetails",
+      },
+    },
+    {
+      $unwind: "$serviceDetails", // Extract service details from array
+    },
+    {
+      $group: {
+        _id: null,
+        totalRevenue: { $sum: "$serviceDetails.price" }, // Sum the price from service details
+      },
+    },
+  ]);
+
+  const totalRevenue =
+    revenueResult.length > 0 ? revenueResult[0].totalRevenue : 0;
+  res.status(200).json({
+    success: true,
+    data: {
+      totalAppointments,
+      totalCustomers,
+      totalEmployees,
+      totalServices,
+      totalRevenue,
+    },
   });
 });

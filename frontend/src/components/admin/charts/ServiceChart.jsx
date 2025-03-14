@@ -28,37 +28,37 @@ const ServiceChart = () => {
   }, []);
 
   return (
-    <div>
+    <div className="chart-100" style={{ paddingBottom: "40px" }}>
       <h3 className="heading">Appointments booked for different services</h3>
-      <div style={{ width: "50%", margin: "auto" }}>
-        <Bar
-          data={{
-            labels: serviceData?.map((service) => service.name),
-            datasets: [
-              {
-                label: "Number of Appointments",
-                data: serviceData?.map((service) => service.count),
-                backgroundColor: "rgba(54, 162, 235, 0.6)",
-              },
-            ],
-          }}
-          options={{
-            indexAxis: "y",
-            responsive: true,
-            plugins: {
-              legend: { display: false },
+
+      <Bar
+        style={{ height: "70vh" }}
+        data={{
+          labels: serviceData?.map((service) => service.name),
+          datasets: [
+            {
+              label: "Number of Appointments",
+              data: serviceData?.map((service) => service.count),
+              backgroundColor: "#389b9bd6",
             },
-            scales: {
-              x: {
-                beginAtZero: true, // Ensures X-axis starts from 0
-                ticks: {
-                  stepSize: 1, // Ensure whole numbers (if needed)
-                },
+          ],
+        }}
+        options={{
+          indexAxis: "y",
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+          },
+          scales: {
+            x: {
+              beginAtZero: true, // Ensures X-axis starts from 0
+              ticks: {
+                stepSize: 1, // Ensure whole numbers (if needed)
               },
             },
-          }}
-        />
-      </div>
+          },
+        }}
+      />
     </div>
   );
 };

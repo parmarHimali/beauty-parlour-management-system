@@ -1,51 +1,96 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
+import { useContext, useEffect, useState, lazy, Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { UserContext } from "./context/userContext.jsx";
+import "./employee.css";
 import "./admin.css";
 import "./index.css";
 
-import Home from "./components/home/Home";
-import Categories from "./components/users/services/Categories";
-import Review from "./components/users/Review";
-import BookAppointment from "./components/users/BookAppointment";
-import Services from "./components/users/services/Services";
-import ServiceDetail from "./components/users/services/ServiceDetail";
-import Register from "./components/auth/Register";
-import Footer from "./components/layout/Footer";
 import UserNavbar from "./components/layout/UserNavbar";
-import ScrollToTop from "./components/ScrollToTop";
-import Dashboard from "./components/admin/Dashboard.jsx";
-import Header from "./components/admin/Header.jsx";
 import Sidebar from "./components/admin/Sidebar.jsx";
-import ServiceList from "./components/admin/ServiceList.jsx";
-import EditService from "./components/admin/EditService.jsx";
-import AddService from "./components/admin/AddService.jsx";
-import AddCategory from "./components/admin/AddCategory.jsx";
-import CategoryList from "./components/admin/CategoryList.jsx";
-import EditCategory from "./components/admin/EditCategory.jsx";
-import CustomerList from "./components/admin/CustomerList.jsx";
-import EmployeeList from "./components/admin/EmployeeList.jsx";
-import RegisterEmployee from "./components/admin/RegisterEmployee.jsx";
-import AllAppointments from "./components/admin/AllAppointments.jsx";
-import TodayAppointments from "./components/admin/TodayAppointments.jsx";
 import EmpNavbar from "./components/employees/EmpNavbar.jsx";
-import About from "./components/home/About.jsx";
-import EmpDashboard from "./components/employees/EmpDashboard.jsx";
-import Profile from "./components/employees/Profile.jsx";
+import Footer from "./components/layout/Footer.jsx";
 import EmpHeader from "./components/employees/EmpHeader.jsx";
-import AppointmentDetails from "./components/admin/AppointmentDetails.jsx";
-import BookedDetails from "./components/users/BookedDetails.jsx";
-import EmpAppointmentDetails from "./components/employees/EmpAppointmentDetails.jsx";
-import EmailVerify from "./components/auth/EmailVerify.jsx";
-import AllService from "./components/employees/AllService.jsx";
-import EmpServiceDetail from "./components/employees/EmpServiceDetail.jsx";
+import Header from "./components/admin/Header.jsx";
+import ScrollToTop from "./components/ScrollToTop";
 import Loading from "./components/Loading.jsx";
-import SalesReport from "./components/admin/reports/SalesReport.jsx";
-import EmpHome from "./components/employees/EmpHome.jsx";
-import AllEmpAppointments from "./components/employees/AllEmpAppointments.jsx";
+import NotFound from "./components/NotFound.jsx";
+import UserOutlet from "./components/outlets/UserOutlet.jsx";
+import AdminOutlet from "./components/outlets/AdminOutlet.jsx";
+import EmployeeOutlet from "./components/outlets/EmployeeOutlet.jsx";
 
+const Home = lazy(() => import("./components/home/Home"));
+const Categories = lazy(() => import("./components/users/services/Categories"));
+const Review = lazy(() => import("./components/users/Review"));
+const BookAppointment = lazy(() =>
+  import("./components/users/BookAppointment")
+);
+const Services = lazy(() => import("./components/users/services/Services"));
+const ServiceDetail = lazy(() =>
+  import("./components/users/services/ServiceDetail")
+);
+const Register = lazy(() => import("./components/auth/Register"));
+const Dashboard = lazy(() => import("./components/admin/Dashboard.jsx"));
+const ServiceList = lazy(() => import("./components/admin/ServiceList.jsx"));
+const EditService = lazy(() => import("./components/admin/EditService.jsx"));
+const AddService = lazy(() => import("./components/admin/AddService.jsx"));
+const AddCategory = lazy(() => import("./components/admin/AddCategory.jsx"));
+const CategoryList = lazy(() => import("./components/admin/CategoryList.jsx"));
+const EditCategory = lazy(() => import("./components/admin/EditCategory.jsx"));
+const CustomerList = lazy(() => import("./components/admin/CustomerList.jsx"));
+const EmployeeList = lazy(() => import("./components/admin/EmployeeList.jsx"));
+const RegisterEmployee = lazy(() =>
+  import("./components/admin/RegisterEmployee.jsx")
+);
+const AllAppointments = lazy(() =>
+  import("./components/admin/AllAppointments.jsx")
+);
+const TodayAppointments = lazy(() =>
+  import("./components/admin/TodayAppointments.jsx")
+);
+const About = lazy(() => import("./components/home/About.jsx"));
+const EmpDashboard = lazy(() =>
+  import("./components/employees/EmpDashboard.jsx")
+);
+const Profile = lazy(() => import("./components/employees/Profile.jsx"));
+const AppointmentDetails = lazy(() =>
+  import("./components/admin/AppointmentDetails.jsx")
+);
+const BookedDetails = lazy(() =>
+  import("./components/users/BookedDetails.jsx")
+);
+const EmpAppointmentDetails = lazy(() =>
+  import("./components/employees/EmpAppointmentDetails.jsx")
+);
+const EmailVerify = lazy(() => import("./components/auth/EmailVerify.jsx"));
+const AllService = lazy(() => import("./components/employees/AllService.jsx"));
+const EmpServiceDetail = lazy(() =>
+  import("./components/employees/EmpServiceDetail.jsx")
+);
+const SalesReport = lazy(() =>
+  import("./components/admin/reports/SalesReport.jsx")
+);
+const EmpHome = lazy(() => import("./components/employees/EmpHome.jsx"));
+const AllEmpAppointments = lazy(() =>
+  import("./components/employees/AllEmpAppointments.jsx")
+);
+const ResetPassword = lazy(() => import("./components/auth/ResetPassword.jsx"));
+
+export const BASE_URL = "http://localhost:4000/api";
+export const IMG_URL = "http://localhost:4000";
+export const convertTo12HourFormat = (time24) => {
+  const [hours, minutes] = time24.split(":");
+  const hour = parseInt(hours, 10);
+  const ampm = hour >= 12 ? "PM" : "AM";
+  const formattedHour = hour % 12 || 12; // Convert 0 to 12
+  return `${formattedHour}:${minutes} ${ampm}`;
+};
 const App = () => {
   const { isAuthorized, setIsAuthorized, setUser, user } =
     useContext(UserContext);
@@ -69,7 +114,6 @@ const App = () => {
         setLoading(false);
       }
     };
-
     fetchUser();
   }, [isAuthorized]);
 
@@ -81,17 +125,26 @@ const App = () => {
     if (!isAuthorized) {
       return (
         <>
-          <UserNavbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/categories" element={<Categories />} />
-            <Route path="/services/:cid" element={<Services />} />
-            <Route path="/s-detail/:sid" element={<ServiceDetail />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/verifyEmail" element={<EmailVerify />} />
-            <Route path="/about" element={<About />} />
-          </Routes>
-          <Footer />
+          {/* <UserNavbar /> */}
+          <Suspense fallback={<Loading />}>
+            <Routes>
+              <Route path="/" element={<UserOutlet />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/categories" element={<Categories />} />
+                <Route path="/services/:cid" element={<Services />} />
+                <Route path="/s-detail/:sid" element={<ServiceDetail />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/verifyEmail" element={<EmailVerify />} />
+                <Route path="/about" element={<About />} />
+                <Route
+                  path="/reset-password/:token"
+                  element={<ResetPassword />}
+                />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+          {/* <Footer /> */}
         </>
       );
     }
@@ -99,88 +152,77 @@ const App = () => {
     if (user?.role === "User") {
       return (
         <>
-          <UserNavbar />
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/categories" element={<Categories />} />
-            <Route path="/review" element={<Review />} />
-            <Route path="/book-appointment" element={<BookAppointment />} />
-            <Route path="/booked" element={<BookedDetails />} />
-            <Route path="/services/:cid" element={<Services />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/s-detail/:sid" element={<ServiceDetail />} />
-            <Route path="/appointment/:aid" element={<AppointmentDetails />} />
+            <Route path="/" element={<UserOutlet />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/categories" element={<Categories />} />
+              <Route path="/review" element={<Review />} />
+              <Route path="/book-appointment" element={<BookAppointment />} />
+              <Route path="/booked" element={<BookedDetails />} />
+              <Route path="/services/:cid" element={<Services />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/s-detail/:sid" element={<ServiceDetail />} />
+              <Route
+                path="/appointment/:aid"
+                element={<AppointmentDetails />}
+              />
+            </Route>
+            <Route path="*" element={<NotFound />} />
           </Routes>
-          <Footer />
         </>
       );
     }
-    // console.log(user);
 
     if (user?.role === "Admin") {
       return (
-        <div className="dashboard-container">
-          <Sidebar />
-          <div className="main-content">
-            <Header />
-            <Routes>
-              <Route path="/admin/dashboard" element={<Dashboard />} />
-              <Route path="/admin/service-list" element={<ServiceList />} />
-              <Route path="/admin/category-list" element={<CategoryList />} />
-              <Route path="/admin/customer-list" element={<CustomerList />} />
-              <Route path="/admin/employee-list" element={<EmployeeList />} />
-              <Route path="/admin/all-app" element={<AllAppointments />} />
-              <Route path="/admin/today-app" element={<TodayAppointments />} />
-              <Route
-                path="/admin/add-employee"
-                element={<RegisterEmployee />}
-              />
-              <Route path="/sales-report" element={<SalesReport />} />
-              <Route
-                path="/admin/appointment/:aid"
-                element={<AppointmentDetails />}
-              />
-              <Route
-                path="/admin/service-edit/:sid"
-                element={<EditService />}
-              />
-              <Route
-                path="/admin/category-edit/:cid"
-                element={<EditCategory />}
-              />
-              <Route path="/admin/add-service" element={<AddService />} />
-              <Route path="/admin/add-category" element={<AddCategory />} />
-              <Route path="/admin/add-app" element={<BookAppointment />} />
-              <Route path="/admin/see-more/:sid" element={<ServiceDetail />} />
-            </Routes>
-          </div>
-        </div>
+        <Routes>
+          <Route path="/" element={<AdminOutlet />}>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/admin/service-list" element={<ServiceList />} />
+            <Route path="/admin/category-list" element={<CategoryList />} />
+            <Route path="/admin/customer-list" element={<CustomerList />} />
+            <Route path="/admin/employee-list" element={<EmployeeList />} />
+            <Route path="/admin/all-app" element={<AllAppointments />} />
+            <Route path="/admin/today-app" element={<TodayAppointments />} />
+            <Route path="/admin/add-employee" element={<RegisterEmployee />} />
+            <Route path="/sales-report" element={<SalesReport />} />
+            <Route
+              path="/admin/appointment/:aid"
+              element={<AppointmentDetails />}
+            />
+            <Route path="/admin/service-edit/:sid" element={<EditService />} />
+            <Route
+              path="/admin/category-edit/:cid"
+              element={<EditCategory />}
+            />
+            <Route path="/admin/add-service" element={<AddService />} />
+            <Route path="/emp-profile/:eid" element={<Profile />} />
+            <Route path="/admin/add-category" element={<AddCategory />} />
+            <Route path="/admin/add-app" element={<BookAppointment />} />
+            <Route path="/admin/see-more/:sid" element={<ServiceDetail />} />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       );
     }
     if (user?.role === "Employee") {
       return (
         <>
-          <div className="dashboard-container">
-            <EmpNavbar />
-            <div className="main-content">
-              <EmpHeader />
-              <Routes>
-                <Route path="/emp" element={<EmpDashboard />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/emp/all-services" element={<AllService />} />
-                <Route path="/emp/charts" element={<EmpHome />} />
-                <Route path="/emp/all" element={<AllEmpAppointments />} />
-                <Route
-                  path="emp/services/:sid"
-                  element={<EmpServiceDetail />}
-                />
-                <Route
-                  path="/emp/appointment/:aid"
-                  element={<EmpAppointmentDetails />}
-                />
-              </Routes>
-            </div>
-          </div>
+          <Routes>
+            <Route path="/" element={<EmployeeOutlet />}>
+              <Route path="/" element={<EmpDashboard />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/emp/all-services" element={<AllService />} />
+              <Route path="/emp/charts" element={<EmpHome />} />
+              <Route path="/emp/all" element={<AllEmpAppointments />} />
+              <Route path="emp/services/:sid" element={<EmpServiceDetail />} />
+              <Route
+                path="/emp/appointment/:aid"
+                element={<EmpAppointmentDetails />}
+              />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </>
       );
     }

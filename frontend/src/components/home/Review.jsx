@@ -1,52 +1,93 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 import { FaLeftLong } from "react-icons/fa6";
+import { BASE_URL } from "../../App";
+import {
+  MdOutlineStar,
+  MdOutlineStarBorder,
+  MdOutlineStarHalf,
+} from "react-icons/md";
 
 const Review = () => {
-  // return (
-  //   <section className="review-container home">
-  //     <div className="title-section">
-  //       <h2>Our Happy Clients</h2>
-  //       <p>
-  //         Explore the genuine stories and experiences shared by our clients.
-  //       </p>
-  //     </div>
-  //     <div className="slider">
-  //       <div className="slider-track" id="slider-track">
-  //         <div className="review-card">
-  //           <div className="review-header">
-  //             <img
-  //               src={"/images/user.png"}
-  //               alt="user"
-  //               className="profile-pic"
-  //             />
-  //             <div className="reviewer-info">
-  //               <h1 className="reviewer-name">Himali parmar</h1>
-  //               <span className="star-rating">★</span>
-  //               <span className="star-rating">★</span>
-  //               <span className="star-rating">★</span>
-  //               <span className="star-rating">☆</span>
-  //               <span className="star-rating">☆</span>
-  //             </div>
-  //           </div>
-  //           <div className="review-body">
-  //             <h6 className="review-title">review title</h6>
-  //             <p className="review-text">
-  //               Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-  //               Obcaecati
-  //             </p>
-  //             <p className="review-date">2024-02-21</p>
-  //           </div>
-  //         </div>
-  //         {/* <h2 className="no-review">No Reviews found!</h2> */}
-  //       </div>
-  //     </div>
-  //     <div className="button-container">
-  //       <FaArrowAltCircleLeft />
-  //       <FaArrowAltCircleRight />
-  //     </div>
-  //   </section>
-  // );
+  const [reviews, setReviews] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${BASE_URL}/reviews/top-review`);
+
+        setReviews(data.reviews);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  return (
+    <>
+      <div className="top-reviews home">
+        <div className="title-section">
+          <h2>Our Customer Love</h2>
+          <p>
+            See what our happy customers say about us! Here are the reviews from
+            clients. Your satisfaction is our priority! 💖
+          </p>
+        </div>
+        {reviews.length > 0 ? (
+          reviews.map((review) => {
+            const customerRatings = review.rating || 0;
+            const fullStars = Math.floor(customerRatings);
+            const hasHalfStar = customerRatings % 1 >= 0.5;
+            const emptyStars = Math.max(
+              0,
+              5 - fullStars - (hasHalfStar ? 1 : 0)
+            );
+            return (
+              <div className="reviews" key={review._id}>
+                <div className="user">
+                  <img src="/user.jpg" alt="profile" width={"40px"} />
+                  <h4>{review.userId.name}</h4>
+                  <p className="badge">{review.serviceId.name}</p>
+                </div>
+                <p>{review.reviewContent}</p>
+                <div className="avg-rating">
+                  <b>Ratings:</b>
+                  <div>
+                    {Array(fullStars)
+                      .fill()
+                      .map((_, index) => (
+                        <MdOutlineStar key={`full-${index}`} color="gold" />
+                      ))}
+                    {/* Half star */}
+                    {hasHalfStar && <MdOutlineStarHalf color="gold" />}
+                    {/* Empty stars */}
+                    {Array(emptyStars)
+                      .fill()
+                      .map((_, index) => (
+                        <MdOutlineStarBorder
+                          key={`empty-${index}`}
+                          color="grey"
+                        />
+                      ))}
+                  </div>
+                </div>
+                <small>
+                  {new Date(review.reviewDate)
+                    .toUTCString()
+                    .split(" ")
+                    .slice(0, 4)
+                    .join(" ")}
+                </small>
+              </div>
+            );
+          })
+        ) : (
+          <h4>No data found!</h4>
+        )}
+      </div>
+    </>
+  );
 };
 
 export default Review;

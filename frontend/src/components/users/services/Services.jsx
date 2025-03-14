@@ -104,6 +104,7 @@ const Services = () => {
       <div className="service-title">
         <h2>{category.name} Services</h2>
         <p>{category.description}</p>
+
         {services.length > 0 && (
           <input
             type="text"
@@ -119,7 +120,12 @@ const Services = () => {
           const hours = Math.floor(service.duration / 60);
           const minutes = service.duration % 60;
           return (
-            <div className="sub-service" key={service._id}>
+            <div
+              className="sub-service"
+              key={service._id}
+              style={{ cursor: "pointer" }}
+              onClick={() => navigateTo(`/s-detail/${service._id}`)}
+            >
               <div className="service-image">
                 <img
                   src={`http://localhost:4000/${service.image}`}

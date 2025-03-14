@@ -7,10 +7,13 @@ import toast from "react-hot-toast";
 import axios from "axios";
 function EmailVerify() {
   const [code, setCode] = useState("");
+  const { setIsAuthorized } = useContext(UserContext);
   const email = localStorage.getItem("userEmail");
   const navigate = useNavigate();
-  const { isVerified, setIsverified } = useContext(UserContext);
-  const handleVerifyOTP = async () => {
+  const { setIsverified } = useContext(UserContext);
+  const handleVerifyOTP = async (e) => {
+    e.preventDefault();
+    console.log("handle verify OTP");
     try {
       const { data } = await axios.post(
         "http://localhost:4000/api/users/verify-otp",
@@ -20,13 +23,16 @@ function EmailVerify() {
           headers: { "Content-Type": "application/json" },
         }
       );
+      console.log(data);
       toast.success("Email verified successfully");
       setIsverified(true);
+      setIsAuthorized(true);
       navigate("/");
     } catch (error) {
       console.log(error);
       toast.error(error.response?.data?.message || "Invalid OTP");
       setIsverified(false);
+      setIsAuthorized(false);
     }
   };
   const handleResendOTP = async () => {
@@ -43,32 +49,40 @@ function EmailVerify() {
     }
   };
   return (
-    <div>
-      <div>
-        Enter Otp:
-        <input
-          type="text"
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-        />
+    // <div className={`auth-page ${showOTPInput ? "show" : ""}`}>
+    <div className="otp-form">
+      <div className="container">
+        {/* <MdClose className="close-btn" onClick={() => setShowOTPInput(false)} /> */}
+        <div className="auth-heading">
+          <h3>Verify Email Address</h3>
+        </div>
+        <form onSubmit={handleVerifyOTP}>
+          <div className="form-control">
+            <label>Enter Otp:</label>
+            <div className="input-wrapper">
+              <input
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+              />
+            </div>
+          </div>
+          <div>
+            <button type="submit" className="btn-log">
+              Verify
+            </button>
+          </div>
+          <p style={{ fontSize: "15px" }}>
+            Request a new one otp{" "}
+            <span
+              onClick={handleResendOTP}
+              style={{ cursor: "pointer", color: "var(--pink-dark)" }}
+            >
+              here
+            </span>
+          </p>
+        </form>
       </div>
-      <div>
-        <input
-          type="submit"
-          onClick={handleVerifyOTP}
-          value="Verify OTP"
-          style={{ marginTop: "20px", marginBottom: "20px" }}
-        />
-      </div>
-      <p style={{ fontSize: "15px" }}>
-        Request a new one otp{" "}
-        <a
-          onClick={handleResendOTP}
-          style={{ color: "blue", fontSize: "15px" }}
-        >
-          here
-        </a>{" "}
-      </p>
     </div>
   );
 }

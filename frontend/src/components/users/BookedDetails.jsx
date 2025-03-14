@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/userContext"; // Make sure you have this context
 import { MdSearch } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { convertTo12HourFormat } from "../../App";
 
 const BookedDetails = () => {
   const [appointments, setAppointments] = useState([]);
@@ -68,22 +69,33 @@ const BookedDetails = () => {
                   </div>
                   <hr style={{ margin: "7px 0 5px 0" }} />
                   <div className="card-item">
-                    <strong>Price:</strong> &#8377; {appointment.servicePrice}
+                    <div>
+                      <strong>Price:</strong> &#8377; {appointment.servicePrice}
+                    </div>
+                    <div>
+                      <strong>Duration:</strong>{" "}
+                      {hours > 0 ? `${hours} Hour${hours > 1 ? "s" : ""}` : ""}{" "}
+                      {minutes > 0
+                        ? `${minutes} Minute${minutes > 1 ? "s" : ""}`
+                        : ""}
+                    </div>
                   </div>
+                  {/* <div className="card-item"></div> */}
                   <div className="card-item">
-                    <strong>Duration:</strong>{" "}
-                    {hours > 0 ? `${hours} Hour${hours > 1 ? "s" : ""}` : ""}{" "}
-                    {minutes > 0
-                      ? `${minutes} Minute${minutes > 1 ? "s" : ""}`
-                      : ""}
-                  </div>
-                  <div className="card-item">
-                    <strong>Date:</strong> {appointment.date}
+                    <div>
+                      <strong>Date:</strong> {appointment.date}
+                    </div>
+                    <div>
+                      <strong>Time:</strong>{" "}
+                      {`${convertTo12HourFormat(
+                        appointment.time.split("-")[0]
+                      )}-${convertTo12HourFormat(
+                        appointment.time.split("-")[1]
+                      )}`}
+                    </div>
                   </div>
 
-                  <div className="card-item">
-                    <strong>Time:</strong> {appointment.time}
-                  </div>
+                  {/* <div className="card-item"></div> */}
                 </div>
 
                 <div className="card-actions" style={{ marginTop: "10px" }}>

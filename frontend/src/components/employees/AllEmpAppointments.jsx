@@ -86,7 +86,7 @@ const AllEmpAppointments = () => {
               <div key={appointment._id} className="appointment-card">
                 <div className="card-header">
                   <h3 style={{ textDecoration: "underline" }}>
-                    {appointment?.userId?.name}
+                    {appointment?.userId?.name || "Unknown"}
                   </h3>
                   <select
                     className={`status ${appointment.status.toLowerCase()}`}

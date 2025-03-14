@@ -1,12 +1,15 @@
 import express from "express";
 import {
+  allCountList,
   deleteCustomer,
+  forgotPassword,
   getCustomers,
   getCustomerStatistics,
   getUser,
   login,
   logout,
   register,
+  resetPassword,
   sendOtp,
   verifyOtp,
 } from "../controllers/userController.js";
@@ -20,8 +23,11 @@ router.post("/login", login);
 router.get("/logout", isAuthorized, logout);
 router.get("/getUser", isAuthorized, getUser);
 
+router.get("/count-list", allCountList);
 router.post("/send-otp", sendOtp);
 router.post("/verify-otp", verifyOtp);
+router.post("/forgot-password", forgotPassword);
+router.post("/reset-password/:token", resetPassword);
 
 router.get("/getCustomers", getCustomers);
 router.delete("/delete/:custId", deleteCustomer);

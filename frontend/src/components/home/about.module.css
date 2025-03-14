@@ -1,116 +1,124 @@
 :root {
-    --pink1: #FFE4D6;
-    --pink2: #f5d6eb;
-    --pink3: #D988B9;
-    --pink4: #B0578D;
-    --pink-dark: #973770;
-    --pink-dark2: #7b2258;
+  --pink1: #ffe4d6;
+  --pink2: #f5d6eb;
+  --pink3: #d988b9;
+  --pink4: #b0578d;
+  --pink-dark: #973770;
+  --pink-dark2: #7b2258;
 }
 
 .moduleContainer {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .moduleBody {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
 }
 
 .moduleHeading {
-    color: #2c3e50;
+  color: #2c3e50;
 }
 
 .moduleHeading h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
 }
 
 .moduleHeading h2 {
-    font-size: 2rem;
-    margin-bottom: 10px;
+  font-size: 2rem;
+  margin-bottom: 10px;
 }
 
 .moduleHeading h3 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
 }
 
 .moduleParagraph {
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 20px;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
 }
 
 /* About Section */
 .aboutUs {
-    padding: 10px 0;
-    background-color: #fff;
-    text-align: center;
+  padding: 10px 0;
+  background-color: #fff;
+  text-align: center;
 }
 
 .h1Head {
-    font-size: 2.5rem;
-    color: #34495e;
-    margin-bottom: 40px;
+  font-size: 2.5rem;
+  color: #34495e;
+  margin-bottom: 40px;
 }
 
 .content {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 20px;
 }
 
 .textSection {
-    flex: 1;
-    margin-right: 20px;
-    margin-left: 90px;
+  flex: 1;
+  margin-right: 20px;
+  margin-left: 90px;
 }
 
 .textSection img {
-    max-width: 80%;
-    height: auto;
-    border-radius: 8px;
-    margin-top: 20px;
+  max-width: 80%;
+  height: auto;
+  border-radius: 8px;
+  margin-top: 20px;
 }
 
 .imageSection {
-    flex: 1;
-    margin-right: 90px;
+  flex: 1;
+  margin-right: 90px;
 }
 
 .imageSection img {
-    max-width: 80%;
-    height: auto;
-    border-radius: 8px;
+  max-width: 80%;
+  height: auto;
+  border-radius: 8px;
 }
 
 .imageSection p {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .counter {
-    width: 70%;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    height: 90vh;
-    margin-top: 20px;
+  width: 70%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  margin: 20px auto;
+  margin-bottom: 50px;
 }
 
 .cardCounter {
-    width: 20%;
-    height: 20%;
-    border-radius: 10px;
-    background-color: var(--pink-dark2);
-    color: white;
-    padding: 10px;
-    text-align: center;
+  width: 20%;
+  height: 20%;
+  border-radius: 10px;
+  background-color: #f2b2d829;
+  /* color: white; */
+  box-shadow: 2px 2px 3px #ccc;
+  padding: 10px;
+  text-align: center;
 }
 
 .cardCounter .icon {
-    font-size: 2.2rem;
+  font-size: 2.2rem;
+}
+
+.cardCounter .count {
+  color: var(--pink-dark2);
+}
+.cardCounter .text {
+  color: rgb(57, 57, 57, 0.8);
 }

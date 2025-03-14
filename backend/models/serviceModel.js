@@ -41,6 +41,10 @@ const serviceSchema = new mongoose.Schema({
     {
       imageUrl: { type: String, required: true }, // Image path
       employeeName: { type: String, required: true }, // Name of uploader
+      createdAt: {
+        type: Date,
+        default: Date.now(),
+      },
     },
   ],
 
@@ -62,6 +66,10 @@ const serviceSchema = new mongoose.Schema({
   discountOffer: {
     type: String, // e.g., '10% Off Today Only!'
     default: null,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
   },
 });
 

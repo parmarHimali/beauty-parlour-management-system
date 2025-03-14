@@ -34,7 +34,13 @@ const UserNavbar = () => {
     <>
       <header>
         <h2 className="logo" style={{ color: "#973770" }}>
-          Beauty & Bliss
+          {/* Beauty & Bliss */}
+          <img
+            src="/logo5.png"
+            alt="logo"
+            width={"150px"}
+            style={{ marginTop: "8px" }}
+          />
         </h2>
         <nav className="navigation">
           <Link to={"/"} className="active">

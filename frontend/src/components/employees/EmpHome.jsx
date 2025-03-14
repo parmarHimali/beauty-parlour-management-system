@@ -4,10 +4,9 @@ import EmployeeCalendar from "./EmployeeCalendar";
 
 const EmpHome = () => {
   return (
-    <div className="emp-chart-container">
-      <EmployeeCharts />
-      {/* <EmployeeCalendar /> */}
-    </div>
+    // <div className="emp-chart-container">
+    <EmployeeCharts />
+    // </div>
   );
 };
 

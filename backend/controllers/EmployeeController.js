@@ -272,11 +272,14 @@ export const calender = catchAsyncError(async (req, res, next) => {
 
     const appointments = await Appointment.find({
       employeeId: employee._id,
-    }).populate("serviceId userId");
+    })
+      .populate("serviceId", "name")
+      .populate("userId", "name");
+    console.log(appointments);
 
     const events = appointments.map((appt) => ({
       id: appt._id,
-      title: `${appt.customerName || appt.userId.username} - ${
+      title: `${appt.customerName || appt.userId?.name} - ${
         appt.serviceId.name
       }`,
       start: `${appt.date}T${appt.time}`, // Format: YYYY-MM-DDTHH:mm
@@ -284,9 +287,10 @@ export const calender = catchAsyncError(async (req, res, next) => {
         phone: appt.phone,
         status: appt.status,
         service: appt.serviceId.name,
-        customer: appt.customerName || appt.userId.username,
+        customer: appt.customerName || appt.userId?.name,
       },
     }));
+
     res.status(200).json({
       success: true,
       events,

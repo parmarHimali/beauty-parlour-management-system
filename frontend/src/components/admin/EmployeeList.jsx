@@ -5,6 +5,7 @@ import { MdSearch } from "react-icons/md";
 import { Link } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import Loading from "../Loading";
+import { IMG_URL } from "../../App";
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
@@ -61,11 +62,30 @@ const EmployeeList = () => {
       }
     }
   };
+  console.log(employees);
 
   const columns = [
-    { name: "Name", selector: (row) => row.userId.name, sortable: true },
+    {
+      name: "Name",
+      selector: (row) => (
+        <div className="profile-container">
+          <img
+            src={`${IMG_URL}${row.image}`}
+            alt="profile"
+            className="profile-img"
+          />
+          <span>{row.userId.name}</span>
+        </div>
+      ),
+      sortable: true,
+    },
     { name: "Email", selector: (row) => row.userId.email, sortable: true },
-    { name: "Phone", selector: (row) => row.userId.phone, sortable: true },
+    {
+      name: "Phone",
+      selector: (row) => row.userId.phone,
+      sortable: true,
+      width: "130px",
+    },
     { name: "Position", selector: (row) => row.position, sortable: true },
     {
       name: "Speciality",
@@ -76,17 +96,20 @@ const EmployeeList = () => {
       name: "Salary",
       selector: (row) => `₹ ${row.salary || "0"}`,
       sortable: true,
+      width: "120px",
     },
     {
       name: "Experience",
-      selector: (row) => `${row.experience} Years`,
+      selector: (row) =>
+        `${row.experience} Year${row.experience == 1 ? "" : "s"}`,
       sortable: true,
+      width: "100px",
     },
-    {
-      name: "Account Created",
-      selector: (row) => row.userId.createdAt.split("T")[0],
-      sortable: true,
-    },
+    // {
+    //   name: "Account Created",
+    //   selector: (row) => row.userId.createdAt.split("T")[0],
+    //   sortable: true,
+    // },
     {
       name: "Action",
       cell: (row) => (
@@ -94,6 +117,7 @@ const EmployeeList = () => {
           Delete
         </Link>
       ),
+      width: "80px",
     },
   ];
 
@@ -178,7 +202,6 @@ const customStyles = {
       wordBreak: "break-word",
       padding: "10px",
       whiteSpace: "normal",
-      wordBreak: "break-word",
       overflow: "visible",
       justifyContent: "center",
       borderBottom: "1px solid var(--green)",

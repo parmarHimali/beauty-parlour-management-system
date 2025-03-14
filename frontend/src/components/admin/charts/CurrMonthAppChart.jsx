@@ -94,7 +94,7 @@ const CurrMonthAppChart = () => {
   }, []);
 
   return (
-    <div style={{ width: "60%", margin: "0 auto" }}>
+    <div className="chart-70">
       <h2 className="heading">Appointments This Month</h2>
       {chartData ? (
         <Line data={chartData} options={chartOptions} />

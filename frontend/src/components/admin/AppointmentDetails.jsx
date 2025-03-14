@@ -5,6 +5,7 @@ import axios from "axios";
 import html2pdf from "html2pdf.js";
 import { UserContext } from "./../../context/UserContext";
 import Loading from "./../Loading";
+import { convertTo12HourFormat } from "../../App";
 const AppointmentDetails = () => {
   const [appointment, setAppointment] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -127,7 +128,11 @@ const AppointmentDetails = () => {
           </p>
           <p>
             Appointment Time: <br />
-            <strong>{appointment.time}</strong>
+            <strong>
+              {`${convertTo12HourFormat(
+                appointment.time.split("-")[0]
+              )}-${convertTo12HourFormat(appointment.time.split("-")[1])}`}
+            </strong>
           </p>
           <p>
             Applied: <br />
@@ -139,8 +144,12 @@ const AppointmentDetails = () => {
         <div ref={invoiceRef}>
           <div className="address">
             <h1>Beauty & Bliss Parlour</h1>
-            <p>123 Beauty Street, Cityville, 56789</p>
-            <p>Email: info@beautyparlour.com | Phone: 9876543210</p>
+            <p>
+              123 Glamour Street, Suite 456, Beauty Bay, Radiance City, 78901
+            </p>
+            <p>
+              Email: beautybliss.verify@gmail.com | Phone: +1 (123) 456-7890
+            </p>
           </div>
           <br />
           <hr />

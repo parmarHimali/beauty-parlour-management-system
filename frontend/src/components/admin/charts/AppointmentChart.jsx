@@ -41,7 +41,7 @@ const AppointmentChart = () => {
               label: "Appointments",
               data: values,
               backgroundColor: colors,
-              borderColor: "#ffffff",
+              borderColor: "#499e9e96",
               borderWidth: 1,
             },
           ],
@@ -55,7 +55,7 @@ const AppointmentChart = () => {
   }, []);
 
   return (
-    <div style={{ width: "30%" }}>
+    <div className="chart-30">
       <h2 className="heading">Appointment Status</h2>
       {chartData ? (
         <Pie data={chartData} options={{ responsive: true }} />

@@ -9,7 +9,7 @@ const Sidebar = () => {
       </div>
       <ul className="sidebar-menu">
         <li>
-          <Link to="/admin/dashboard">Dashboard</Link>
+          <Link to="/">Dashboard</Link>
         </li>
         <li>
           <input type="checkbox" id="category-toggle" className="menu-toggle" />
@@ -49,9 +49,9 @@ const Sidebar = () => {
             Appointments
           </label>
           <ul className="submenu">
-            <li>
+            {/* <li>
               <Link to="/admin/add-app">Add Appointment</Link>
-            </li>
+            </li> */}
             <li>
               <Link to="/admin/all-app">All Appointment</Link>
             </li>

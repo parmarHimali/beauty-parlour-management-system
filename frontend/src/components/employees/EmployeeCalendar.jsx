@@ -54,7 +54,11 @@ const EmployeeCalendar = () => {
                 className={`p-2 rounded-md shadow-md text-white event-box `}
                 data-tooltip-id={`tooltip-${eventInfo.event.id}`}
               >
-                <p>{eventInfo.event.title.split("-")[0]}</p>
+                <p>
+                  {eventInfo.event.title.split(" -")[0] == "undefined"
+                    ? "Unknown"
+                    : eventInfo.event.title.split(" -")[0]}
+                </p>
               </div>
               <Tooltip
                 id={`tooltip-${eventInfo.event.id}`}

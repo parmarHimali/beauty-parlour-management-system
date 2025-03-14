@@ -1,0 +1,1218 @@
+[
+  {
+    "_id": {
+      "$oid": "676baf7d50a05a5e578560a7"
+    },
+    "name": "Layered Haircut special",
+    "description": "A layered haircut involves cutting hair into layers of varying lengths, which adds volume and texture. This style can be customized for different hair types and lengths, enhancing natural waves or curls.",
+    "price": 500,
+    "duration": 60,
+    "categoryId": {
+      "$oid": "676831e70ca45c3b20b18bf4"
+    },
+    "image": "uploads\\1735110525946-259759398Layered haircut.jpeg",
+    "__v": 33,
+    "serviceHighlights": [
+      "Customizable layers to suit your face shape.",
+      "Precision cutting by professional stylists.",
+      "Includes wash and blow-dry."
+    ],
+    "customerRatings": 4,
+    "customerReviews": [
+      {
+        "$oid": "67826aa87ca535afa5f3ed33"
+      },
+      {
+        "$oid": "6792612588b58fee0dbe7267"
+      },
+      {
+        "$oid": "67c1e54f8e7d3641673b4901"
+      },
+      {
+        "$oid": "67cd7e95eb440073bf790939"
+      }
+    ],
+    "employeeImages": [
+      {
+        "imageUrl": "uploads/1739981613437-7117546201e9efbe839b6c731749d6081fbbbe8e9.jpg",
+        "employeeName": "emp1",
+        "_id": {
+          "$oid": "67b6032da6e92c0407c961f5"
+        },
+        "createdAt": { "$date": "2024-03-01T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1739981831563-441712883download (2).jpeg",
+        "employeeName": "emp1",
+        "_id": {
+          "$oid": "67b60407a6e92c0407c96222"
+        },
+        "createdAt": { "$date": "2024-01-22T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1740832338693-23136067haircut.jpg",
+        "employeeName": "employee one",
+        "_id": {
+          "$oid": "67c2fe52f2b6396a3fc5a1c2"
+        },
+        "createdAt": { "$date": "2023-01-12T12:00:00.000Z" }
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "67729871966d84296b58fa28"
+    },
+    "name": "Hair Coloring",
+    "description": "Professional hair coloring service offering a wide variety of shades and techniques. Our experts ensure vibrant, long-lasting color.",
+    "price": 540,
+    "duration": 120,
+    "categoryId": {
+      "$oid": "676831e70ca45c3b20b18bf4"
+    },
+    "image": "uploads\\1735563377234-423301557haircoloring.jpg",
+    "employeeImages": [
+      {
+        "imageUrl": "uploads/1740832798753-475470272Layered haircut.jpeg",
+        "employeeName": "employee one",
+        "_id": {
+          "$oid": "67c3001ef2b6396a3fc5a1fa"
+        },
+        "createdAt": { "$date": "2024-12-25T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1740832825663-892533492haircoloring.jpg",
+        "employeeName": "employee one",
+        "_id": {
+          "$oid": "67c30039f2b6396a3fc5a22d"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      }
+    ],
+    "serviceHighlights": [
+      "A diverse palette of colors to match your style.",
+      "Expert advice to select the perfect shade for your skin tone and personality.",
+      "Use of ammonia-free and damage-free hair colors for healthy hair.",
+      "Tips to maintain the vibrancy and health of your colored hair."
+    ],
+    "discountOffer": null,
+    "__v": 14,
+    "customerRatings": 3.4,
+    "customerReviews": [
+      {
+        "$oid": "67826ebaa293375341270131"
+      },
+      {
+        "$oid": "67826f9e09862294269e751c"
+      },
+      {
+        "$oid": "67826fa609862294269e7522"
+      },
+      {
+        "$oid": "67826fd309862294269e753b"
+      },
+      {
+        "$oid": "67c3011bf2b6396a3fc5a287"
+      },
+      {
+        "$oid": "67cd7b4d2f39bdeac4ab43ec"
+      },
+      {
+        "$oid": "67cd7ffceb440073bf790ad9"
+      },
+      {
+        "$oid": "67cd8035eb440073bf790b22"
+      },
+      {
+        "$oid": "67cd803deb440073bf790b2a"
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "677299ee966d84296b58fa52"
+    },
+    "name": "Permanetnt Straight Hair",
+    "description": "Achieve sleek, straight hair with our permanent hair straightening treatment. This process smooths and straightens your hair, giving you a polished look that lasts for months.",
+    "price": 4000,
+    "duration": 180,
+    "categoryId": {
+      "$oid": "676831e70ca45c3b20b18bf4"
+    },
+    "image": "uploads\\1735563758527-818543541straight-hair.jpg",
+    "serviceHighlights": [
+      "Price Range: ₹3,000 - ₹6,000 (based on hair length and texture).",
+      "Time Required: 2 to 4 hours for a complete transformation.",
+      "Enjoy straight hair for up to 6 months with proper care.",
+      "Use of top-quality, damage-free products for healthy hair.",
+      "Guidance for maintaining straight hair at home."
+    ],
+    "discountOffer": null,
+    "__v": 30,
+    "customerRatings": 3.5,
+    "customerReviews": [
+      {
+        "$oid": "678270a9feaf297ad785b520"
+      },
+      {
+        "$oid": "67c300e1f2b6396a3fc5a26e"
+      },
+      {
+        "$oid": "67cd7fceeb440073bf790a93"
+      }
+    ],
+    "employeeImages": [
+      {
+        "imageUrl": "uploads/1739982217699-655934140e5af70d4576953b75b3d628341aa8dca.jpg",
+        "employeeName": "emp1",
+        "_id": {
+          "$oid": "67b60589a6e92c0407c96247"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1739982289363-506840866fcc16ec5240086a447eb00dec9c99d87.jpg",
+        "employeeName": "emp1",
+        "_id": {
+          "$oid": "67b605d1a6e92c0407c9625b"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1739982315663-344452321e5af70d4576953b75b3d628341aa8dca.jpg",
+        "employeeName": "emp1",
+        "_id": {
+          "$oid": "67b605eba6e92c0407c96267"
+        },
+        "createdAt": { "$date": "2024-01-11T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1739982332488-9544822191e9efbe839b6c731749d6081fbbbe8e9.jpg",
+        "employeeName": "emp1",
+        "_id": {
+          "$oid": "67b605fca6e92c0407c9627a"
+        },
+        "createdAt": { "$date": "2024-05-11T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1739982392903-352555628straight-hair.jpg",
+        "employeeName": "vrunda",
+        "_id": {
+          "$oid": "67b60638a6e92c0407c962b4"
+        },
+        "createdAt": { "$date": "2025-03-11T12:00:00.000Z" }
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "67729ae7966d84296b58fa5f"
+    },
+    "name": "Facial Treatment",
+    "description": "In our facial treatment that deeply cleanses and hydrates your skin. This relaxing treatment includes a gentle massage, mask, and customized products to suit your skin type.",
+    "price": 1000,
+    "duration": 60,
+    "categoryId": {
+      "$oid": "67683678fa480383a36798f1"
+    },
+    "image": "uploads\\1735564007879-148421597facial.jpeg",
+    "employeeImages": [],
+    "serviceHighlights": [
+      "45 minutes to 1 hours for a complete session.",
+      "brighten your skin instantly.",
+      "Options like hydration, anti-aging, or acne care facials.",
+      "Expert advice to maintain your glowing skin."
+    ],
+    "discountOffer": null,
+    "__v": 9,
+    "customerRatings": 4,
+    "customerReviews": [
+      {
+        "$oid": "67cd7ec2eb440073bf79096f"
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "67729b84966d84296b58fa6c"
+    },
+    "name": "Gel Manicure",
+    "description": "Manicure with gel polish that provides long-lasting shine and durability. Perfect for maintaining beautiful nails with minimal upkeep.",
+    "price": 900,
+    "duration": 60,
+    "categoryId": {
+      "$oid": "67683696fa480383a367acce"
+    },
+    "image": "uploads\\1735564164060-236294601gel.jpg",
+    "serviceHighlights": [
+      "Price Range: ₹900 - ₹1,500 (varies by design and add-ons).",
+      "Long-Lasting Shine: Chip-free nails that last up to 3 weeks.",
+      "Choose from a variety of colors, patterns, and art styles.",
+      "Safe, high-quality gel products for healthy nails"
+    ],
+    "discountOffer": null,
+    "__v": 7,
+    "customerRatings": 4,
+    "customerReviews": [
+      {
+        "$oid": "67a795cc853eeba67b5fe663"
+      }
+    ],
+    "employeeImages": [
+      {
+        "imageUrl": "uploads/1739982465100-865349108nailart.jpg",
+        "employeeName": "honey",
+        "_id": {
+          "$oid": "67b60681a6e92c0407c96304"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1739982470516-808431063nail art1.jpg",
+        "employeeName": "honey",
+        "_id": {
+          "$oid": "67b60686a6e92c0407c96309"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "67729c0d966d84296b58fa7e"
+    },
+    "name": "Pedicure",
+    "description": "Relaxing pedicure service that pampers your feet and improves their appearance. Include nail shaping, and a soothing massage.",
+    "price": 700,
+    "duration": 60,
+    "categoryId": {
+      "$oid": "67683696fa480383a367acce"
+    },
+    "image": "uploads\\1735564301626-258110208pedicure.jpg",
+    "employeeImages": [],
+    "serviceHighlights": [
+      "Price Range: ₹700 - ₹1,200 (varies by type and add-ons).",
+      "Remove dead skin, soften heels, and improve circulation.",
+      "Safe Products: Use of high-quality, skin-friendly products.",
+      "Flawless Finish: Expertly shaped nails with polished perfection."
+    ],
+    "discountOffer": null,
+    "__v": 3,
+    "customerRatings": 2.5,
+    "customerReviews": [
+      {
+        "$oid": "678b3d94f3532a132d1c39ab"
+      },
+      {
+        "$oid": "67cd7fb5eb440073bf790a77"
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "67729c88966d84296b58fa84"
+    },
+    "name": "Nail Art",
+    "description": "Custom nail art designs to enhance your manicure. Choose from a variety of styles and colors to express your unique personality.",
+    "price": 500,
+    "duration": 60,
+    "categoryId": {
+      "$oid": "67683696fa480383a367acce"
+    },
+    "image": "uploads\\1735564424363-518961308nailart.jpg",
+    "serviceHighlights": [
+      "Price Range: ₹500 - ₹2,000 (depends on design complexity).",
+      "Time Required: 30 minutes to 1.5 hours for detailed art.",
+      "Premium Materials: Use of high-quality paints, gems, and accessories.",
+      "Long-Lasting: Durable art with a professional finish that lasts weeks.",
+      "Custom Creations: Personalized designs tailored to your style."
+    ],
+    "discountOffer": null,
+    "__v": 21,
+    "customerRatings": 4.5,
+    "customerReviews": [
+      {
+        "$oid": "67b606c5a6e92c0407c96333"
+      },
+      {
+        "$oid": "67cd7f91eb440073bf790a4e"
+      }
+    ],
+    "employeeImages": [
+      {
+        "imageUrl": "uploads/1739982483366-466022419nail art 3.jpg",
+        "employeeName": "honey",
+        "_id": {
+          "$oid": "67b60693a6e92c0407c96317"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1739982487273-873219776nail art 2.jpg",
+        "employeeName": "honey",
+        "_id": {
+          "$oid": "67b60697a6e92c0407c9631c"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1741623497545-903018154nail art 4.jpg",
+        "employeeName": "prisha",
+        "_id": {
+          "$oid": "67cf10c964bef9d0939aa4f0"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1741623509816-6151153681724089175_66c38357c40ad.jpeg",
+        "employeeName": "prisha",
+        "_id": {
+          "$oid": "67cf10d564bef9d0939aa4f7"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "67729d01966d84296b58fa8a"
+    },
+    "name": "Acrylic Nails",
+    "description": "Enhance your nails with durable and stylish acrylic extensions. Our skilled technicians will shape and customize the nails to your desired length and design, offering a perfect balance of beauty and strength.",
+    "price": 1500,
+    "duration": 120,
+    "categoryId": {
+      "$oid": "67683696fa480383a367acce"
+    },
+    "image": "uploads\\1735564545463-968684339acrylic.jpg",
+    "employeeImages": [
+      {
+        "imageUrl": "uploads/1741623074830-9532483466c380aa18303_download.jpeg",
+        "employeeName": "vrunda",
+        "_id": {
+          "$oid": "67cf0f2264bef9d0939aa38a"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1741623087951-310763656acrylic.jpg",
+        "employeeName": "vrunda",
+        "_id": {
+          "$oid": "67cf0f2f64bef9d0939aa38f"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      }
+    ],
+    "serviceHighlights": [
+      "Price Range: ₹1,500 - ₹3,000 (depends on length and design).",
+      "Time Required: 1 to 2 hours for application and shaping.",
+      "Durable & Strong: Long-lasting nails that are resistant to breakage.",
+      "Custom Length & Shape: Tailored to your preferred length and style (square, round, coffin, etc.)."
+    ],
+    "discountOffer": null,
+    "__v": 4,
+    "customerRatings": 4,
+    "customerReviews": [
+      {
+        "$oid": "67cd7f7beb440073bf790a3f"
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "67729dac966d84296b58fa97"
+    },
+    "name": "Bridal Makeup",
+    "description": "Complete bridal makeup service to make you look stunning on your special day. Includes a trial session to ensure the perfect look.",
+    "price": 8000,
+    "duration": 240,
+    "categoryId": {
+      "$oid": "676836c7fa480383a367cdbc"
+    },
+    "image": "uploads\\1735564716495-799483627bridal.jpeg",
+    "serviceHighlights": [
+      "Price Range: ₹8,000 - ₹25,000 (based on package and complexity).",
+      "Time Required: 2 to 4 hours for a flawless, long-lasting look.",
+      "Personalized Style: Customized makeup that matches your wedding theme and personal style.",
+      "High-Quality Products: Use of premium, long-lasting, and skin-friendly makeup.",
+      "Hair & Makeup Combo: Option to include bridal hair styling for a complete look."
+    ],
+    "discountOffer": null,
+    "__v": 5,
+    "customerRatings": 4.5,
+    "customerReviews": [
+      {
+        "$oid": "67cd7df1eb440073bf7908ab"
+      },
+      {
+        "$oid": "67cd7ed5eb440073bf79097e"
+      }
+    ],
+    "employeeImages": []
+  },
+  {
+    "_id": {
+      "$oid": "67729e2b966d84296b58fa9f"
+    },
+    "name": "Party Makeup",
+    "description": "Makeup service for parties and special events. Our artists create a glamorous look that lasts all night and enhances your natural beauty.",
+    "price": 2000,
+    "duration": 120,
+    "categoryId": {
+      "$oid": "676836c7fa480383a367cdbc"
+    },
+    "image": "uploads\\1735564843978-379082245party-makeup.jpeg",
+    "employeeImages": [],
+    "serviceHighlights": [
+      "Price Range: ₹2,000 - ₹6,000 (depends on style and products used).",
+      "Time Required: 1 to 2 hours for a stunning, glam look.",
+      "Customizable Looks: Choose from bold, glam, or natural party styles.",
+      "Perfect for All Occasions: Ideal for weddings, birthdays, and special events.",
+      "Complimentary Touch-Up: Quick touch-ups for any last-minute adjustments."
+    ],
+    "discountOffer": null,
+    "__v": 6,
+    "customerRatings": 3.5,
+    "customerReviews": [
+      {
+        "$oid": "67cd79e72f39bdeac4ab41e7"
+      },
+      {
+        "$oid": "67cd7e68eb440073bf7908f8"
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "67729ec0966d84296b58faae"
+    },
+    "name": "Waxing",
+    "description": "Comprehensive waxing service for the hands legs. Leaves your skin smooth and hair-free for weeks",
+    "price": 300,
+    "duration": 60,
+    "categoryId": {
+      "$oid": "676836f3fa480383a367eacd"
+    },
+    "image": "uploads\\1735564992157-4468967761724089295_66c383cf387fe.jpeg",
+    "employeeImages": [],
+    "serviceHighlights": [
+      "Price Range: ₹300 - ₹2,500 (varies by area and type).",
+      "Time Required: 15 minutes to 1 hour (depending on the area treated).",
+      "Smooth & Silky Skin: Enjoy smooth, hair-free skin for weeks.",
+      "Variety of Options: Choose from full body, hands, legs, arms",
+      "Long-Lasting Results: Smooth skin that lasts for up to 4 weeks.",
+      "High-Quality Wax: Use of gentle, skin-friendly wax for minimal irritation."
+    ],
+    "discountOffer": null,
+    "__v": 6,
+    "customerRatings": 2.5,
+    "customerReviews": [
+      {
+        "$oid": "67cd7ae92f39bdeac4ab4383"
+      },
+      {
+        "$oid": "67cd800eeb440073bf790af3"
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "67729f8b966d84296b58fabe"
+    },
+    "name": "Eyebrow Hair Removal with Wax",
+    "description": "Get perfectly shaped eyebrows with our precise waxing service. Our experts use gentle wax to remove unwanted hair, ensuring a clean and defined brow line.",
+    "price": 200,
+    "duration": 30,
+    "categoryId": {
+      "$oid": "676836f3fa480383a367eacd"
+    },
+    "image": "uploads\\1735565195600-597068655eyebrow.jpeg",
+    "employeeImages": [],
+    "serviceHighlights": [
+      "Price Range: ₹150 - ₹500 (based on location and salon).",
+      "Time Required: 10 to 20 minutes for a quick, precise shaping.",
+      "Quick & Efficient: Fast removal of unwanted hair with minimal discomfort.",
+      "Precise Shaping: Achieve perfectly shaped, defined eyebrows tailored to your face.",
+      "Aftercare Tips: Follow-up tips to keep your brows smooth and irritation-free.",
+      "Gentle Wax: Use of soothing, skin-friendly wax for sensitive areas."
+    ],
+    "customerRatings": 3,
+    "customerReviews": [
+      {
+        "$oid": "67cd7e82eb440073bf790921"
+      }
+    ],
+    "discountOffer": null,
+    "__v": 1
+  },
+  {
+    "_id": {
+      "$oid": "6772a002966d84296b58fac8"
+    },
+    "name": "Chemical Peel",
+    "description": "Advanced skin treatment using chemical solutions to exfoliate and improve skin texture. Helps to reduce acne scars and pigmentation.",
+    "price": 2000,
+    "duration": 60,
+    "categoryId": {
+      "$oid": "67683737fa480383a3681956"
+    },
+    "image": "uploads\\1735565314925-433557388chemical-peel.jpeg",
+    "employeeImages": [],
+    "serviceHighlights": [
+      "Price Range: ₹2,000 - ₹5,000 (depending on type and skin needs).",
+      "Time Required: 30 minutes to 1 hour for a rejuvenating treatment.",
+      "Skin Rejuvenation: Improves skin texture, tone, and clarity by removing dead cells.",
+      "Targeted Treatment: Addresses acne, pigmentation, wrinkles, and uneven skin tone",
+      "Quick Recovery: Minimal downtime with noticeable results after a few days.",
+      "Safe & Effective: Performed by skilled professionals using high-quality products."
+    ],
+    "discountOffer": null,
+    "__v": 9,
+    "customerRatings": 2,
+    "customerReviews": [
+      {
+        "$oid": "67cd7b3a2f39bdeac4ab43cf"
+      },
+      {
+        "$oid": "67cd7ff3eb440073bf790ac1"
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "67c1ecd408664136cd4e86c9"
+    },
+    "name": "bridal makeup",
+    "description": "bridal makeup description goes here",
+    "price": 5000,
+    "duration": 120,
+    "categoryId": {
+      "$oid": "67683785fa480383a3684c06"
+    },
+    "image": "uploads\\1740762324774-632023223DULHAN.jpg",
+    "serviceHighlights": ["highlight about", "bridal", "makeup"],
+    "customerRatings": 3,
+    "customerReviews": [
+      {
+        "$oid": "67cd807feb440073bf790b64"
+      }
+    ],
+    "discountOffer": null,
+    "employeeImages": [
+      {
+        "imageUrl": "uploads/1741623605398-838498591bride3.jpg",
+        "employeeName": "krishna",
+        "_id": {
+          "$oid": "67cf113564bef9d0939aa537"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1741623616750-398262152download (2).jpeg",
+        "employeeName": "krishna",
+        "_id": {
+          "$oid": "67cf114064bef9d0939aa53c"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": {
+      "$oid": "67cd6a5a2f39bdeac4ab3c02"
+    },
+    "name": "Bridal Mehndi",
+    "description": "Enhance your special day with intricate and elegant bridal Mehndi designs. Our skilled artists create detailed patterns that beautifully complement your wedding attire, ensuring a stunning and long-lasting look.",
+    "price": 4500,
+    "duration": 240,
+    "categoryId": {
+      "$oid": "67cd68e62f39bdeac4ab3bfe"
+    },
+    "image": "uploads\\1741515354216-81096955411f0aae834e20dffc575067229e3c3c1.jpg",
+    "serviceHighlights": [
+      "🌿 Natural Ingredients: We use high-quality, chemical-free henna to ensure a deep, rich stain that lasts long.",
+      "⏳ Time Required: Bridal Mehndi application takes 3 to 6 hours, depending on the complexity of the design.",
+      "💰 Price Range: Starts from ₹3,500 to ₹10,000, based on design intricacy and coverage.",
+      "🎨 Customization: Choose from traditional, Arabic, or modern designs tailored to match your bridal look.",
+      "✨ Long-Lasting Stain: Get a dark, long-lasting Mehndi stain with proper aftercare guidance.",
+      "💎 Premium Service: Skilled artists ensure neat, detailed, and elegant Mehndi for your big day."
+    ],
+    "customerRatings": 4.5,
+    "customerReviews": [
+      {
+        "$oid": "67cd7a452f39bdeac4ab425f"
+      },
+      {
+        "$oid": "67cd7a4f2f39bdeac4ab4265"
+      }
+    ],
+    "discountOffer": null,
+    "employeeImages": [
+      {
+        "imageUrl": "uploads/1741623713616-41610292543ff45cf4b8cd17baa388054ecc87fab.jpg",
+        "employeeName": "parth",
+        "_id": {
+          "$oid": "67cf11a164bef9d0939aa5b9"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1741623719929-59835632711f0aae834e20dffc575067229e3c3c1.jpg",
+        "employeeName": "parth",
+        "_id": {
+          "$oid": "67cf11a764bef9d0939aa5be"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1741661105911-55743259743ff45cf4b8cd17baa388054ecc87fab.jpg",
+        "employeeName": "parth",
+        "_id": {
+          "$oid": "67cfa3b1dabda24d4da5f14d"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      }
+    ],
+    "__v": 5
+  },
+  {
+    "_id": {
+      "$oid": "67cd6b2b2f39bdeac4ab3c19"
+    },
+    "name": "Arabic Mehndi",
+    "description": "Arabic mehndi is a stylish and modern form of henna art that features bold floral patterns, vine-like trails, and spaces between designs, making it look elegant yet simple. It is commonly used for festive occasions and casual events.",
+    "price": 1500,
+    "duration": 120,
+    "categoryId": {
+      "$oid": "67cd68e62f39bdeac4ab3bfe"
+    },
+    "image": "uploads\\1741515563386-210986908arabic.jpg",
+    "serviceHighlights": [
+      "Natural Ingredients: Chemical-free henna with a smooth application.",
+      "Time Required: 1.5 to 3 hours for full hands.",
+      "Price Range: ₹1,500 to ₹5,000, based on design and coverage.",
+      "Customization: Features bold floral patterns, vine-like structures, and spaced-out designs with minimal detailing.",
+      "Long-Lasting Stain: Dark brown stain that lasts up to one week.",
+      "Premium Service: Ideal for modern brides and festive occasions with quick application."
+    ],
+    "customerRatings": 3,
+    "customerReviews": [
+      {
+        "$oid": "67cd7e54eb440073bf7908ea"
+      }
+    ],
+    "discountOffer": null,
+    "employeeImages": [
+      {
+        "imageUrl": "uploads/1741623657252-503166580arabic.jpg",
+        "employeeName": "parth",
+        "_id": {
+          "$oid": "67cf116964bef9d0939aa581"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1741712664800-20191428993127347d0bfdb6657a6656e635f406a.jpg",
+        "employeeName": "parth",
+        "createdAt": {
+          "$date": "2025-03-11T17:02:14.116Z"
+        },
+        "_id": {
+          "$oid": "67d06d185e3c4e4f169bb922"
+        }
+      }
+    ],
+    "__v": 3,
+    "createdAt": {
+      "$date": "2025-03-11T17:02:14.116Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "67cd6c702f39bdeac4ab3c59"
+    },
+    "name": "Western/Minimal Mehndi",
+    "description": "This style focuses on delicate, minimal designs such as small mandalas, finger patterns, or simple floral motifs. It is perfect for those who want an elegant yet subtle mehndi look.",
+    "price": 1000,
+    "duration": 60,
+    "categoryId": {
+      "$oid": "67cd68e62f39bdeac4ab3bfe"
+    },
+    "image": "uploads\\1741515888276-600648329d510edad837cc9af4a805319d25f5c7f.jpg",
+    "serviceHighlights": [
+      "Minimalist yet stylish patterns for modern looks",
+      "Quick application and fast-drying henna",
+      "Best for college functions, office parties, or vacations"
+    ],
+    "customerRatings": 3.5,
+    "customerReviews": [
+      {
+        "$oid": "67cd7b1a2f39bdeac4ab43ba"
+      },
+      {
+        "$oid": "67cd7fa2eb440073bf790a62"
+      }
+    ],
+    "discountOffer": null,
+    "employeeImages": [
+      {
+        "imageUrl": "uploads/1741623680164-5693443375e0684744aba7bd55a8cc19cbbc09222.jpg",
+        "employeeName": "parth",
+        "_id": {
+          "$oid": "67cf118064bef9d0939aa596"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1741623689206-382154994d510edad837cc9af4a805319d25f5c7f.jpg",
+        "employeeName": "parth",
+        "_id": {
+          "$oid": "67cf118964bef9d0939aa59b"
+        }
+      },
+      {
+        "imageUrl": "uploads/1741623696449-347161729b29fa2e7979c5f4305095d22e74ada84.jpg",
+        "employeeName": "parth",
+        "_id": {
+          "$oid": "67cf119064bef9d0939aa5a1"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      }
+    ],
+    "__v": 5
+  },
+  {
+    "_id": {
+      "$oid": "67cd6d9e2f39bdeac4ab3c90"
+    },
+    "name": "Temporary Curls",
+    "description": "Get beautiful, bouncy curls for a day with our temporary curling service using curling irons and styling sprays. Perfect for parties, weddings, and special events.",
+    "price": 800,
+    "duration": 60,
+    "categoryId": {
+      "$oid": "676837cdfa480383a3687b52"
+    },
+    "image": "uploads\\1741516190653-833558140temp_curl.jpg",
+    "serviceHighlights": [
+      "Price Range: ₹800 - ₹2,500",
+      "Duration: 30 minutes - 1 hour",
+      "Uses heat-protectant sprays for hair safety",
+      "Choice of loose waves, soft curls, or tight curls",
+      "Lasts 8 to 12 hours with proper styling products"
+    ],
+    "customerRatings": 3,
+    "customerReviews": [
+      {
+        "$oid": "67cd7ea7eb440073bf790953"
+      }
+    ],
+    "discountOffer": null,
+    "employeeImages": [
+      {
+        "imageUrl": "uploads/1741623865758-182838346temp_curl.jpg",
+        "employeeName": "isha",
+        "_id": {
+          "$oid": "67cf123964bef9d0939aa676"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1741623876136-297693888haircut.jpg",
+        "employeeName": "isha",
+        "_id": {
+          "$oid": "67cf124464bef9d0939aa67b"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": {
+      "$oid": "67cd6e342f39bdeac4ab3c95"
+    },
+    "name": "Permanent Perm Curls",
+    "description": "A long-lasting curling solution using chemical perm treatments to give you defined curls or waves for months. Best for those who love voluminous, curly hair without daily styling.",
+    "price": 4000,
+    "duration": 180,
+    "categoryId": {
+      "$oid": "676837cdfa480383a3687b52"
+    },
+    "image": "uploads\\1741516340099-207515654perm_curl.jpg",
+    "serviceHighlights": [
+      "Price Range: ₹4,000 - ₹10,000",
+      "Duration: 3 to 5 hours",
+      "Long-lasting curls for 3 to 6 months",
+      "Uses gentle perm solutions to prevent hair damage",
+      "Suitable for all hair lengths and curl preferences"
+    ],
+    "customerRatings": 3,
+    "customerReviews": [
+      {
+        "$oid": "67cd7a1d2f39bdeac4ab4235"
+      }
+    ],
+    "discountOffer": null,
+    "employeeImages": [
+      {
+        "imageUrl": "uploads/1741623841738-217630871perm_curl.jpg",
+        "employeeName": "isha",
+        "_id": {
+          "$oid": "67cf122164bef9d0939aa65d"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      }
+    ],
+    "__v": 2
+  },
+  {
+    "_id": {
+      "$oid": "67cd6ece2f39bdeac4ab3ca9"
+    },
+    "name": "Beach Waves Styling",
+    "description": "Soft, effortless beach waves for a natural and relaxed look, ideal for casual outings and vacations.",
+    "price": 1000,
+    "duration": 60,
+    "categoryId": {
+      "$oid": "676837cdfa480383a3687b52"
+    },
+    "image": "uploads\\1741516494524-97619530beach_wave_style2.jpg",
+    "serviceHighlights": [
+      "Price Range: ₹1,000 - ₹3,000",
+      "Duration: 45 minutes - 1.5 hours",
+      "Lightweight, wavy texture for a relaxed look",
+      "Uses minimal heat and texturizing sprays",
+      "Perfect for everyday styling and summer vibes"
+    ],
+    "customerRatings": 4.5,
+    "customerReviews": [
+      {
+        "$oid": "67cd7a092f39bdeac4ab422a"
+      },
+      {
+        "$oid": "67cd7fe4eb440073bf790ab0"
+      }
+    ],
+    "discountOffer": null,
+    "employeeImages": [
+      {
+        "imageUrl": "uploads/1741623808560-563066459beach_wave_style.jpg",
+        "employeeName": "isha",
+        "_id": {
+          "$oid": "67cf120064bef9d0939aa626"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1741623813839-37118956beach_wave_style2.jpg",
+        "employeeName": "isha",
+        "_id": {
+          "$oid": "67cf120564bef9d0939aa62b"
+        },
+        "createdAt": { "$date": "2025-01-28T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1741623822469-185328450curl.jpg",
+        "employeeName": "isha",
+        "_id": {
+          "$oid": "67cf120e64bef9d0939aa631"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      }
+    ],
+    "__v": 5
+  },
+  {
+    "_id": {
+      "$oid": "67cd6f872f39bdeac4ab3cbd"
+    },
+    "name": "Spiral Curls",
+    "description": "Defined, bouncy spiral curls that add a youthful and lively touch to your hair. Suitable for medium to long hair.",
+    "price": 2000,
+    "duration": 120,
+    "categoryId": {
+      "$oid": "676837cdfa480383a3687b52"
+    },
+    "image": "uploads\\1741516693804-391280508spiral_curl2.jpg",
+    "serviceHighlights": [
+      "Price Range: ₹2,000 - ₹4,500",
+      "Duration: 1 to 2.5 hours",
+      "Tight, long-lasting curls for a fun look",
+      "Uses curl-enhancing products for definition",
+      "Best suited for weddings, parties, and festive events"
+    ],
+    "customerRatings": 1,
+    "customerReviews": [
+      {
+        "$oid": "67cd806aeb440073bf790b4a"
+      }
+    ],
+    "discountOffer": null,
+    "employeeImages": [
+      {
+        "imageUrl": "uploads/1741623790901-607609797spiral_curl.jpg",
+        "employeeName": "isha",
+        "_id": {
+          "$oid": "67cf11ee64bef9d0939aa60c"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1741623796674-775148483spiral_curl2.jpg",
+        "employeeName": "isha",
+        "_id": {
+          "$oid": "67cf11f464bef9d0939aa611"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      }
+    ],
+    "__v": 3
+  },
+  {
+    "_id": {
+      "$oid": "67cd70622f39bdeac4ab3d0d"
+    },
+    "name": "Hydrating Facial",
+    "description": "A moisturizing facial that deeply hydrates dry and dull skin, restoring its natural glow.",
+    "price": 1500,
+    "duration": 60,
+    "categoryId": {
+      "$oid": "67683678fa480383a36798f1"
+    },
+    "image": "uploads\\1741516898563-5417522631735564007879-148421597facial.jpeg",
+    "serviceHighlights": [
+      "Price Range: ₹1,500 - ₹3,500",
+      "Duration: 45 - 60 minutes",
+      "Uses hyaluronic acid & vitamin-rich serums",
+      "Boosts skin moisture and prevents dryness",
+      "Perfect for dry and sensitive skin"
+    ],
+    "customerRatings": 4,
+    "customerReviews": [
+      {
+        "$oid": "67cd801eeb440073bf790b00"
+      }
+    ],
+    "discountOffer": null,
+    "employeeImages": [],
+    "__v": 1
+  },
+  {
+    "_id": {
+      "$oid": "67cd71832f39bdeac4ab3d12"
+    },
+    "name": "Anti-Aging Facial",
+    "description": "A rejuvenating treatment that reduces fine lines, wrinkles, and sagging skin for a youthful glow.",
+    "price": 2500,
+    "duration": 120,
+    "categoryId": {
+      "$oid": "67683678fa480383a36798f1"
+    },
+    "image": "uploads\\1741517187811-261839947anti_aging.jpg",
+    "serviceHighlights": [
+      "Price Range: ₹2,500 - ₹5,000",
+      "Duration: 1-2 hours",
+      "Collagen-Boosting Mask: Improves skin elasticity",
+      "Fine Line & Wrinkle Reduction: Smooths skin texture",
+      "Best for Mature & Aging Skin"
+    ],
+    "customerRatings": 0,
+    "customerReviews": [],
+    "discountOffer": null,
+    "employeeImages": [],
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "67cd71f72f39bdeac4ab3d17"
+    },
+    "name": "Acne Treatment Facial",
+    "description": "A purifying treatment designed to control acne, blackheads, and excess oil while soothing the skin.",
+    "price": 2000,
+    "duration": 60,
+    "categoryId": {
+      "$oid": "67683678fa480383a36798f1"
+    },
+    "image": "uploads\\1741517303449-436941940acne.jpg",
+    "serviceHighlights": [
+      "Price Range: ₹2,000 - ₹4,000",
+      "Duration: 60 - 75 minutes",
+      "Deep Pore Cleansing: Removes dirt and impurities",
+      "Anti-Bacterial Masks & Serums: Prevents future breakouts",
+      "Oil Control Treatment: Balances sebum production",
+      "Reduces Redness & Inflammation: Soothes irritated skin",
+      "Best for Oily & Acne-Prone Skin"
+    ],
+    "customerRatings": 0,
+    "customerReviews": [],
+    "discountOffer": null,
+    "employeeImages": [],
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "67cd72912f39bdeac4ab3d1c"
+    },
+    "name": "Gold Facial",
+    "description": "A luxurious facial using gold-infused products to give your skin a youthful glow.",
+    "price": 3500,
+    "duration": 120,
+    "categoryId": {
+      "$oid": "67683678fa480383a36798f1"
+    },
+    "image": "uploads\\1741517457533-234275113gold.jpg",
+    "serviceHighlights": [
+      "Price Range: ₹2,500 - ₹5,500",
+      "Duration: 60 - 90 minutes",
+      "24K Gold-Infused Mask: Enhances skin radiance",
+      "Reduces Fine Lines & Wrinkles: Anti-aging benefits",
+      "Deep Hydration & Skin Firming: Gives a smooth texture",
+      "Perfect for Special Occasions & Bridal Care"
+    ],
+    "customerRatings": 4,
+    "customerReviews": [
+      {
+        "$oid": "67cd8025eb440073bf790b0a"
+      }
+    ],
+    "discountOffer": null,
+    "employeeImages": [],
+    "__v": 1
+  },
+  {
+    "_id": {
+      "$oid": "67cd731b2f39bdeac4ab3d21"
+    },
+    "name": "Charcoal Detox Facial",
+    "description": "A deep-cleansing facial that removes toxins, dirt, and excess oil using activated charcoal.",
+    "price": 1800,
+    "duration": 60,
+    "categoryId": {
+      "$oid": "67683678fa480383a36798f1"
+    },
+    "image": "uploads\\1741517595526-63316496charcol.jpg",
+    "serviceHighlights": [
+      "Price Range: ₹1,800 - ₹3,800",
+      "Duration: 60 minutes",
+      "Activated Charcoal Mask: Absorbs impurities and toxins",
+      "Pore Tightening & Oil Control: Minimizes breakouts",
+      "Blackhead & Whitehead Removal: Clears clogged pores",
+      "Skin Detoxification: Refreshes and balances skin",
+      "Best for Oily & Combination Skin"
+    ],
+    "customerRatings": 0,
+    "customerReviews": [],
+    "discountOffer": null,
+    "employeeImages": [],
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "67cd74532f39bdeac4ab3d6a"
+    },
+    "name": "Engagement Makeup",
+    "description": "A balanced and elegant look designed to complement engagement outfits and jewelry.",
+    "price": 5000,
+    "duration": 120,
+    "categoryId": {
+      "$oid": "676836c7fa480383a367cdbc"
+    },
+    "image": "uploads\\1741517923054-954915655engagement makeup2.jpg",
+    "serviceHighlights": [
+      "Uses soft glam techniques to enhance features without overpowering",
+      "High-definition products to ensure a camera-ready finish",
+      "Lightweight, non-cakey foundation for all-day comfort",
+      "Blend of pastel and neutral tones to match traditional and modern outfits",
+      "Smudge-proof eye makeup for an intense, long-lasting effect"
+    ],
+    "customerRatings": 2.5,
+    "customerReviews": [
+      {
+        "$oid": "67cd79b22f39bdeac4ab41ba"
+      },
+      {
+        "$oid": "67cd7ef9eb440073bf790993"
+      }
+    ],
+    "discountOffer": null,
+    "employeeImages": [
+      {
+        "imageUrl": "uploads/1741623429932-378003742reception.jpg",
+        "employeeName": "charmie",
+        "_id": {
+          "$oid": "67cf108564bef9d0939aa498"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1741623445999-786361921engagement makeup2.jpg",
+        "employeeName": "charmie",
+        "_id": {
+          "$oid": "67cf109664bef9d0939aa49d"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1741623586957-625424470engagement makeup.jpg",
+        "employeeName": "krishna",
+        "_id": {
+          "$oid": "67cf112364bef9d0939aa528"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      },
+      {
+        "imageUrl": "uploads/1741712426439-702409075bride2.jpg",
+        "employeeName": "krishna",
+        "createdAt": {
+          "$date": "2025-03-11T16:58:26.117Z"
+        },
+        "_id": {
+          "$oid": "67d06c2a50e5be1b6d8d4e11"
+        }
+      }
+    ],
+    "__v": 6,
+    "createdAt": {
+      "$date": "2025-03-11T16:58:26.117Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "67cd74d72f39bdeac4ab3d94"
+    },
+    "name": "Reception Makeup",
+    "description": "A bold and sophisticated makeup look ideal for grand receptions and evening events.",
+    "price": 7000,
+    "duration": 120,
+    "categoryId": {
+      "$oid": "676836c7fa480383a367cdbc"
+    },
+    "image": "uploads\\1741518039781-55069806reception.jpg",
+    "serviceHighlights": [
+      "Airbrush or HD Makeup for a professional, magazine-style finish",
+      "Focus on dramatic eyes, bold lips, and defined contours",
+      "Use of glitter pigments, false lashes, and highlighters for a striking glow",
+      "Long-lasting matte and dewy foundations based on skin type",
+      "Ideal for high-profile events and celebrations"
+    ],
+    "customerRatings": 3,
+    "customerReviews": [
+      {
+        "$oid": "67cd7ee8eb440073bf790988"
+      }
+    ],
+    "discountOffer": null,
+    "employeeImages": [
+      {
+        "imageUrl": "uploads/1741623558469-546385639reception.jpg",
+        "employeeName": "krishna",
+        "_id": {
+          "$oid": "67cf110664bef9d0939aa518"
+        },
+        "createdAt": { "$date": "2024-03-11T12:00:00.000Z" }
+      }
+    ],
+    "__v": 2
+  }
+]
