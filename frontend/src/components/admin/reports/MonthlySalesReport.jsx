@@ -13,13 +13,11 @@ const MonthlySalesReport = () => {
       const { data } = await axios.get(
         "http://localhost:4000/api/reports/monthly-sales"
       );
-
-      setReportData(data.monthlyReport[0]);
+      setReportData(data.monthlyReport); // Store all months' data
     } catch (error) {
       console.error("Error fetching monthly sales data", error);
     }
   };
-  console.log(reportData);
 
   return (
     <div className="report-container">
@@ -33,28 +31,42 @@ const MonthlySalesReport = () => {
             <th>Revenue (₹)</th>
           </tr>
         </thead>
-        <tbody>
-          {reportData?.services?.map((service, index) => (
-            <tr key={`${index}-${service.service}`}>
-              {index === 0 && (
-                <td rowSpan={reportData.services.length}>{reportData._id}</td>
-              )}
-              <td>{service.service}</td>
-              <td>{service.bookings}</td>
-              <td>₹{service.revenue}</td>
-            </tr>
-          ))}
 
-          <tr>
-            <td colSpan={2}>
-              <strong>Total Revenue</strong>
-            </td>
-            <td>{reportData.totalBookings}</td>
-            <td>
-              <strong>₹{reportData.totalRevenue}</strong>
-            </td>
-          </tr>
-        </tbody>
+        {reportData.length > 0 ? (
+          [...reportData].reverse().map((monthData, idx) => (
+            <tbody key={idx}>
+              {monthData?.services.map((service, index) => (
+                <tr key={`${index}-${Math.floor(Math.random() * 9876)}`}>
+                  {index === 0 && (
+                    <td rowSpan={monthData.services.length}>{monthData._id}</td>
+                  )}
+                  <td>{service.service}</td>
+                  <td>{service.bookings}</td>
+                  <td>₹{service.revenue}</td>
+                </tr>
+              ))}
+              <tr
+                style={{
+                  border: "2px solid #3c3c3c",
+                }}
+              >
+                <td colSpan={2}>
+                  <strong>Total Revenue</strong>
+                </td>
+                <td>{monthData.totalBookings}</td>
+                <td style={{ backgroundColor: "#195b5b", color: "white" }}>
+                  <strong>₹{monthData.totalRevenue}</strong>
+                </td>
+              </tr>
+            </tbody>
+          ))
+        ) : (
+          <tbody>
+            <tr>
+              <td colSpan="4">No data available</td>
+            </tr>
+          </tbody>
+        )}
       </table>
     </div>
   );

@@ -6,7 +6,6 @@ import MonthlySalesReport from "./MonthlySalesReport";
 
 const SalesReport = () => {
   const [reportData, setReportData] = useState([]);
-  const [totalRevenue, setTotalRevenue] = useState(0);
 
   const formik = useFormik({
     initialValues: {
@@ -22,13 +21,13 @@ const SalesReport = () => {
     onSubmit: fetchSalesData,
   });
 
-  useEffect(() => {
-    fetchSalesData();
-  }, []);
+  // useEffect(() => {
+  //   fetchSalesData();
+  // }, []);
 
   async function fetchSalesData() {
     try {
-      const response = await axios.get(
+      const { data } = await axios.get(
         "http://localhost:4000/api/reports/sales",
         {
           params: {
@@ -37,16 +36,15 @@ const SalesReport = () => {
           },
         }
       );
-      setReportData(response.data.reportData);
-      setTotalRevenue(response.data.totalRevenue);
+      setReportData(data);
     } catch (error) {
       console.error("Error fetching sales data", error);
     }
   }
+  console.log(reportData);
 
   return (
     <>
-      <MonthlySalesReport />
       <div className="report-container" style={{ marginBottom: "40px" }}>
         <h2>Sales Report</h2>
         <form onSubmit={formik.handleSubmit} className="report-dates">
@@ -90,20 +88,33 @@ const SalesReport = () => {
             </tr>
           </thead>
           <tbody>
-            {reportData.map((service) => (
-              <tr key={service.service}>
-                <td>{service.service}</td>
-                <td>{service.bookings}</td>
-                <td>₹{service.revenue}</td>
+            {reportData.length == 0 ? (
+              <tr>
+                <td colSpan={3}>
+                  Please select start and end date to see revenue
+                </td>
               </tr>
-            ))}
-            <tr>
-              <td colSpan={2}>Total Revenue</td>
-              <td style={{ fontWeight: "bold" }}>₹{totalRevenue}</td>
-            </tr>
+            ) : (
+              <>
+                {reportData?.reportData?.map((service) => (
+                  <tr key={service.service}>
+                    <td>{service.service}</td>
+                    <td>{service.bookings}</td>
+                    <td>₹{service.revenue}</td>
+                  </tr>
+                ))}
+                <tr>
+                  <td colSpan={2}>Total Revenue</td>
+                  <td style={{ fontWeight: "bold" }}>
+                    ₹{reportData.totalRevenue}
+                  </td>
+                </tr>
+              </>
+            )}
           </tbody>
         </table>
       </div>
+      <MonthlySalesReport />
     </>
   );
 };

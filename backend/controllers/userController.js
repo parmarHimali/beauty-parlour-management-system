@@ -325,44 +325,115 @@ export const resetPassword = async (req, res) => {
   }
 };
 
-export const allCountList = catchAsyncError(async (req, res, next) => {
-  const totalAppointments = await Appointment.countDocuments();
-  const totalCustomers = await User.countDocuments({ role: "User" });
-  const totalEmployees = await User.countDocuments({ role: "Employee" });
-  const totalServices = await Service.countDocuments();
-  const revenueResult = await Appointment.aggregate([
-    {
-      $match: { status: "Completed" }, // Only consider completed appointments
-    },
-    {
-      $lookup: {
-        from: "services", // Name of the Service collection
-        localField: "serviceId",
-        foreignField: "_id",
-        as: "serviceDetails",
-      },
-    },
-    {
-      $unwind: "$serviceDetails", // Extract service details from array
-    },
-    {
-      $group: {
-        _id: null,
-        totalRevenue: { $sum: "$serviceDetails.price" }, // Sum the price from service details
-      },
-    },
-  ]);
+// export const allCountList = catchAsyncError(async (req, res, next) => {
+//   const totalAppointments = await Appointment.countDocuments();
+//   const totalCustomers = await User.countDocuments({ role: "User" });
+//   const totalEmployees = await User.countDocuments({ role: "Employee" });
+//   const totalServices = await Service.countDocuments();
+//   const revenueResult = await Appointment.aggregate([
+//     {
+//       $match: { status: "Completed" }, // Only consider completed appointments
+//     },
+//     {
+//       $lookup: {
+//         from: "services", // Name of the Service collection
+//         localField: "serviceId",
+//         foreignField: "_id",
+//         as: "serviceDetails",
+//       },
+//     },
+//     {
+//       $unwind: "$serviceDetails", // Extract service details from array
+//     },
+//     {
+//       $group: {
+//         _id: null,
+//         totalRevenue: { $sum: "$serviceDetails.price" }, // Sum the price from service details
+//       },
+//     },
+//   ]);
 
-  const totalRevenue =
-    revenueResult.length > 0 ? revenueResult[0].totalRevenue : 0;
-  res.status(200).json({
-    success: true,
-    data: {
-      totalAppointments,
-      totalCustomers,
-      totalEmployees,
-      totalServices,
-      totalRevenue,
-    },
-  });
+//   const totalRevenue =
+//     revenueResult.length > 0 ? revenueResult[0].totalRevenue : 0;
+//   res.status(200).json({
+//     success: true,
+//     data: {
+//       totalAppointments,
+//       totalCustomers,
+//       totalEmployees,
+//       totalServices,
+//       totalRevenue,
+//     },
+//   });
+// });
+export const allCountList = catchAsyncError(async (req, res, next) => {
+  try {
+    // Count total records
+    const totalAppointments = await Appointment.countDocuments();
+    const totalCustomers = await User.countDocuments({ role: "User" });
+    const totalEmployees = await User.countDocuments({ role: "Employee" });
+    const totalServices = await Service.countDocuments();
+
+    // Calculate total revenue with correct price logic
+    const revenueResult = await Appointment.aggregate([
+      {
+        $match: { status: "Completed" }, // Only consider completed appointments
+      },
+      {
+        $lookup: {
+          from: "services",
+          localField: "serviceId",
+          foreignField: "_id",
+          as: "serviceDetails",
+        },
+      },
+      {
+        $unwind: "$serviceDetails", // Extract service details from array
+      },
+      {
+        $project: {
+          priceAtBooking: 1,
+          discountApplied: 1,
+          servicePrice: "$serviceDetails.price",
+        },
+      },
+      {
+        $project: {
+          finalPrice: {
+            $subtract: [
+              { $ifNull: ["$priceAtBooking", "$servicePrice"] }, // Use priceAtBooking if available, else service price
+              {
+                $multiply: [
+                  { $ifNull: ["$priceAtBooking", "$servicePrice"] },
+                  { $divide: [{ $ifNull: ["$discountApplied", 0] }, 100] }, // Apply discount if available
+                ],
+              },
+            ],
+          },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalRevenue: { $sum: { $max: ["$finalPrice", 0] } }, // Ensure no negative revenue
+        },
+      },
+    ]);
+
+    const totalRevenue =
+      revenueResult.length > 0 ? revenueResult[0].totalRevenue : 0;
+
+    res.status(200).json({
+      success: true,
+      data: {
+        totalAppointments,
+        totalCustomers,
+        totalEmployees,
+        totalServices,
+        totalRevenue,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 });
