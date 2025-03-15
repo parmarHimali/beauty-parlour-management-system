@@ -15,81 +15,6 @@ function minutesToTime(minutes) {
   return `${String(hours).padStart(2, "0")}:${String(mins).padStart(2, "0")}`;
 }
 
-// export const bookAppointment = catchAsyncError(async (req, res) => {
-//   const { serviceId, userId, phone, employeeId, date, time, customerName } =
-//     req.body;
-
-//   const service = await Service.findById(serviceId);
-//   if (!service) {
-//     return res.status(404).json({ message: "Service not found" });
-//   }
-//   const serviceDuration = service.duration; // Get duration from service
-
-//   const employee = await Employee.findById(employeeId);
-//   if (!employee) {
-//     return res.status(404).json({ message: "Employee not found" });
-//   }
-
-//   const startTimeInMinutes = timeToMinutes(time);
-//   const endTimeInMinutes = startTimeInMinutes + serviceDuration;
-
-//   // Check if employee already has a booking for this date
-//   let bookedForDate = employee.bookedTimes.find((entry) => entry.date === date);
-
-//   if (bookedForDate) {
-//     for (let bookedTime of bookedForDate.times) {
-//       const [bookedStart, bookedEnd] = bookedTime.time
-//         .split("-")
-//         .map(timeToMinutes);
-
-//       if (
-//         (startTimeInMinutes >= bookedStart && startTimeInMinutes < bookedEnd) || // Starts inside
-//         (endTimeInMinutes > bookedStart && endTimeInMinutes <= bookedEnd) || // Ends inside
-//         (startTimeInMinutes <= bookedStart && endTimeInMinutes >= bookedEnd) // Fully overlaps
-//       ) {
-//         return res.status(400).json({
-//           message: `Time slot overlaps with existing bookings, please select a different time.`,
-//         });
-//       }
-//     }
-//   }
-
-//   const blockedTimes = [];
-//   for (let i = startTimeInMinutes; i < endTimeInMinutes; i += serviceDuration) {
-//     blockedTimes.push({
-//       time: `${minutesToTime(i)}-${minutesToTime(i + serviceDuration)}`,
-//       serviceId,
-//       userId,
-//       phone,
-//     });
-//   }
-
-//   if (!bookedForDate) {
-//     employee.bookedTimes.push({ date, times: blockedTimes });
-//   } else {
-//     bookedForDate.times.push(...blockedTimes);
-//   }
-
-//   await employee.save();
-
-//   const appointment = new Appointment({
-//     userId,
-//     serviceId,
-//     employeeId,
-//     phone,
-//     date,
-//     time,
-//     status: "Pending", // You can change the default status if needed
-//     applyDate: new Date(),
-//     customerName,
-//   });
-
-//   await appointment.save(); // Save the appointment
-
-//   res
-//     .status(201)
-//     .json({ success: true, message: "Appointment booked successfully." });
-// });
 export const bookAppointment = catchAsyncError(async (req, res) => {
   const { serviceId, userId, phone, employeeId, date, time, customerName } =
     req.body;
@@ -157,6 +82,8 @@ export const bookAppointment = catchAsyncError(async (req, res) => {
     status: "Pending",
     applyDate: new Date(),
     customerName,
+    discountApplied: service.discountOffer,
+    priceAtBooking: service.price,
   });
 
   await appointment.save(); // Save the appointment
@@ -287,11 +214,15 @@ export const getAppointments = catchAsyncError(async (req, res, next) => {
       customerName,
       phone,
       date,
+      priceAtBooking,
+      discountApplied,
       time,
       status,
       applyDate,
     } = appointment;
 
+    const finalPrice =
+      priceAtBooking - priceAtBooking * (discountApplied / 100);
     return {
       appointmentId: _id,
       customerName: userId ? userId.name : customerName, // Use the customer's name or fallback to customerName
@@ -307,7 +238,10 @@ export const getAppointments = catchAsyncError(async (req, res, next) => {
       time,
       applyDate,
       status,
+      finalPrice,
       userId,
+      discountApplied: discountApplied || 0,
+      priceAtBooking: priceAtBooking || serviceId.price,
     };
   });
 
@@ -411,8 +345,23 @@ export const getAllForEmployee = catchAsyncError(async (req, res, next) => {
       .status(404)
       .json({ success: false, message: "No appointments found." });
   }
+  const formattedAppointments = appointments.map((appointment) => {
+    let { priceAtBooking, discountApplied, ...rest } = appointment.toObject();
+    if (!priceAtBooking) {
+      priceAtBooking = appointment.serviceId.price;
+    }
 
-  res.json({ success: true, appointments });
+    const finalPrice =
+      priceAtBooking - (priceAtBooking * discountApplied) / 100;
+    return {
+      ...rest,
+      priceAtBooking,
+      discountApplied,
+      finalPrice,
+    };
+  });
+
+  res.json({ success: true, appointments: formattedAppointments });
 });
 
 export const statusChange = catchAsyncError(async (req, res, next) => {

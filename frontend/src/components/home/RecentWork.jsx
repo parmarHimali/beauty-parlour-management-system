@@ -28,7 +28,7 @@ const RecentWork = () => {
         {data.length > 0 ? (
           data.map((dataa) => {
             return (
-              <div className="recent">
+              <div className="recent" key={dataa._id}>
                 <img
                   src={`${IMG_URL}/${dataa.imageUrl}`}
                   alt="recent"

@@ -807,6 +807,7 @@ a {
   border-radius: 10px;
   width: 40%;
   height: 300px;
+  position: relative;
 }
 
 .all-services h1 {
@@ -845,13 +846,33 @@ a {
   margin-top: 6px;
   position: relative;
 }
+.s-badge {
+  background-color: #2871712c;
+  font-size: 12px;
+  color: #165656;
+  font-weight: bold;
+  padding: 3px 6px;
+  border-radius: 7px;
+}
+.service-badge {
+  position: absolute;
+  right: 10px;
+}
 
 .sub-service ul {
   list-style-type: disc;
   padding-left: 20px;
 }
+.service-price {
+  display: flex;
+  gap: 4px;
+}
+.discount {
+  font-weight: bold;
+  color: #165656;
+}
 
-.sub-service h2 {
+.sub-service h3 {
   color: var(--pink-dark);
 }
 
@@ -893,6 +914,18 @@ a {
 .service-header .btn-book {
   position: relative;
   margin-top: 18px;
+}
+.service-header .share {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+  gap: 15px;
+}
+.service-header .share svg {
+  font-size: 25px;
+  color: var(--grey);
+  cursor: pointer;
 }
 
 .all-services h1.no-msg {
@@ -941,8 +974,8 @@ a {
   margin-bottom: 30px;
 }
 
-.service-header h1 {
-  font-size: 2.5rem;
+.service-header h2 {
+  font-size: 1.8rem;
   margin-bottom: 10px;
   color: var(--green);
 }

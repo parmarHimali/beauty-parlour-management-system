@@ -106,6 +106,16 @@ const ServiceList = () => {
 
             return (
               <div className="service-card" key={service._id}>
+                {service?.discountOffer && service?.discountOffer != 0 ? (
+                  <span
+                    className="s-badge service-badge"
+                    style={{ top: "8px" }}
+                  >
+                    {service.discountOffer}% Off
+                  </span>
+                ) : (
+                  ""
+                )}
                 <div className="service-card-image">
                   <img
                     src={
@@ -118,9 +128,25 @@ const ServiceList = () => {
                 <div className="service-card-content">
                   <div className="card-details">
                     <h3>{service.name}</h3>
-                    <p>
+                    <p className="d-flex" style={{ gap: "5px" }}>
                       <b>Price: </b>
-                      {`₹${service.price}`}
+                      <span
+                        style={{
+                          textDecoration:
+                            service?.discountOffer && service.discountOffer != 0
+                              ? "line-through"
+                              : "none",
+                        }}
+                      >{`₹${service.price}`}</span>
+                      {service?.discountOffer ? (
+                        <span className="discount">
+                          &#8377;
+                          {service.price -
+                            service.price * (service.discountOffer / 100)}
+                        </span>
+                      ) : (
+                        ""
+                      )}
                     </p>
                     <p>
                       <b>Duration: </b>

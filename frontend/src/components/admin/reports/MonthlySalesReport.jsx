@@ -13,11 +13,13 @@ const MonthlySalesReport = () => {
       const { data } = await axios.get(
         "http://localhost:4000/api/reports/monthly-sales"
       );
-      setReportData(data.monthlyReport);
+
+      setReportData(data.monthlyReport[0]);
     } catch (error) {
       console.error("Error fetching monthly sales data", error);
     }
   };
+  console.log(reportData);
 
   return (
     <div className="report-container">
@@ -32,27 +34,24 @@ const MonthlySalesReport = () => {
           </tr>
         </thead>
         <tbody>
-          {reportData.map((month) =>
-            month.services.map((service, index) => (
-              <tr key={`${month._id}-${service.service}`}>
-                {index === 0 && (
-                  <td rowSpan={month.services.length}>{month._id}</td>
-                )}
-                <td>{service.service}</td>
-                <td>{service.bookings}</td>
-                <td>₹{service.revenue}</td>
-              </tr>
-            ))
-          )}
+          {reportData?.services?.map((service, index) => (
+            <tr key={`${index}-${service.service}`}>
+              {index === 0 && (
+                <td rowSpan={reportData.services.length}>{reportData._id}</td>
+              )}
+              <td>{service.service}</td>
+              <td>{service.bookings}</td>
+              <td>₹{service.revenue}</td>
+            </tr>
+          ))}
+
           <tr>
-            <td colSpan={3}>
+            <td colSpan={2}>
               <strong>Total Revenue</strong>
             </td>
+            <td>{reportData.totalBookings}</td>
             <td>
-              <strong>
-                ₹
-                {reportData.reduce((sum, month) => sum + month.totalRevenue, 0)}
-              </strong>
+              <strong>₹{reportData.totalRevenue}</strong>
             </td>
           </tr>
         </tbody>

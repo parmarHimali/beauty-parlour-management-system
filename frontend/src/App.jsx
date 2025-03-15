@@ -141,7 +141,7 @@ const App = () => {
                   element={<ResetPassword />}
                 />
               </Route>
-              <Route path="*" element={<NotFound />} />
+              {/* <Route path="*" element={<NotFound />} /> */}
             </Routes>
           </Suspense>
           {/* <Footer /> */}
@@ -167,7 +167,7 @@ const App = () => {
                 element={<AppointmentDetails />}
               />
             </Route>
-            <Route path="*" element={<NotFound />} />
+            {/* <Route path="*" element={<NotFound />} /> */}
           </Routes>
         </>
       );
@@ -221,7 +221,7 @@ const App = () => {
                 element={<EmpAppointmentDetails />}
               />
             </Route>
-            <Route path="*" element={<NotFound />} />
+            {/* <Route path="*" element={<NotFound />} /> */}
           </Routes>
         </>
       );

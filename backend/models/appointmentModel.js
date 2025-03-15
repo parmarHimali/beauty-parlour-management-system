@@ -47,6 +47,14 @@ const appointmentSchema = new mongoose.Schema({
     enum: ["Pending", "Confirmed", "Completed", "Cancelled"],
     default: "Pending",
   },
+  priceAtBooking: {
+    type: Number,
+    required: true, // Stores the price at the time of booking
+  },
+  discountApplied: {
+    type: Number,
+    default: 0, // Stores the discount applied at booking
+  },
 });
 
 const Appointment = mongoose.model("Appointment", appointmentSchema);

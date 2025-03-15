@@ -5,6 +5,7 @@ import DataTable from "react-data-table-component";
 import { MdSearch } from "react-icons/md";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { convertTo12HourFormat } from "./../../App";
 
 const AllAppointments = () => {
   const [appointments, setAppointments] = useState([]);
@@ -88,7 +89,13 @@ const AllAppointments = () => {
     },
     {
       name: "Price (₹)",
-      selector: (row) => `₹ ${row.servicePrice}`,
+      selector: (row) =>
+        row.discountApplied != 0
+          ? `₹ ${
+              row.priceAtBooking -
+              (row.discountApplied / 100) * row.priceAtBooking
+            }`
+          : `₹ ${row.priceAtBooking}`,
       sortable: true,
     },
     {
@@ -105,7 +112,10 @@ const AllAppointments = () => {
     { name: "Date", selector: (row) => row.date, sortable: true },
     {
       name: "Time",
-      selector: (row) => row.time,
+      selector: (row) =>
+        `${convertTo12HourFormat(row.time.split("-")[0]).split(" ")[0]} - ${
+          convertTo12HourFormat(row.time.split("-")[1]).split(" ")[0]
+        }`,
       sortable: true,
       width: "150px",
     },

@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { FaShareFromSquare } from "react-icons/fa6";
 import {
   MdOutlineStar,
   MdOutlineStarBorder,
@@ -13,6 +14,21 @@ import BookForm from "../BookForm";
 const ServiceHeader = ({ service }) => {
   const { setShowLogin, isAuthorized, user } = useContext(UserContext);
   const { cart, setCart, showCart, setShowCart } = useContext(CartContext);
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: service.name,
+        text: `${service.name} - ${service.description}\n\nCheck it out here: ${window.location.href}`,
+        url: window.location.href,
+      });
+    } else {
+      // Fallback for devices that don't support Web Share API
+      const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(
+        `${service.name} - ${service.description}\n\nCheck it out here: ${window.location.href}`
+      )}`;
+      window.open(whatsappUrl, "_blank");
+    }
+  };
 
   const handleBookAppointment = () => {
     if (isAuthorized) {
@@ -37,10 +53,38 @@ const ServiceHeader = ({ service }) => {
   const minutes = service.duration % 60;
   return (
     <div className="service-header">
-      <h1>{service.name}</h1>
+      <div className="share">
+        <h2>{service.name}</h2>{" "}
+        {service?.discountOffer && service?.discountOffer != 0 ? (
+          <span className="s-badge" style={{ fontSize: "16px" }}>
+            {service.discountOffer}% Off
+          </span>
+        ) : (
+          ""
+        )}
+        <FaShareFromSquare onClick={handleShare} />
+      </div>
       <p>{service.description}</p>
       <p>
-        <b>Price:</b> &#8377;{service.price}
+        <b>Price:</b>{" "}
+        <span
+          style={{
+            textDecoration:
+              service?.discountOffer && service.discountOffer != 0
+                ? "line-through"
+                : "none",
+          }}
+        >
+          &#8377;{service.price}
+        </span>{" "}
+        {service?.discountOffer ? (
+          <span className="discount">
+            &#8377;
+            {service.price - service.price * (service.discountOffer / 100)}
+          </span>
+        ) : (
+          ""
+        )}
       </p>
       <p>
         <b>Duration:</b>{" "}

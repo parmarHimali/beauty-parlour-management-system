@@ -34,9 +34,16 @@ const EmpAppointmentDetails = () => {
   const minutes = appointment.serviceDuration % 60;
 
   return (
-    <div className="appointment-card-details">
+    <div className="appointment-card-details" style={{ position: "relative" }}>
       <h2 className="card-title">Appointment Details</h2>
-
+      {appointment.discountApplied != 0 && (
+        <span
+          className="s-badge service-badge"
+          style={{ top: "10px", fontSize: "16px" }}
+        >
+          {appointment.discountApplied}% Off
+        </span>
+      )}
       <div className="appointment-container">
         {/* User Details */}
         <div className="card-section user-details">
@@ -62,7 +69,20 @@ const EmpAppointmentDetails = () => {
             <strong>{appointment.serviceName}</strong>
           </p>
           <p>
-            Price: <strong>₹{appointment.servicePrice}</strong>
+            Price:{" "}
+            <span
+              style={{
+                textDecoration:
+                  appointment.discountApplied != 0 ? "line-through" : "none",
+                fontWeight:
+                  appointment.discountApplied != 0 ? "normal" : "bold",
+              }}
+            >
+              ₹{appointment.servicePrice}
+            </span>
+            {appointment.discountApplied != 0 && (
+              <span className="discount"> &#8377;{appointment.finalPrice}</span>
+            )}
           </p>
           <p>
             Duration:{" "}

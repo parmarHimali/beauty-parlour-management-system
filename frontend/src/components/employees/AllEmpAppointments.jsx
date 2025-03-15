@@ -24,6 +24,7 @@ const AllEmpAppointments = () => {
     };
     fetchCategories();
   }, []);
+  console.log(appointments);
 
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
@@ -32,7 +33,7 @@ const AllEmpAppointments = () => {
     setSearchQuery(query);
     setFilteredAppointments(
       appointments.filter((appointment) =>
-        appointment.userId.name.toLowerCase().includes(query)
+        appointment?.userId?.name.toLowerCase().includes(query)
       )
     );
   };
@@ -85,9 +86,16 @@ const AllEmpAppointments = () => {
             return (
               <div key={appointment._id} className="appointment-card">
                 <div className="card-header">
-                  <h3 style={{ textDecoration: "underline" }}>
-                    {appointment?.userId?.name || "Unknown"}
-                  </h3>
+                  <div className="d-flex" style={{ gap: "10px" }}>
+                    <h3 style={{ textDecoration: "underline" }}>
+                      {appointment?.userId?.name || "Unknown"}
+                    </h3>
+                    {appointment.discountApplied != 0 && (
+                      <span className="s-badge">
+                        {appointment.discountApplied}%
+                      </span>
+                    )}
+                  </div>
                   <select
                     className={`status ${appointment.status.toLowerCase()}`}
                     value={appointment.status}
@@ -106,9 +114,24 @@ const AllEmpAppointments = () => {
                     <strong>{appointment.serviceId.name}</strong>
                   </div>
                   <hr style={{ margin: "7px 0 5px 0" }} />
-                  <div className="card-item">
-                    <strong>Price:</strong> &#8377;{" "}
-                    {appointment.serviceId.price}
+                  <div className="card-item d-flex" style={{ gap: "5px" }}>
+                    <strong>Price:</strong>
+                    <span
+                      style={{
+                        textDecoration:
+                          appointment.discountApplied != 0
+                            ? "line-through"
+                            : "none",
+                      }}
+                    >
+                      &#8377; {appointment.serviceId.price}
+                    </span>
+                    {appointment.discountApplied != 0 && (
+                      <span className="discount">
+                        {" "}
+                        &#8377;{appointment.finalPrice}
+                      </span>
+                    )}
                   </div>
                   <div className="card-item">
                     <strong>Duration:</strong>{" "}

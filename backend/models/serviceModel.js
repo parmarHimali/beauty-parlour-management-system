@@ -64,8 +64,8 @@ const serviceSchema = new mongoose.Schema({
     default: [],
   },
   discountOffer: {
-    type: String, // e.g., '10% Off Today Only!'
-    default: null,
+    type: Number,
+    default: 0,
   },
   createdAt: {
     type: Date,

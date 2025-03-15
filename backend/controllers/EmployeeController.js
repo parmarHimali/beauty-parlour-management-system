@@ -276,20 +276,25 @@ export const calender = catchAsyncError(async (req, res, next) => {
       .populate("serviceId", "name")
       .populate("userId", "name");
     console.log(appointments);
+    const events = appointments.map((appt) => {
+      // Extract start and end times from `appt.time`
+      const [startTime, endTime] = appt.time.split("-"); // ["12:00", "13:00"]
 
-    const events = appointments.map((appt) => ({
-      id: appt._id,
-      title: `${appt.customerName || appt.userId?.name} - ${
-        appt.serviceId.name
-      }`,
-      start: `${appt.date}T${appt.time}`, // Format: YYYY-MM-DDTHH:mm
-      extendedProps: {
-        phone: appt.phone,
-        status: appt.status,
-        service: appt.serviceId.name,
-        customer: appt.customerName || appt.userId?.name,
-      },
-    }));
+      return {
+        id: appt._id,
+        title: `${appt.customerName || appt.userId?.name || "Unknown"} - ${
+          appt.serviceId.name
+        }`,
+        start: new Date(`${appt.date}T${startTime}:00`).toISOString(), // "2025-03-02T12:00:00.000Z"
+        end: new Date(`${appt.date}T${endTime}:00`).toISOString(), // "2025-03-02T13:00:00.000Z"
+        extendedProps: {
+          phone: appt.phone,
+          status: appt.status,
+          service: appt.serviceId.name,
+          customer: appt.customerName || appt.userId?.name,
+        },
+      };
+    });
 
     res.status(200).json({
       success: true,

@@ -31,6 +31,7 @@ const AddService = () => {
     duration: "",
     serviceHighlights: "",
     image: null,
+    discountOffer: 0,
   };
 
   const validationSchema = Yup.object({
@@ -58,6 +59,9 @@ const AddService = () => {
           )
         );
       }),
+    discountOffer: Yup.number()
+      .min(0, "Discount must be positive number")
+      .max(100, "Discount cannot be greater than 100%"),
   });
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
@@ -66,6 +70,7 @@ const AddService = () => {
     formData.append("name", values.name.trim());
     formData.append("description", values.description.trim());
     formData.append("price", values.price);
+    formData.append("discountOffer", values.discountOffer);
     formData.append("duration", Number(values.duration) * 60);
     formData.append("serviceHighlights", values.serviceHighlights.trim());
     formData.append("image", values.image);
@@ -181,18 +186,35 @@ const AddService = () => {
               </div>
             </div>
 
-            <div className="form-control">
-              <label>Image</label>
-              <div className="input-wrapper">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(event) =>
-                    setFieldValue("image", event.currentTarget.files[0])
-                  }
-                  required
-                />
-                <ErrorMessage name="image" component="div" className="error" />
+            <div className="form-control two-control">
+              <div>
+                <label>Image</label>
+                <div className="input-wrapper">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(event) =>
+                      setFieldValue("image", event.currentTarget.files[0])
+                    }
+                    required
+                  />
+                  <ErrorMessage
+                    name="image"
+                    component="div"
+                    className="error"
+                  />
+                </div>
+              </div>
+              <div>
+                <label>Discount(%)</label>
+                <div className="input-wrapper">
+                  <Field type="number" name="discountOffer" required />
+                  <ErrorMessage
+                    name="discountOffer"
+                    component="div"
+                    className="error"
+                  />
+                </div>
               </div>
             </div>
 

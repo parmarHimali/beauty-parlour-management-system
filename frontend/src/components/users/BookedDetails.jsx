@@ -60,7 +60,16 @@ const BookedDetails = () => {
               <div key={appointment.appointmentId} className="appointment-card">
                 <div className="card-body">
                   <div className="card-item card-header">
-                    <strong>{appointment.serviceName}</strong>
+                    <div className="d-flex" style={{ gap: "5px" }}>
+                      <strong>{appointment.serviceName}</strong>
+                      {appointment.discountApplied != 0 ? (
+                        <span className="s-badge">
+                          {appointment.discountApplied}% Off
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                    </div>
                     <span
                       className={`status ${appointment.status.toLowerCase()}`}
                     >
@@ -69,8 +78,29 @@ const BookedDetails = () => {
                   </div>
                   <hr style={{ margin: "7px 0 5px 0" }} />
                   <div className="card-item">
-                    <div>
-                      <strong>Price:</strong> &#8377; {appointment.servicePrice}
+                    <div className="d-flex" style={{ gap: "5px" }}>
+                      <div>
+                        <strong>Price:</strong> &#8377;
+                        <span
+                          style={{
+                            textDecoration:
+                              appointment?.discountApplied &&
+                              appointment.discountApplied != 0
+                                ? "line-through"
+                                : "none",
+                          }}
+                        >
+                          {appointment.priceAtBooking}
+                        </span>
+                      </div>
+                      {appointment.discountApplied != 0 && (
+                        <span className="discount">
+                          &#8377;
+                          {appointment.priceAtBooking -
+                            (appointment.discountApplied / 100) *
+                              appointment.priceAtBooking}
+                        </span>
+                      )}
                     </div>
                     <div>
                       <strong>Duration:</strong>{" "}

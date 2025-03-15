@@ -47,7 +47,7 @@ const SalesReport = () => {
   return (
     <>
       <MonthlySalesReport />
-      <div className="report-container">
+      <div className="report-container" style={{ marginBottom: "40px" }}>
         <h2>Sales Report</h2>
         <form onSubmit={formik.handleSubmit} className="report-dates">
           <div style={{ display: "flex", flexDirection: "column" }}>

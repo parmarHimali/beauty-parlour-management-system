@@ -78,7 +78,13 @@ const TodayAppointments = () => {
     },
     {
       name: "Price (₹)",
-      selector: (row) => `₹ ${row.servicePrice}`,
+      selector: (row) =>
+        row.discountApplied != 0
+          ? `₹ ${
+              row.priceAtBooking -
+              (row.discountApplied / 100) * row.priceAtBooking
+            }`
+          : `₹ ${row.priceAtBooking}`,
       sortable: true,
     },
     {

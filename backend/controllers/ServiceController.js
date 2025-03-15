@@ -8,8 +8,15 @@ import Appointment from "../models/appointmentModel.js";
 
 // Add a new service
 export const addService = catchAsyncError(async (req, res, next) => {
-  const { categoryId, name, description, price, duration, serviceHighlights } =
-    req.body;
+  const {
+    categoryId,
+    name,
+    description,
+    price,
+    duration,
+    serviceHighlights,
+    discountOffer,
+  } = req.body;
 
   if (
     !categoryId ||
@@ -45,6 +52,7 @@ export const addService = catchAsyncError(async (req, res, next) => {
     price,
     duration,
     image,
+    discountOffer,
     serviceHighlights: highlightsArray,
   });
 
@@ -173,8 +181,15 @@ export const deleteService = catchAsyncError(async (req, res, next) => {
 
 export const updateService = catchAsyncError(async (req, res, next) => {
   const { sid } = req.params;
-  const { categoryId, name, description, price, duration, serviceHighlights } =
-    req.body;
+  const {
+    categoryId,
+    name,
+    description,
+    price,
+    duration,
+    serviceHighlights,
+    discountOffer,
+  } = req.body;
 
   const service = await Service.findById(sid);
 
@@ -188,6 +203,7 @@ export const updateService = catchAsyncError(async (req, res, next) => {
   if (description) service.description = description;
   if (price) service.price = price;
   if (duration) service.duration = duration;
+  if (discountOffer) service.discountOffer = discountOffer;
 
   // Update service highlights if provided
   if (serviceHighlights) {

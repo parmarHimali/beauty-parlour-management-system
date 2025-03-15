@@ -61,9 +61,19 @@ const AppointmentDetails = () => {
   const hours = Math.floor(appointment.serviceDuration / 60);
   const minutes = appointment.serviceDuration % 60;
   return (
-    <div className="appointment-card-details">
+    <div className="appointment-card-details" style={{ position: "relative" }}>
       <h2 className="card-title">Appointment Details</h2>
 
+      {appointment?.discountApplied && appointment?.discountApplied != 0 ? (
+        <span
+          className="s-badge service-badge"
+          style={{ fontSize: "16px", top: "10px" }}
+        >
+          {appointment.discountApplied}% Off
+        </span>
+      ) : (
+        ""
+      )}
       <div className="appointment-container">
         {/* User Details */}
         <div className="card-section user-details">
@@ -104,7 +114,22 @@ const AppointmentDetails = () => {
             <strong>{appointment.serviceName}</strong>
           </p>
           <p>
-            Price: <strong>₹{appointment.servicePrice}</strong>
+            Price:{" "}
+            <span
+              style={{
+                textDecoration:
+                  appointment?.discountApplied &&
+                  appointment.discountApplied != 0
+                    ? "line-through"
+                    : "none",
+                fontWeight: appointment.discountOffer != 0 ? "normal" : "bold",
+              }}
+            >
+              ₹{appointment.priceAtBooking}
+            </span>
+            {appointment.discountApplied != 0 && (
+              <span className="discount"> ₹{appointment.finalPrice}</span>
+            )}
           </p>
           <p>
             Duration:{" "}
@@ -209,8 +234,46 @@ const AppointmentDetails = () => {
                 </td>
               </tr>
               <tr style={{ marginBottom: "20px" }}>
-                <td>Price:</td> <td>₹{appointment.servicePrice}</td>
+                <td>Price:</td>{" "}
+                <td
+                  className="d-flex"
+                  style={{ gap: "5px", justifyContent: "center" }}
+                >
+                  <span
+                    style={{
+                      textDecoration:
+                        appointment.discountApplied != 0
+                          ? "line-through"
+                          : "none",
+                    }}
+                  >
+                    ₹{appointment.priceAtBooking}
+                  </span>
+                </td>
               </tr>
+              {appointment.discountApplied != 0 && (
+                <>
+                  <tr style={{ marginBottom: "20px" }}>
+                    <td>Discount:</td>
+                    <td>
+                      <span style={{ color: "red" }}>
+                        {appointment.discountApplied}% Off
+                      </span>
+                    </td>
+                  </tr>
+                  <tr style={{ marginBottom: "20px" }}>
+                    <td>Actual Price:</td>
+                    <td>
+                      <span style={{ color: "#287171" }}>
+                        ₹
+                        {appointment.priceAtBooking -
+                          (appointment.discountApplied / 100) *
+                            appointment.priceAtBooking}
+                      </span>
+                    </td>
+                  </tr>
+                </>
+              )}
 
               <tr>
                 <th colSpan={2}>Timing</th>

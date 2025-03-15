@@ -86,6 +86,13 @@ const AllService = () => {
               key={service._id}
               style={{ width: "80%" }}
             >
+              {service?.discountOffer && service?.discountOffer != 0 ? (
+                <span className="s-badge service-badge" style={{ top: "8px" }}>
+                  {service.discountOffer}% Off
+                </span>
+              ) : (
+                ""
+              )}
               <div className="service-image">
                 <img
                   src={`http://localhost:4000/${service.image}`}
@@ -94,8 +101,29 @@ const AllService = () => {
               </div>
               <div className="content">
                 <h2>{service.name}</h2>
-                <div>
-                  <b>Price:</b> &#8377;{service.price}
+                <div className="d-flex" style={{ gap: "5px" }}>
+                  <b>Price: </b>
+                  <span
+                    style={{
+                      textDecoration:
+                        service?.discountOffer && service.discountOffer != 0
+                          ? "line-through"
+                          : "none",
+                      color:
+                        service?.discountOffer && service.discountOffer != 0
+                          ? "#565656"
+                          : "black",
+                    }}
+                  >{`₹${service.price}`}</span>
+                  {service?.discountOffer ? (
+                    <span className="discount">
+                      &#8377;
+                      {service.price -
+                        service.price * (service.discountOffer / 100)}
+                    </span>
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <div style={{ textAlign: "left" }}>
                   {/* <b>Duration:</b> {service.duration / 60} Hour */}
